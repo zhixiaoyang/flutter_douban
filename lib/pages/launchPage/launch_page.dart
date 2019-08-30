@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_jahn_douban/pages/home/home.dart';
+import 'package:flutter_jahn_douban/routes/application.dart';
 
 class LaunchPage extends StatefulWidget {
   @override
@@ -32,9 +32,7 @@ class _LaunchPageState extends State<LaunchPage> {
         //  执行定时器
       _timer = Timer.periodic(Duration(seconds: 1),(timer){
         if(_time == 1){
-          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context){
-            return HomePage();
-          }), (Route route) => false);
+          Application.router.navigateTo(context, '/',replace: true);
           timer.cancel();
         }
         setState(() {
@@ -76,9 +74,7 @@ class _LaunchPageState extends State<LaunchPage> {
                   highlightColor:Colors.transparent,
                   radius: 0.0,
                   onTap: (){
-                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context){
-                      return HomePage();
-                    }), (Route route) => false);
+                    Application.router.navigateTo(context, '/',replace: true);
                   },
                   child: Text('跳过 ${_time}s'),
                 ),
