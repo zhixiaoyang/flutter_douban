@@ -4,7 +4,9 @@ import 'package:flutter_jahn_douban/pages/launchPage/launch_page.dart';
 import 'package:flutter_jahn_douban/routes/application.dart';
 import 'package:flutter_jahn_douban/routes/routes.dart';
 
-void main() => runApp(MyApp());
+void main(){
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -15,9 +17,6 @@ class MyApp extends StatelessWidget {
    Application.router = router;
     return MaterialApp(
       home: LaunchPage(),
-      theme: ThemeData(         
-        primaryColor: Color.fromRGBO(60, 197, 0, 1),
-      ),
       // 去掉debug
       debugShowCheckedModeBanner: false,
     );

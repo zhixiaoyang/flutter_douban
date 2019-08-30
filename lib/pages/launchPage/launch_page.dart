@@ -23,7 +23,6 @@ class _LaunchPageState extends State<LaunchPage> {
   void initState() { 
     super.initState();
     // 隐藏状态栏
-    SystemChrome.setEnabledSystemUIOverlays([]);
     // 动画计时器
     _animationTimer = Timer(Duration(seconds: 1),(){
       setState(() {
