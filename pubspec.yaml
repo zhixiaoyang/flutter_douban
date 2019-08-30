@@ -25,6 +25,9 @@ dependencies:
   cupertino_icons: ^0.1.2
   flutter_screenutil: ^0.6.0
   fluro: ^1.5.1
+  dio: ^2.1.16
+  palette_generator: ^0.2.0
+
 
 
 dev_dependencies:
