@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie/movie_category.dart';
+import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie/movie_show.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie/movie_today_play.dart';
 import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
 
@@ -19,7 +20,10 @@ class _MoviePageState extends State<MoviePage> {
           // 顶部分类
           MovieCategory(),
           // 今日播放
-          MovieTodayPlay()
+          MovieTodayPlay(),
+          SizedBox(height: ScreenAdapter.height(40)),
+          // 上映
+          MovieShow()
         ],
       ),
     );
