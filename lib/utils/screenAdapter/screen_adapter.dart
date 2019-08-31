@@ -1,5 +1,7 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 // 屏幕适配类
+
 class ScreenAdapter {
 
   // 初始化
