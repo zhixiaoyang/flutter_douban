@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jahn_douban/api/api_config.dart';
 import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class MovieShow extends StatefulWidget {
   @override
@@ -22,6 +23,8 @@ class _MovieShowState extends State<MovieShow> {
   @override
   void initState() { 
     super.initState();
+
+    // 获取热映列表
     _getHotShowList();
   }
 
@@ -48,7 +51,9 @@ class _MovieShowState extends State<MovieShow> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return ListView(
+      shrinkWrap:true,   
+      physics: NeverScrollableScrollPhysics(),  
       children: <Widget>[
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -84,21 +89,50 @@ class _MovieShowState extends State<MovieShow> {
             )
           ],
         ),
+        SizedBox(height: ScreenAdapter.height(30)),
         GridView.count(
             shrinkWrap:true,
+            physics: NeverScrollableScrollPhysics(), 
             //主轴间隔
-            mainAxisSpacing: 4.0,
+            mainAxisSpacing: ScreenAdapter.width(20),
             //横轴间隔
-            crossAxisSpacing: 4.0,
+            crossAxisSpacing:  ScreenAdapter.height(20),
+            // 宽高比
+            childAspectRatio:2.8/5,
             crossAxisCount: 3,
             //宽高比
-            children: [
-              Text('x'),
-              Text('x'),
-              Text('x'),
-              Text('x'),
-              Text('x'),
-            ],
+            children:_hotShowList.map((item){
+              return Container(
+                child: Column(
+                  children: <Widget>[
+                    Image.network('${item['images']['small']}',width: double.infinity,height:ScreenAdapter.height(300),fit: BoxFit.fill),
+                    Container(
+                      margin: EdgeInsets.only(top: ScreenAdapter.height(10),bottom: ScreenAdapter.height(10)),
+                      alignment: Alignment.centerLeft,
+                      child: Text('${item['title']}',maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 12)),
+                    ),
+                    Row(
+                      children: <Widget>[
+                        RatingBarIndicator(
+                          rating:item['rating']['average'] / 2,
+                          alpha:0,
+                          unratedColor:Colors.grey,
+                          itemPadding: EdgeInsets.all(0),
+                          itemBuilder: (context, index) => Icon(
+                              Icons.star,
+                              color: Colors.amber,
+                          ),
+                          itemCount: 5,
+                          itemSize: 11,
+                        ),
+                        SizedBox(width: ScreenAdapter.width(20)),
+                        Text('${item['rating']['average']}',style: TextStyle(fontSize: 11,color: Colors.grey))
+                      ],
+                    )
+                  ],
+                ),
+              );
+            }).toList(),
         ),
       ],
     ); 
