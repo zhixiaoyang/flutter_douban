@@ -101,7 +101,7 @@ class _MovieShowState extends State<MovieShow> {
             //横轴间距
             crossAxisSpacing: 10.0,
             //子组件宽高长度比例
-            childAspectRatio: 2.6/5
+            childAspectRatio: ScreenAdapter.getScreenWidth() / 3 /  ScreenAdapter.height(480)
           ),
           itemBuilder: (BuildContext context, int index) {
             //Widget Function(BuildContext context, int index)
