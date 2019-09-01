@@ -58,8 +58,8 @@ class _BookMoviePageState extends State<BookMoviePage> with SingleTickerProvider
 Widget _appBar(){
   return Row(
     children: <Widget>[
-      Expanded(
-        child: Container(
+      Container(
+          width: ScreenAdapter.getScreenWidth() - ScreenAdapter.width(160),
           height: ScreenAdapter.height(80),
           child: TextField(
             decoration: InputDecoration(
@@ -74,7 +74,6 @@ Widget _appBar(){
               filled: true,
             ),
           ),
-        ),
       ),
       Container(
         width: ScreenAdapter.width(80),
