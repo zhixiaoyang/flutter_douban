@@ -15,6 +15,13 @@ class _MovieShowState extends State<MovieShow> {
 
   // 即将上映列表
   List _comingSoonList = [];
+  
+  // 热映列表total
+  int _hotShowTotal = 0;
+
+  // 正在上映列表total
+  int _comingSoonTotal = 0;
+
 
   // 当前热映列表
   // 热映列表：1，即将上映2
@@ -40,6 +47,7 @@ class _MovieShowState extends State<MovieShow> {
       if(res.data['subjects'].length > 0){
         setState(() {
          _hotShowList = res.data['subjects'];
+         _hotShowTotal = res.data['count'];
         });
       }
       print(res.data);
