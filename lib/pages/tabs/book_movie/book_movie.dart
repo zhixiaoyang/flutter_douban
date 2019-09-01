@@ -55,39 +55,37 @@ class _BookMoviePageState extends State<BookMoviePage> with SingleTickerProvider
 // tab
 
 // appbar
-Widget _appBar(){
-  return Row(
-    children: <Widget>[
-      Container(
-          width: ScreenAdapter.getScreenWidth() - ScreenAdapter.width(160),
-          height: ScreenAdapter.height(80),
-          child: TextField(
-            decoration: InputDecoration(
-              contentPadding:  EdgeInsets.symmetric(vertical: ScreenAdapter.height(12)),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30),
-                borderSide: BorderSide.none
+  Widget _appBar(){
+    return Row(
+      children: <Widget>[
+        Container(
+            width: ScreenAdapter.getScreenWidth() - ScreenAdapter.width(160),
+            height: ScreenAdapter.height(80),
+            child: TextField(
+              decoration: InputDecoration(
+                contentPadding:  EdgeInsets.symmetric(vertical: ScreenAdapter.height(12)),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none
+                ),
+                suffixIcon: Icon(Icons.center_focus_weak,color: Colors.black38),
+                prefixIcon: Icon(Icons.search,color: Colors.black38),
+                fillColor: Colors.grey[100],
+                filled: true,
               ),
-              suffixIcon: Icon(Icons.center_focus_weak,color: Colors.black38),
-              prefixIcon: Icon(Icons.search,color: Colors.black38),
-              fillColor: Colors.grey[100],
-              filled: true,
             ),
-          ),
-      ),
-      Container(
-        width: ScreenAdapter.width(80),
-        child: IconButton(
-          onPressed: (){
-
-          },
-          icon: Icon(Icons.mail_outline,color: Colors.grey),
         ),
-      )
-    ],
-  );
-}
+        Container(
+          width: ScreenAdapter.width(80),
+          child: IconButton(
+            onPressed: (){
 
-
-
+            },
+            icon: Icon(Icons.mail_outline,color: Colors.grey),
+          ),
+        )
+      ],
+    );
+  }
+  
 }
