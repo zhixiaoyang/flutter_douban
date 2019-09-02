@@ -3,7 +3,7 @@ import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
 
 class MovieCategory extends StatelessWidget {
 
-  List _categoryList = [
+  final List _categoryList = [
     {'icon':Icons.ac_unit,'title':'找电影','color':Color.fromRGBO(111, 152, 243, 1)},
     {'icon':Icons.ac_unit,'title':'豆瓣榜单','color':Color.fromRGBO(242, 175, 54, 1)},
     {'icon':Icons.ac_unit,'title':'豆瓣猜','color':Color.fromRGBO(93, 191, 85, 1)},

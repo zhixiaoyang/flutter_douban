@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie/movie_category.dart';
+import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie/movie_hot.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie/movie_show.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie/movie_today_play.dart';
+import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie/movie_top.dart';
 import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
 
 class MoviePage extends StatefulWidget {
@@ -24,7 +26,11 @@ class _MoviePageState extends State<MoviePage> {
           MovieTodayPlay(),
           SizedBox(height: ScreenAdapter.height(40)),
           // 上映
-          MovieShow()
+          MovieShow(),
+          // 豆瓣热门
+          MovieHot(),
+          // 豆瓣榜单
+          // MovieTop()
         ],
       ),
     );
