@@ -14,9 +14,10 @@ class _MoviePageState extends State<MoviePage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(ScreenAdapter.width(30), ScreenAdapter.width(40), ScreenAdapter.width(30), ScreenAdapter.width(40)),
+      padding: EdgeInsets.fromLTRB(ScreenAdapter.width(30),0, ScreenAdapter.width(30), ScreenAdapter.width(40)),
       child: ListView(
         children: <Widget>[
+          SizedBox(height: ScreenAdapter.height(40)),
           // 顶部分类
           MovieCategory(),
           // 今日播放
