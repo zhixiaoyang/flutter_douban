@@ -29,7 +29,6 @@ class _MovieTodayPlayState extends State<MovieTodayPlay> {
 
   // 获取今日播放
   _getTodayMovie()  async{
-    print('xxx');
     try{
       var params = {
         'apikey':ApiConfig.apiKey,

@@ -17,6 +17,7 @@ class _MovieHotState extends State<MovieHot> {
     super.initState();
     _getData();
   }
+  
   // 获取数据
   _getData()async{
    try{
