@@ -57,6 +57,7 @@ class _MovieHotState extends State<MovieHot> {
         SizedBox(height: ScreenAdapter.height(20)),
         GridView(
           shrinkWrap: true,
+          physics:NeverScrollableScrollPhysics() ,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             //横轴元素个数
             crossAxisCount: 3,

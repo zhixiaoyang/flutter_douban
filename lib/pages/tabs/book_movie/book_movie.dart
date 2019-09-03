@@ -52,8 +52,6 @@ class _BookMoviePageState extends State<BookMoviePage> with SingleTickerProvider
       ),
     );
   }
-// tab
-
 // appbar
   Widget _appBar(){
     return Row(
@@ -87,5 +85,4 @@ class _BookMoviePageState extends State<BookMoviePage> with SingleTickerProvider
       ],
     );
   }
-  
 }

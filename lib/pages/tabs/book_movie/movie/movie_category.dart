@@ -27,7 +27,7 @@ class MovieCategory extends StatelessWidget {
                   color: item['color'], 
                   borderRadius: BorderRadius.circular(30)
                 ),
-                child: Icon(item['icon'],color: Colors.white,),
+                child: Icon(item['icon'],color: Colors.white),
               ),
               SizedBox(height: ScreenAdapter.height(20)),
               Text(item['title'])

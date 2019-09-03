@@ -15,24 +15,25 @@ class _MoviePageState extends State<MoviePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.fromLTRB(ScreenAdapter.width(30),0, ScreenAdapter.width(30), ScreenAdapter.width(40)),
-      child: ListView(
-        children: <Widget>[
-          SizedBox(height: ScreenAdapter.height(40)),
-          // 顶部分类
-          MovieCategory(),
-          // 今日播放
-          MovieTodayPlay(),
-          SizedBox(height: ScreenAdapter.height(40)),
-          // 上映
-          MovieShow(),
-          // 豆瓣热门
-          MovieHot(),
-          // 豆瓣榜单
-          // MovieTop()
-        ],
+    return CustomScrollView(
+      slivers: <Widget>[
+        _paddingContainer(MovieCategory()),
+        _paddingContainer(MovieTodayPlay()),
+        _paddingContainer(MovieShow()),
+        _paddingContainer(MovieHot()),
+        _paddingContainer(MovieTop()),
+      ],
+    );
+  }
+
+  // paddin容器
+  Widget _paddingContainer(child){
+    return SliverPadding(
+      padding:EdgeInsets.all(ScreenAdapter.width(30)),
+      sliver: SliverToBoxAdapter(
+        child: child
       ),
     );
   }
+
 }
