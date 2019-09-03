@@ -36,20 +36,22 @@ class _MovieTopState extends State<MovieTop> {
     }
   }
 
-    // 获取数据
+    // 获取一周热门数据
   _getHotData()async{
    try{
-      var params = {
-      "type":'movie',
-      "tag":'热门',
-      "page_limit":4,
-      "page_start":0
-    };
-    var res = await ApiConfig.ajax('get', 'https://movie.douban.com/j/search_subjects', params);
-    setState(() {
-      _hotMovieList = res.data['subjects'].map((item){
+     var params = {
+      "sort":"U",
+      "tags":'电影',
+      "range":'0,10',
+      "start":'0',
+      "year_range":'2019,2019',
+     };
+     var res = await ApiConfig.ajax('get', 'https://movie.douban.com/j/new_search_subjects',params);
+     setState(() {
+      _hotMovieList = res.data['data'].sublist(0,4).map((item){
           var result = {
             "title":item['title'],
+            "id":item['id'],
             "rating":{
               "average":item['rate']
             },
@@ -59,7 +61,7 @@ class _MovieTopState extends State<MovieTop> {
           };
           return result;
         }).toList();
-    });
+     });
    }
    catch(e){
 
@@ -169,8 +171,10 @@ class _MovieTopState extends State<MovieTop> {
               children: data.asMap().keys.map<Widget>((index){
                 return Row(
                   children: <Widget>[
-                    Container(
-                      child: Text('${index+1}. ${data[index]['title']}',style: TextStyle(color: Colors.white,height:1.5)),
+                    Expanded(
+                      child: Container(
+                        child: Text('${index+1}. ${data[index]['title']}',maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(color: Colors.white,height:1.5)),
+                      ),
                     ),
                     SizedBox(width: ScreenAdapter.width(30)),
                     Text('${data[index]['rating']['average']}',style: TextStyle(color: Colors.orange),)
