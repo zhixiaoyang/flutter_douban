@@ -70,7 +70,7 @@ class _MovieTodayPlayState extends State<MovieTodayPlay> {
           ),
           Positioned(
             left: ScreenAdapter.width(160),
-            bottom: ScreenAdapter.width(40),
+            bottom: ScreenAdapter.width(45),
             child: Container(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
@@ -82,7 +82,7 @@ class _MovieTodayPlayState extends State<MovieTodayPlay> {
           ),
           Positioned(
             left: ScreenAdapter.width(100),
-            bottom: ScreenAdapter.width(40),
+            bottom: ScreenAdapter.width(45),
             child: Container(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
@@ -94,7 +94,7 @@ class _MovieTodayPlayState extends State<MovieTodayPlay> {
           ),
           Positioned(
             left: ScreenAdapter.width(40),
-            bottom: ScreenAdapter.width(40),
+            bottom: ScreenAdapter.width(45),
             child: Container(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
