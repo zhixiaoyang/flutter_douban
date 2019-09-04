@@ -6,6 +6,7 @@ class Routes {
   // 配置路径
   // tab
   static String root = "/";
+  static String movieDetail = "/movieDetail";
   
   // 路由配置
   static void configureRoutes(Router router) {
@@ -15,5 +16,7 @@ class Routes {
     });
     // 配置 对应路径名称和routerHnalde.dart
     router.define(root, handler:tabHandler);
+    router.define(movieDetail, handler:movieDetailHandler);
+
   }
 }

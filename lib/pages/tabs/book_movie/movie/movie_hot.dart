@@ -56,7 +56,7 @@ class _MovieHotState extends State<MovieHot> {
           ],
         ),
         SizedBox(height: ScreenAdapter.height(20)),
-        GridView(
+        GridView.builder(
           shrinkWrap: true,
           physics:NeverScrollableScrollPhysics() ,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -68,25 +68,29 @@ class _MovieHotState extends State<MovieHot> {
             //子组件宽高长度比例
             childAspectRatio: ScreenAdapter.getScreenWidth() / 3 /  ScreenAdapter.height(480)
           ),
-          children: _movieHot.map((item){
-            return Container(
-              child: Column(
-                children: <Widget>[
-                  ClipRRect(
-                    child: Image.network('${item['cover']}',
-                    width: double.infinity,
-                    height:ScreenAdapter.height(300),fit: BoxFit.fill),
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: ScreenAdapter.height(10),bottom: ScreenAdapter.height(10)),
-                    alignment: Alignment.centerLeft,
-                    child: Text('${item['title']}',maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 13,fontWeight: FontWeight.w600)),
-                  ),
-                  Row(
+          itemBuilder: (context,index){
+            return GestureDetector(
+              onTap:(){
+                print(_movieHot[index]);
+              },
+              child: Container(
+                child: Column(
+                  children: <Widget>[
+                    ClipRRect(
+                      child: Image.network('${_movieHot[index]['cover']}',
+                      width: double.infinity,
+                      height:ScreenAdapter.height(300),fit: BoxFit.fill),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: ScreenAdapter.height(10),bottom: ScreenAdapter.height(10)),
+                      alignment: Alignment.centerLeft,
+                      child: Text('${_movieHot[index]['title']}',maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 13,fontWeight: FontWeight.w600)),
+                    ),
+                    Row(
                       children: <Widget>[
                         RatingBarIndicator(
-                          rating:double.parse(item['rate']) / 2,
+                          rating:double.parse(_movieHot[index]['rate']) / 2,
                           alpha:0,
                           unratedColor:Colors.grey,
                           itemPadding: EdgeInsets.all(0),
@@ -98,14 +102,16 @@ class _MovieHotState extends State<MovieHot> {
                           itemSize: 11,
                         ),
                         SizedBox(width: ScreenAdapter.width(20)),
-                        Text('${item['rate']}',style: TextStyle(fontSize: 11,color: Colors.grey))
+                        Text('${_movieHot[index]['rate']}',style: TextStyle(fontSize: 11,color: Colors.grey))
                       ],
                     )
                   ],
                 ),
-              );
-          }).toList(),
-        )
+              ),
+            );
+          },
+          itemCount: _movieHot.length
+        ),
       ],
     );
   }

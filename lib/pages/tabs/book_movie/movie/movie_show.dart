@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jahn_douban/api/api_config.dart';
+import 'package:flutter_jahn_douban/routes/application.dart';
 import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -163,49 +164,54 @@ class _MovieShowState extends State<MovieShow> {
         childAspectRatio: ScreenAdapter.getScreenWidth() / 3 /  ScreenAdapter.height(480)
       ),
       itemBuilder: (BuildContext context, int index) {
-        return Container(
-          child: Column(
-            children: <Widget>[
-              ClipRRect(
-                child: Image.network('${data[index]['images']['small']}',
-                width: double.infinity,
-                height:ScreenAdapter.height(300),fit: BoxFit.fill),
-                borderRadius: BorderRadius.circular(5),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: ScreenAdapter.height(10),bottom: ScreenAdapter.height(10)),
-                alignment: Alignment.centerLeft,
-                child: Text('${data[index]['title']}',maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 13,fontWeight: FontWeight.w600)),
-              ),
-              _currentTabIndex == 1 ?  Row(
-                children: <Widget>[
-                  RatingBarIndicator(
-                    rating:data[index]['rating']['average'] / 2,
-                    alpha:0,
-                    unratedColor:Colors.grey,
-                    itemPadding: EdgeInsets.all(0),
-                    itemBuilder: (context, index) => Icon(
-                        Icons.star,
-                        color: Colors.amber,
-                    ),
-                    itemCount: 5,
-                    itemSize: 11,
-                  ),
-                  SizedBox(width: ScreenAdapter.width(20)),
-                  Text('${data[index]['rating']['average']}',style: TextStyle(fontSize: 11,color: Colors.grey))
-                ],
-              ):Align(
-                alignment: Alignment.centerLeft,
-                child: Container(
-                  padding: EdgeInsets.all(ScreenAdapter.width(6)),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(3),
-                    border: Border.all(width: 1,color: Colors.pink),
-                  ),
-                  child: Text('${data[index]['mainland_pubdate']}',style: TextStyle(fontSize: 9,color: Colors.pink)),
+        return GestureDetector(
+          onTap: (){
+            Application.router.navigateTo(context, '/movieDetail?id=${data[index]['id']}');
+          },
+          child: Container(
+            child: Column(
+              children: <Widget>[
+                ClipRRect(
+                  child: Image.network('${data[index]['images']['small']}',
+                  width: double.infinity,
+                  height:ScreenAdapter.height(300),fit: BoxFit.fill),
+                  borderRadius: BorderRadius.circular(5),
                 ),
-              )
-            ],
+                Container(
+                  margin: EdgeInsets.only(top: ScreenAdapter.height(10),bottom: ScreenAdapter.height(10)),
+                  alignment: Alignment.centerLeft,
+                  child: Text('${data[index]['title']}',maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 13,fontWeight: FontWeight.w600)),
+                ),
+                _currentTabIndex == 1 ?  Row(
+                  children: <Widget>[
+                    RatingBarIndicator(
+                      rating:data[index]['rating']['average'] / 2,
+                      alpha:0,
+                      unratedColor:Colors.grey,
+                      itemPadding: EdgeInsets.all(0),
+                      itemBuilder: (context, index) => Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                      ),
+                      itemCount: 5,
+                      itemSize: 11,
+                    ),
+                    SizedBox(width: ScreenAdapter.width(20)),
+                    Text('${data[index]['rating']['average']}',style: TextStyle(fontSize: 11,color: Colors.grey))
+                  ],
+                ):Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    padding: EdgeInsets.all(ScreenAdapter.width(6)),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(3),
+                      border: Border.all(width: 1,color: Colors.pink),
+                    ),
+                    child: Text('${data[index]['mainland_pubdate']}',style: TextStyle(fontSize: 9,color: Colors.pink)),
+                  ),
+                )
+              ],
+            ),
           ),
         );
       }
