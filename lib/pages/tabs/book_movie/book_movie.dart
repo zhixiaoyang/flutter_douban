@@ -73,8 +73,8 @@ class _BookMoviePageState extends State<BookMoviePage> with SingleTickerProvider
               ),
             ),
         ),
-        Container(
-          width: ScreenAdapter.width(80),
+        Expanded(
+          flex:1,
           child: IconButton(
             onPressed: (){
 
