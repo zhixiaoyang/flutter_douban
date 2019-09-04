@@ -24,7 +24,12 @@ class _MoviePageState extends State<MoviePage> {
         _paddingContainer(MovieTodayPlay()),
         _paddingContainer(MovieShow()),
         _paddingContainer(MovieHot()),
-        _paddingContainer(MovieTop()),
+        SliverToBoxAdapter(
+          child:Container(
+            margin: EdgeInsets.only(bottom: ScreenAdapter.width(30)),
+            child: MovieTop(),
+          )
+        )
       ],
     );
   }

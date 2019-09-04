@@ -102,19 +102,22 @@ class _MovieTopState extends State<MovieTop> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text('豆瓣榜单',style: TextStyle(fontSize: 20,color:Colors.black,fontWeight: FontWeight.w600)),
-            Container(
-              child: Row(
-                children: <Widget>[
-                  Text('全部',style: TextStyle(fontSize: 17,color:Colors.black,fontWeight: FontWeight.w600)),
-                  Icon(Icons.chevron_right)
-                ],
-              ),
-            )
-          ],
+        Container(
+          padding: EdgeInsets.only(left: ScreenAdapter.width(30),right: ScreenAdapter.width(30)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text('豆瓣榜单',style: TextStyle(fontSize: 20,color:Colors.black,fontWeight: FontWeight.w600)),
+              Container(
+                child: Row(
+                  children: <Widget>[
+                    Text('全部',style: TextStyle(fontSize: 17,color:Colors.black,fontWeight: FontWeight.w600)),
+                    Icon(Icons.chevron_right)
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
         SizedBox(height: ScreenAdapter.height(30)),
         Container(
@@ -122,11 +125,18 @@ class _MovieTopState extends State<MovieTop> {
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: <Widget>[
-              _weekMovieList.length > 0  ? _item(_weekMovieList,'一周口碑电影榜','每周五更新 · 共10部'):BaseLoading(),
+              Container(
+                margin: EdgeInsets.only(left: ScreenAdapter.width(30)),
+                child: _weekMovieList.length > 0  ? _item(_weekMovieList,'一周口碑电影榜','每周五更新 · 共10部'):BaseLoading(),
+              ),
               SizedBox(width: ScreenAdapter.width(30)),
               _topMovieList.length > 0  ? _item(_topMovieList,'豆瓣电影 Top250','豆瓣榜单 · 共250部'):BaseLoading(),
               SizedBox(width: ScreenAdapter.width(30)),
-              _hotMovieList.length > 0  ? _item(_hotMovieList,'一周热门电影榜','每周五更新 · 共10部'):BaseLoading(),
+              Container(
+                margin: EdgeInsets.only(right: ScreenAdapter.width(30)),
+                child:_hotMovieList.length > 0  ? _item(_hotMovieList,'一周热门电影榜','每周五更新 · 共10部'):BaseLoading(),
+              ),
+              
             ],
           ),
         )
