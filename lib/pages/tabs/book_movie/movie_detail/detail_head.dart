@@ -48,7 +48,7 @@ class _DetailHeadState extends State<DetailHead> {
                   ),
                   Container(
                     margin: EdgeInsets.only(bottom: ScreenAdapter.height(10)),
-                    child: Text('${widget._movie['countries'][0]} / ${widget._movie['genres'][0]} / ${widget._movie['pubdate']}上映 / 片长${widget._movie['durations'][0]}',style: TextStyle(fontSize: 12,color: Colors.grey[400])),
+                    child: Text('${widget._movie['countries'][0]} / ${widget._movie['genres'][0]} / ${widget._movie['pubdate']}上映 / 片长${widget._movie['durations'][0]}',style: TextStyle(fontSize: 12,color: Colors.grey[300])),
                   ),
                   Row(
                     children: <Widget>[

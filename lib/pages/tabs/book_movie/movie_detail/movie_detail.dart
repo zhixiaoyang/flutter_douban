@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jahn_douban/api/api_config.dart';
+import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/detail_grade.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/detail_head.dart';
 import 'package:flutter_jahn_douban/weiget/base_loading.dart';
 import 'package:palette_generator/palette_generator.dart';
@@ -21,6 +22,7 @@ class _MovieDetailState extends State<MovieDetail> {
   Map _movie;
   // 主题颜色
   Color _themeColor;
+  Color _detailThemeColor;
 
   @override
   void initState() { 
@@ -40,7 +42,8 @@ class _MovieDetailState extends State<MovieDetail> {
       );
       setState(() {
        _movie = res.data; 
-       _themeColor = paletteGenerator.colors.toList()[0];
+       _themeColor = paletteGenerator.colors.toList()[1];
+       _detailThemeColor = paletteGenerator.colors.toList()[0];
       });
       print(res);
     }
@@ -65,7 +68,10 @@ class _MovieDetailState extends State<MovieDetail> {
         ),
         body: ListView(
           children: <Widget>[
-            DetailHead(_movie)
+            // 详情头部
+            DetailHead(_movie),
+            // 豆瓣评分
+            DetailGrade(_movie,_themeColor,_detailThemeColor)
           ],
         ),
       ),
