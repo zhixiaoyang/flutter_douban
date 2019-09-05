@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_jahn_douban/api/api_config.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/detail_grade.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/detail_head.dart';
+import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/detail_plot.dart';
 import 'package:flutter_jahn_douban/weiget/base_loading.dart';
 import 'package:palette_generator/palette_generator.dart';
 
@@ -57,7 +58,9 @@ class _MovieDetailState extends State<MovieDetail> {
     return _themeColor != null ? Theme(
       data: ThemeData(
         textTheme: TextTheme(
-          body1: TextStyle(color: Colors.white)
+          body1: TextStyle(color: Colors.white),
+          subhead: TextStyle(color: Colors.white),
+          title: TextStyle(color: Colors.white),
         )
       ),
       child: Scaffold(
@@ -71,7 +74,9 @@ class _MovieDetailState extends State<MovieDetail> {
             // 详情头部
             DetailHead(_movie),
             // 豆瓣评分
-            DetailGrade(_movie,_themeColor,_detailThemeColor)
+            DetailGrade(_movie,_themeColor,_detailThemeColor),
+            // 剧情简介
+            DetailPlot(_movie)
           ],
         ),
       ),
