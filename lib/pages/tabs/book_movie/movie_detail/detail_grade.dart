@@ -25,7 +25,6 @@ class _DetailGradeState extends State<DetailGrade> {
     setState(() {
       _total = tempNum.toInt();
     });
-    print(widget._themeColor);
   }
   @override
   Widget build(BuildContext context) {
@@ -34,7 +33,6 @@ class _DetailGradeState extends State<DetailGrade> {
         borderRadius: BorderRadius.circular(6),
         color: widget._detailThemeColor,
       ),
-      margin: EdgeInsets.all(ScreenAdapter.width(30)),
       padding: EdgeInsets.all(ScreenAdapter.width(20)),
       child: Column(
         children: <Widget>[

@@ -18,7 +18,6 @@ class _DetailHeadState extends State<DetailHead> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(ScreenAdapter.width(30)),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[

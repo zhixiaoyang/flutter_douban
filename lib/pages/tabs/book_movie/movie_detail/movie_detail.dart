@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jahn_douban/api/api_config.dart';
+import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/detail_actor.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/detail_grade.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/detail_head.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/detail_plot.dart';
+import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
 import 'package:flutter_jahn_douban/weiget/base_loading.dart';
 import 'package:palette_generator/palette_generator.dart';
 
@@ -46,7 +48,6 @@ class _MovieDetailState extends State<MovieDetail> {
        _themeColor = paletteGenerator.colors.toList()[1];
        _detailThemeColor = paletteGenerator.colors.toList()[0];
       });
-      print(res);
     }
     catch(e){
       print(e);
@@ -69,15 +70,22 @@ class _MovieDetailState extends State<MovieDetail> {
           title: Text('电影'),
           backgroundColor: _themeColor,
         ),
-        body: ListView(
-          children: <Widget>[
-            // 详情头部
-            DetailHead(_movie),
-            // 豆瓣评分
-            DetailGrade(_movie,_themeColor,_detailThemeColor),
-            // 剧情简介
-            DetailPlot(_movie)
-          ],
+        body: Container(
+          margin: EdgeInsets.all(ScreenAdapter.width(30)),
+          child: ListView(
+            children: <Widget>[
+              // 详情头部
+              DetailHead(_movie),
+              SizedBox(height: ScreenAdapter.height(30)),
+              // 豆瓣评分
+              DetailGrade(_movie,_themeColor,_detailThemeColor),
+              // 剧情简介
+              DetailPlot(_movie),
+              SizedBox(height: ScreenAdapter.height(40)),
+              // 演职员
+              DetailActor(_movie)
+            ],
+          ),
         ),
       ),
     ):Scaffold(

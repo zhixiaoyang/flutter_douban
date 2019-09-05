@@ -17,7 +17,6 @@ class _DetailPlotState extends State<DetailPlot> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left:ScreenAdapter.width(30),right:ScreenAdapter.width(30)),
       child: Column(
         children: <Widget>[
           Container(
