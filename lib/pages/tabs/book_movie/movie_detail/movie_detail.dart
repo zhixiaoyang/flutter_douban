@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jahn_douban/api/api_config.dart';
+import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/detail_head.dart';
 import 'package:flutter_jahn_douban/weiget/base_loading.dart';
 import 'package:palette_generator/palette_generator.dart';
 
@@ -19,7 +20,7 @@ class _MovieDetailState extends State<MovieDetail> {
   // 电影详情内容
   Map _movie;
   // 主题颜色
-  Color _themeColor =  Color(0xffffffff);
+  Color _themeColor;
 
   @override
   void initState() { 
@@ -39,7 +40,7 @@ class _MovieDetailState extends State<MovieDetail> {
       );
       setState(() {
        _movie = res.data; 
-       _themeColor = paletteGenerator.colors.toList()[2];
+       _themeColor = paletteGenerator.colors.toList()[0];
       });
       print(res);
     }
@@ -50,13 +51,24 @@ class _MovieDetailState extends State<MovieDetail> {
 
   @override
   Widget build(BuildContext context) {
-    return _themeColor != null ? Scaffold(
-      backgroundColor: _themeColor,
-      appBar: AppBar(
-        title: Text('电影'),
-        backgroundColor: _themeColor,
+    return _themeColor != null ? Theme(
+      data: ThemeData(
+        textTheme: TextTheme(
+          body1: TextStyle(color: Colors.white)
+        )
       ),
-      body: Text('x'),
+      child: Scaffold(
+        backgroundColor: _themeColor,
+        appBar: AppBar(
+          title: Text('电影'),
+          backgroundColor: _themeColor,
+        ),
+        body: ListView(
+          children: <Widget>[
+            DetailHead(_movie)
+          ],
+        ),
+      ),
     ):Scaffold(
       body: BaseLoading(),
     );

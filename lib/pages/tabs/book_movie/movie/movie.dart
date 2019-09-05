@@ -11,7 +11,9 @@ class MoviePage extends StatefulWidget {
   _MoviePageState createState() => _MoviePageState();
 }
 
-class _MoviePageState extends State<MoviePage> {
+class _MoviePageState extends State<MoviePage> with AutomaticKeepAliveClientMixin{
+
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
