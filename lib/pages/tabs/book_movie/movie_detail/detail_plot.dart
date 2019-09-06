@@ -19,21 +19,11 @@ class _DetailPlotState extends State<DetailPlot> {
     return Container(
       child: Column(
         children: <Widget>[
-          Container(
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: Colors.grey[800],
-                  width: 1
-                )
-              )
-            ),
-            child: ListTile(
-              contentPadding:EdgeInsets.all(0),
-              leading: Icon(Icons.card_giftcard,color: Color.fromRGBO(252, 166, 118, 1)),
-              title: Text('选座购票',),
-              trailing: Icon(Icons.keyboard_arrow_right,color: Colors.white),
-            ),
+          ListTile(
+            contentPadding:EdgeInsets.all(0),
+            leading: Icon(Icons.card_giftcard,color: Color.fromRGBO(252, 166, 118, 1)),
+            title: Text('选座购票',),
+            trailing: Icon(Icons.keyboard_arrow_right,color: Colors.white),
           ),
           Container(
             margin: EdgeInsets.only(top: ScreenAdapter.height(30)),

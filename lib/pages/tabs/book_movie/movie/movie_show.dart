@@ -106,7 +106,11 @@ class _MovieShowState extends State<MovieShow> {
                       _currentTabIndex = 1;
                       });
                     },
-                    child: Text('影院热映',style: TextStyle(fontSize: 20,color: _currentTabIndex == 1 ? Colors.black:Colors.grey,fontWeight: FontWeight.w600)),
+                    child: AnimatedDefaultTextStyle(
+                      duration: Duration(seconds: 1),
+                      style: TextStyle(color: _currentTabIndex == 1 ? Colors.black:Colors.grey),
+                      child: Text('影院热映',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600)),
+                    ),
                   ),
                 ),
                 SizedBox(width: ScreenAdapter.width(20)),
@@ -126,7 +130,11 @@ class _MovieShowState extends State<MovieShow> {
                       _currentTabIndex = 2;
                       });
                     },
-                    child: Text('即将上映',style: TextStyle(fontSize: 20,color: _currentTabIndex == 2 ? Colors.black:Colors.grey,fontWeight: FontWeight.w600)),
+                    child: AnimatedDefaultTextStyle(
+                      duration: Duration(seconds: 1),
+                      style: TextStyle(color: _currentTabIndex == 2 ? Colors.black:Colors.grey),
+                      child: Text('即将上映',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600)),
+                    )
                   ),
                 )
               ],

@@ -52,7 +52,7 @@ class _DetailActorState extends State<DetailActor> {
                   margin: EdgeInsets.only(right: ScreenAdapter.width(20)),
                   child: Column(
                     children: <Widget>[
-                      Image.network('${_actor[index]['avatars']['small']}',width: ScreenAdapter.width(160)),
+                      Image.network('${_actor[index]['avatars']['small']}',width: ScreenAdapter.width(160),fit: BoxFit.cover,),
                       SizedBox(height: ScreenAdapter.height(10)),
                       Container(
                         width: ScreenAdapter.width(160),
