@@ -1,7 +1,7 @@
 # flutter_jahn_douban
 
 #### 介绍
-基于Flutter，使用豆瓣 Open Api，尽可能还原精美的豆瓣App，功能持续添加，以此来深入了解Flutter。
+基于Flutter，使用豆瓣 Open Api，尽可能还原精美的豆瓣App，功能会持续添加，以此来深入了解Flutter。
 如您有更好的意见或优化，请提出Issue。
 
 #### 软件架构
