@@ -4,6 +4,7 @@ import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/detail_ac
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/detail_grade.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/detail_head.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/detail_plot.dart';
+import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/detail_trailers.dart';
 import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
 import 'package:flutter_jahn_douban/weiget/base_loading.dart';
 import 'package:palette_generator/palette_generator.dart';
@@ -83,7 +84,9 @@ class _MovieDetailState extends State<MovieDetail> {
               DetailPlot(_movie),
               SizedBox(height: ScreenAdapter.height(40)),
               // 演职员
-              DetailActor(_movie)
+              DetailActor(_movie),
+              // 预告片 / 剧照
+              DetailTrailer(_movie),
             ],
           ),
         ),

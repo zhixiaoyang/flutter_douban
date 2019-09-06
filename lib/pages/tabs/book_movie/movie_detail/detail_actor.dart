@@ -38,13 +38,13 @@ class _DetailActorState extends State<DetailActor> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text('演职员'),
-              Text('全部')
+              Text('演职员',style: TextStyle(fontSize: 20)),
+              Text('全部',style: TextStyle(fontSize: 12))
             ],
           ),
           SizedBox(height: ScreenAdapter.height(30)),
           Container(
-            height: ScreenAdapter.height(400),
+            height: ScreenAdapter.height(350),
             child: ListView.builder(
               scrollDirection:Axis.horizontal,
               itemBuilder: (context,index){

@@ -28,7 +28,7 @@ class _DetailPlotState extends State<DetailPlot> {
           Container(
             margin: EdgeInsets.only(top: ScreenAdapter.height(30)),
             alignment: Alignment.centerLeft,
-            child: Text('剧情简介',style: TextStyle(fontSize: 17)),
+            child: Text('剧情简介',style: TextStyle(fontSize: 20)),
           ),
           Container(
             margin: EdgeInsets.only(top: ScreenAdapter.height(15)),
