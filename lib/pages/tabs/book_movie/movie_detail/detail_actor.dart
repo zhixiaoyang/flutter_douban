@@ -39,7 +39,12 @@ class _DetailActorState extends State<DetailActor> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text('演职员',style: TextStyle(fontSize: 20)),
-              Text('全部',style: TextStyle(fontSize: 12))
+              Row(
+                children: <Widget>[
+                  Text('全部'),
+                  Icon(Icons.keyboard_arrow_right,color:Colors.white)
+                ],
+              )
             ],
           ),
           SizedBox(height: ScreenAdapter.height(30)),
