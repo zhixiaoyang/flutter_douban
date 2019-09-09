@@ -20,7 +20,7 @@ class _MovieTodayPlayState extends State<MovieTodayPlay> {
   // 今日播放列表
   List _todayPlayList = [];
 
-  String _requestStatus;
+  String _requestStatus = '';
 
   @override
   void initState() { 

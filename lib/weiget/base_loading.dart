@@ -3,13 +3,13 @@ import 'package:flutter/cupertino.dart';
 
 class BaseLoading extends StatelessWidget {
 
-  final type;
+  final String type;
   BaseLoading({this.type});
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: type == null ?  Padding(
+      child:type.isEmpty ?  Padding(
         padding: EdgeInsets.all(10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

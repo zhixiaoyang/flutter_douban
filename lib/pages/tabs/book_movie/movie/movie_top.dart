@@ -18,7 +18,7 @@ class _MovieTopState extends State<MovieTop> {
   // 一周热映榜
   List _hotMovieList = [];
 
-  String _requestStatus;
+  String _requestStatus = '';
 
   // 获取豆瓣电影top250
   _getTopData()async{

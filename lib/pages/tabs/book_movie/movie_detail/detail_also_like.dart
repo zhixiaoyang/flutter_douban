@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_jahn_douban/api/api_config.dart';
 import 'package:flutter_jahn_douban/routes/application.dart';
 import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
+import 'package:flutter_jahn_douban/weiget/base_loading.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class DetailAlsoLike extends StatefulWidget {
 
+// 类型
 String _type = '';
 DetailAlsoLike(this._type);
 
@@ -17,6 +19,8 @@ class _DetailAlsoLikeState extends State<DetailAlsoLike> {
 
   // 可能喜欢列表
   List _alsoLikeList = [];
+  // 
+  String _requestStatus = '';
 
   @override
   void initState() { 
@@ -32,12 +36,20 @@ class _DetailAlsoLikeState extends State<DetailAlsoLike> {
         'page_limit':8
       };
       var res = await ApiConfig.ajax('get', 'https://movie.douban.com/j/search_subjects?tag=纪录片', params);
-      setState(() {
-       _alsoLikeList = res.data['subjects'];
-      });
+      if( res.data['subjects'].length > 0){
+        setState(() {
+        _alsoLikeList = res.data['subjects'];
+        });
+      }else{
+        setState(() {
+          _requestStatus = '暂无推荐'; 
+        });
+      }
       print(res);
     } catch (e) {
-      print(e);
+      setState(() {
+        _requestStatus = '暂无推荐'; 
+      });
     }
   }
 
@@ -51,9 +63,7 @@ class _DetailAlsoLikeState extends State<DetailAlsoLike> {
             title: Text('喜欢这部电影的也喜欢'),
             trailing: Icon(Icons.keyboard_arrow_right,color: Colors.white),
           ),
-          _alsoLikeList.length > 0 ? _item(_alsoLikeList):Center(
-            child: Text('暂无推荐'),
-          ),
+          _alsoLikeList.length > 0 ? _item(_alsoLikeList):BaseLoading(type:_requestStatus),
         ],
       ),
     );

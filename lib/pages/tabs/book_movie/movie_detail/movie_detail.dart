@@ -29,6 +29,7 @@ class _MovieDetailState extends State<MovieDetail> {
   // 主题颜色
   Color _themeColor;
   Color _detailThemeColor;
+  String _requestStatus = '';
 
   @override
   void initState() { 
@@ -54,6 +55,9 @@ class _MovieDetailState extends State<MovieDetail> {
     }
     catch(e){
       print(e);
+      setState(() {
+        _requestStatus = '暂无数据'; 
+      });
     }
   }
 
@@ -100,7 +104,7 @@ class _MovieDetailState extends State<MovieDetail> {
         ),
       ),
     ):Scaffold(
-      body: BaseLoading(),
+      body: BaseLoading(type: _requestStatus),
     );
   }
 }
