@@ -8,7 +8,6 @@ class BaseLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(type);
     return Center(
       child: type == null ?  Padding(
         padding: EdgeInsets.all(10),
