@@ -18,6 +18,8 @@ class _MovieTopState extends State<MovieTop> {
   // 一周热映榜
   List _hotMovieList = [];
 
+  String _requestStatus;
+
   // 获取豆瓣电影top250
   _getTopData()async{
     try{
@@ -33,6 +35,9 @@ class _MovieTopState extends State<MovieTop> {
     }
     catch(e){
       print(e);
+      setState(() {
+        _requestStatus = '暂无豆瓣电影Top250数据'; 
+      });
     }
   }
 
@@ -64,7 +69,9 @@ class _MovieTopState extends State<MovieTop> {
      });
    }
    catch(e){
-
+      setState(() {
+        _requestStatus = '暂无一周热门数据'; 
+      });
    }
   }
 
@@ -87,6 +94,9 @@ class _MovieTopState extends State<MovieTop> {
     }
     catch(e){
       print(e);
+      setState(() {
+        _requestStatus = '暂无口碑电影榜数据'; 
+      });
     }
   }
 
@@ -127,14 +137,14 @@ class _MovieTopState extends State<MovieTop> {
             children: <Widget>[
               Container(
                 margin: EdgeInsets.only(left: ScreenAdapter.width(30)),
-                child: _weekMovieList.length > 0  ? _item(_weekMovieList,'一周口碑电影榜','每周五更新 · 共10部'):BaseLoading(),
+                child: _weekMovieList.length > 0  ? _item(_weekMovieList,'一周口碑电影榜','每周五更新 · 共10部'):BaseLoading(type:_requestStatus),
               ),
               SizedBox(width: ScreenAdapter.width(30)),
-              _topMovieList.length > 0  ? _item(_topMovieList,'豆瓣电影 Top250','豆瓣榜单 · 共250部'):BaseLoading(),
+              _topMovieList.length > 0  ? _item(_topMovieList,'豆瓣电影 Top250','豆瓣榜单 · 共250部'):BaseLoading(type:_requestStatus),
               SizedBox(width: ScreenAdapter.width(30)),
               Container(
                 margin: EdgeInsets.only(right: ScreenAdapter.width(30)),
-                child:_hotMovieList.length > 0  ? _item(_hotMovieList,'一周热门电影榜','每周五更新 · 共10部'):BaseLoading(),
+                child:_hotMovieList.length > 0  ? _item(_hotMovieList,'一周热门电影榜','每周五更新 · 共10部'):BaseLoading(type:_requestStatus),
               ),
               
             ],

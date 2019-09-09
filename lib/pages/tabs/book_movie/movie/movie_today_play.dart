@@ -20,6 +20,8 @@ class _MovieTodayPlayState extends State<MovieTodayPlay> {
   // 今日播放列表
   List _todayPlayList = [];
 
+  String _requestStatus;
+
   @override
   void initState() { 
     super.initState();
@@ -45,10 +47,17 @@ class _MovieTodayPlayState extends State<MovieTodayPlay> {
           _todayPlayThemeColor =  paletteGenerator.colors.toList()[0];
           _todayPlayList = res.data['subjects']; 
         });
+      }else{
+        setState(() {
+          _requestStatus = '暂无今日播放'; 
+        });
       }
     }
     catch(e){
       print(e);
+      setState(() {
+        _requestStatus = '暂无数据'; 
+      });
     }
   }
 
@@ -120,7 +129,7 @@ class _MovieTodayPlayState extends State<MovieTodayPlay> {
       ),
     ):Container(
       height: ScreenAdapter.height(350),
-      child: BaseLoading(),
+      child: BaseLoading(type:_requestStatus),
     );
   }
 }

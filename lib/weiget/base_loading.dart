@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 class BaseLoading extends StatelessWidget {
+
+  final type;
+  BaseLoading({this.type});
+
   @override
   Widget build(BuildContext context) {
+    print(type);
     return Center(
-      child: Padding(
+      child: type == null ?  Padding(
         padding: EdgeInsets.all(10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -14,7 +19,7 @@ class BaseLoading extends StatelessWidget {
             CupertinoActivityIndicator(),
           ],
         ),
-      ),
+      ):Text('$type'),
     );
   }
 }

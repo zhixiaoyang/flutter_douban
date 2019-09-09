@@ -109,7 +109,7 @@ class _DetailAlsoLikeState extends State<DetailAlsoLike> {
                       itemSize: 9,
                     ),
                     SizedBox(width: ScreenAdapter.width(20)),
-                    Text('${data[index]['rate']}',style: TextStyle(fontSize: 11,color: Colors.grey))
+                    Text('${data[index]['rate']}',style: TextStyle(fontSize: 10,color: Colors.grey))
                   ],
                 )
               ],

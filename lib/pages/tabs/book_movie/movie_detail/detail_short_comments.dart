@@ -78,7 +78,7 @@ class _DetailShortCommentsState extends State<DetailShortComments> {
             subtitle: Row(
               children: <Widget>[
                 RatingBarIndicator(
-                  rating:item['rating']['value'],
+                  rating:item['rating']['value'] > 0 ? item['rating']['value']:0,
                   alpha:0,
                   unratedColor:Colors.grey,
                   itemPadding: EdgeInsets.all(0),
