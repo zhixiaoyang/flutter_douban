@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -53,6 +54,10 @@ class _DetailShortCommentsState extends State<DetailShortComments> {
               return _commentItem(widget._movie['popular_comments'][index]);
             },
             itemCount: widget._movie['popular_comments'].length,
+          ),
+          ListTile(
+            title: Text('查看全部短评'),
+            trailing: Icon(Icons.keyboard_arrow_right,color:Colors.white),
           )
         ],
       ),
@@ -88,11 +93,38 @@ class _DetailShortCommentsState extends State<DetailShortComments> {
                 Text('${((DateTime.now().millisecondsSinceEpoch - DateTime.parse(item['created_at']).millisecondsSinceEpoch) / 1000 / 60 / 60 / 24 / 31).round()}个月前',style: TextStyle(color: Colors.white54,fontSize: 12))
               ],
             ),
-            trailing: Icon(Icons.more_horiz,color: Colors.white54),
+            trailing: IconButton(
+              icon: Icon(Icons.more_horiz,color: Colors.white54),
+              onPressed: (){
+                print('object');
+                showCupertinoModalPopup(
+                  context: context,
+                  builder: (context){
+                    return CupertinoActionSheet(
+                      actions: <Widget>[
+                        CupertinoActionSheetAction(
+                          child: Text('分享'),
+                          onPressed: () { /** */ },
+                        ),
+                        CupertinoActionSheetAction(
+                          child: Text('举报'),
+                          onPressed: () { /** */ },
+                        ),
+                      ],
+                      cancelButton: CupertinoActionSheetAction(
+                        isDefaultAction: true,
+                        child: Text('取消'),
+                        onPressed: () { /** */ },
+                      ),
+                    );
+                  }
+                );
+              },
+            )
           ),
           Text('${item['content']}',maxLines: item['showMore'],overflow: TextOverflow.ellipsis,),
           Container(
-            margin: EdgeInsets.only(right: ScreenAdapter.width(20)),
+            margin: EdgeInsets.only(right: ScreenAdapter.width(20),top: ScreenAdapter.height(10)),
             alignment: Alignment.centerRight,
             child: GestureDetector(
               onTap: (){
@@ -101,6 +133,16 @@ class _DetailShortCommentsState extends State<DetailShortComments> {
                 });
               },
               child: Text('${item['showMore'] == 6 ? '展开':'收起'}',style: TextStyle(color:Colors.grey,fontSize: 14)),
+            ),
+          ),
+          Container(
+            alignment: Alignment.centerLeft,
+            child: Row(
+              children: <Widget>[
+                Icon(Icons.thumb_up,color: Colors.white,size: 15,),
+                SizedBox(width: ScreenAdapter.width(20)),
+                Text('${item['useful_count'] ?? 0}')
+              ],
             ),
           )
         ],
