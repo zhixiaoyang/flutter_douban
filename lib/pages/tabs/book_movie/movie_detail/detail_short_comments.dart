@@ -122,7 +122,10 @@ class _DetailShortCommentsState extends State<DetailShortComments> {
               },
             )
           ),
-          Text('${item['content']}',maxLines: item['showMore'],overflow: TextOverflow.ellipsis,),
+          Container(
+            alignment: Alignment.centerLeft,
+            child: Text('${item['content']}',maxLines: item['showMore'],overflow: TextOverflow.ellipsis),
+          ),
           Container(
             margin: EdgeInsets.only(right: ScreenAdapter.width(20),top: ScreenAdapter.height(10)),
             alignment: Alignment.centerRight,

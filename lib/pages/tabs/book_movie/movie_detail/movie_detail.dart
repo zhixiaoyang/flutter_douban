@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jahn_douban/api/api_config.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/detail_actor.dart';
+import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/detail_also_like.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/detail_grade.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/detail_head.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/detail_plot.dart';
@@ -90,7 +91,10 @@ class _MovieDetailState extends State<MovieDetail> {
               DetailTrailer(_movie),
               SizedBox(height: ScreenAdapter.height(40)),
               // 短评
-              DetailShortComments(_movie,_detailThemeColor)
+              DetailShortComments(_movie,_detailThemeColor),
+              SizedBox(height: ScreenAdapter.height(40)),
+              // 也可能喜欢
+              DetailAlsoLike(_movie['genres'][0])
             ],
           ),
         ),

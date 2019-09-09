@@ -19,19 +19,21 @@ class _DetailTrailerState extends State<DetailTrailer> {
   void initState() { 
     super.initState();
 
-    _trailerList.add(widget._movie['trailers'][0]);
-    widget._movie['photos'].forEach((item){
-      _trailerList.add({
-        "medium":item['cover']
+    if(widget._movie['trailers'].length > 0){
+      _trailerList.add(widget._movie['trailers'][0]);
+      widget._movie['photos'].forEach((item){
+        _trailerList.add({
+          "medium":item['cover']
+        });
       });
-    });
+    }
 
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Column(
+      child:Column(
         children: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -46,7 +48,7 @@ class _DetailTrailerState extends State<DetailTrailer> {
             ],
           ),
           SizedBox(height: ScreenAdapter.height(30)),
-          Container(
+          _trailerList.length > 0 ? Container(
             height: ScreenAdapter.height(300),
             child: ListView.builder(
               scrollDirection:Axis.horizontal,
@@ -67,6 +69,8 @@ class _DetailTrailerState extends State<DetailTrailer> {
               },
               itemCount: _trailerList.length,
             ),
+          ):Center(
+            child: Text('暂无预告片 / 剧照'),
           )
         ],
       ),

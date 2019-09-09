@@ -48,7 +48,7 @@ class _DetailActorState extends State<DetailActor> {
             ],
           ),
           SizedBox(height: ScreenAdapter.height(30)),
-          Container(
+          _actor.length > 0 ? Container(
             height: ScreenAdapter.height(350),
             child: ListView.builder(
               scrollDirection:Axis.horizontal,
@@ -57,7 +57,7 @@ class _DetailActorState extends State<DetailActor> {
                   margin: EdgeInsets.only(right: ScreenAdapter.width(20)),
                   child: Column(
                     children: <Widget>[
-                      Image.network('${_actor[index]['avatars']['small']}',width: ScreenAdapter.width(160),fit: BoxFit.cover,),
+                      Image.network('${_actor[index]['avatars'] == null ? 'https://img3.doubanio.com/f/movie/8dd0c794499fe925ae2ae89ee30cd225750457b4/pics/movie/celebrity-default-medium.png':_actor[index]['avatars']['small']}',width: ScreenAdapter.width(160),fit: BoxFit.cover,),
                       SizedBox(height: ScreenAdapter.height(10)),
                       Container(
                         width: ScreenAdapter.width(160),
@@ -74,6 +74,8 @@ class _DetailActorState extends State<DetailActor> {
               },
               itemCount: _actor.length,
             ),
+          ):Center(
+            child: Text('暂无演员表'),
           )
         ],
       ),
