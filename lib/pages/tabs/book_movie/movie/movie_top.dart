@@ -35,9 +35,6 @@ class _MovieTopState extends State<MovieTop> {
     }
     catch(e){
       print(e);
-      setState(() {
-        _requestStatus = '暂无豆瓣电影Top250数据'; 
-      });
     }
   }
 
@@ -69,9 +66,7 @@ class _MovieTopState extends State<MovieTop> {
      });
    }
    catch(e){
-      setState(() {
-        _requestStatus = '暂无一周热门数据'; 
-      });
+
    }
   }
 
@@ -94,9 +89,7 @@ class _MovieTopState extends State<MovieTop> {
     }
     catch(e){
       print(e);
-      setState(() {
-        _requestStatus = '暂无口碑电影榜数据'; 
-      });
+
     }
   }
 

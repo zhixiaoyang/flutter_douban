@@ -55,9 +55,6 @@ class _MovieTodayPlayState extends State<MovieTodayPlay> {
     }
     catch(e){
       print(e);
-      setState(() {
-        _requestStatus = '暂无数据'; 
-      });
     }
   }
 

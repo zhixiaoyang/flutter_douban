@@ -103,7 +103,7 @@ class _MovieShowState extends State<MovieShow> {
                   child: GestureDetector(
                     onTap: (){
                       setState(() {
-                      _currentTabIndex = 1;
+                        _currentTabIndex = 1;
                       });
                     },
                     child: AnimatedDefaultTextStyle(
@@ -127,7 +127,7 @@ class _MovieShowState extends State<MovieShow> {
                   child: GestureDetector(
                     onTap: (){
                       setState(() {
-                      _currentTabIndex = 2;
+                        _currentTabIndex = 2;
                       });
                     },
                     child: AnimatedDefaultTextStyle(
@@ -174,7 +174,7 @@ class _MovieShowState extends State<MovieShow> {
       itemBuilder: (BuildContext context, int index) {
         return GestureDetector(
           onTap: (){
-            Application.router.navigateTo(context, '/movieDetail?id=${data[index]['id']}');
+            Application.router.navigateTo(context, '/movieDetail?id=${data[index]['id']}&type=$_currentTabIndex');
           },
           child: Container(
             child: Column(

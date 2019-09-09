@@ -42,14 +42,12 @@ class _DetailAlsoLikeState extends State<DetailAlsoLike> {
         });
       }else{
         setState(() {
-          _requestStatus = '暂无推荐'; 
+          _requestStatus = '暂无推荐影片'; 
         });
       }
       print(res);
     } catch (e) {
-      setState(() {
-        _requestStatus = '暂无推荐'; 
-      });
+
     }
   }
 
