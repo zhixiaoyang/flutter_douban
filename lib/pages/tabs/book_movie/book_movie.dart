@@ -24,6 +24,7 @@ class _BookMoviePageState extends State<BookMoviePage> with SingleTickerProvider
 
   @override
   Widget build(BuildContext context) {
+    ScreenAdapter.init(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
