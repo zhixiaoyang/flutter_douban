@@ -45,7 +45,6 @@ class _DetailAlsoLikeState extends State<DetailAlsoLike> {
           _requestStatus = '暂无推荐影片'; 
         });
       }
-      print(res);
     } catch (e) {
 
     }

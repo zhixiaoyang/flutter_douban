@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 class BaseLoading extends StatelessWidget {
 
   final String type;
-  BaseLoading({this.type});
+  BaseLoading({@required this.type});
 
   @override
   Widget build(BuildContext context) {
