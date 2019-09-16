@@ -10,6 +10,7 @@ import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/detail_sh
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/detail_trailers.dart';
 import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
 import 'package:flutter_jahn_douban/weiget/base_loading.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 
@@ -32,10 +33,33 @@ class _MovieDetailState extends State<MovieDetail> {
   Color _detailThemeColor;
   String _requestStatus = '';
 
+  // 滚动控制器
+  ScrollController _scrollController = ScrollController();
+  // 默认显示静态文字电影
+  bool _showTitle = false;
+
   @override
   void initState() { 
     super.initState();
     _getDetail();
+    // 监听滚动
+    _scrollController.addListener((){
+      if(_scrollController.offset > 40){
+        setState(() {
+         _showTitle = true; 
+        });
+      }else{
+        setState(() {
+         _showTitle = false; 
+        });
+      }
+    });
+  }
+  @override
+  void dispose() {
+    //为了避免内存泄露，需要调用_controller.dispose
+    _scrollController.dispose();
+    super.dispose();
   }
   // 获取电影详情
   _getDetail() async{
@@ -75,12 +99,40 @@ class _MovieDetailState extends State<MovieDetail> {
       child: Scaffold(
         backgroundColor: _themeColor,
         appBar: AppBar(
-          title: Text('电影'),
+          centerTitle: true,
+          title: _showTitle ? Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                alignment: Alignment.centerLeft,
+                child: Text('${_movie['title']}',style: TextStyle(fontSize: 14)),
+              ),
+              Row(
+                children: <Widget>[
+                  RatingBarIndicator(
+                    rating:_movie['rating']['average'] / 2,
+                    alpha:0,
+                    unratedColor:Colors.grey,
+                    itemPadding: EdgeInsets.all(0),
+                    itemBuilder: (context, index) => Icon(
+                        Icons.star,
+                        color: Colors.amber,
+                    ),
+                    itemCount: 5,
+                    itemSize: 11,
+                  ),
+                  SizedBox(width: ScreenAdapter.width(10)),
+                  Text('${_movie['rating']['average']}',style: TextStyle(fontSize: 12))
+                ],
+              )
+            ],
+          ) : Text('电影') ,
           backgroundColor: _themeColor,
         ),
         body: DefaultTabController(
           length: 3,
           child: NestedScrollView(
+            controller: _scrollController,
             headerSliverBuilder: (context,bool){
               return [
                  // 详情头部
