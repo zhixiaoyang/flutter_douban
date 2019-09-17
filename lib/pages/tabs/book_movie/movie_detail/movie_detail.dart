@@ -76,9 +76,9 @@ class _MovieDetailState extends State<MovieDetail> {
       );
       if(mounted){
         setState(() {
-        _movie = res.data; 
-        _themeColor = paletteGenerator.colors.toList()[1];
-        _detailThemeColor = paletteGenerator.colors.toList()[0];
+          _movie = res.data; 
+          _themeColor = paletteGenerator.colors.toList()[1];
+          _detailThemeColor = paletteGenerator.colors.toList()[0];
         });
       }
     }

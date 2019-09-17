@@ -38,14 +38,16 @@ class _DetailCommentsState extends State<DetailComments> with AutomaticKeepAlive
         'apikey':ApiConfig.apiKey
       };
       var res = await ApiConfig.ajax('get', ApiConfig.baseUrl + '/v2/movie/subject/${widget.movieId}/reviews', params);
-      if(res.data['reviews'].length > 0){
-        setState(() {
-          _commentsList =  res.data['reviews'];
-        });
-      } else{
-        setState(() {
-          _requestStatus = '暂无影评'; 
-        });
+      if(mounted){
+        if(res.data['reviews'].length > 0){
+          setState(() {
+            _commentsList =  res.data['reviews'];
+          });
+        } else{
+          setState(() {
+            _requestStatus = '暂无影评'; 
+          });
+        }
       }
     } catch (e) {
       print(e);

@@ -36,14 +36,16 @@ class _DetailAlsoLikeState extends State<DetailAlsoLike> {
         'page_limit':8
       };
       var res = await ApiConfig.ajax('get', 'https://movie.douban.com/j/search_subjects?tag=纪录片', params);
-      if( res.data['subjects'].length > 0){
-        setState(() {
-        _alsoLikeList = res.data['subjects'];
-        });
-      }else{
-        setState(() {
-          _requestStatus = '暂无推荐影片'; 
-        });
+      if(mounted){
+        if( res.data['subjects'].length > 0){
+          setState(() {
+          _alsoLikeList = res.data['subjects'];
+          });
+        }else{
+          setState(() {
+            _requestStatus = '暂无推荐影片'; 
+          });
+        }
       }
     } catch (e) {
 

@@ -19,14 +19,16 @@ class _DetailActorState extends State<DetailActor> {
   void initState() { 
     super.initState();
 
-    widget._movie['directors'].forEach((item){
-      item['type'] = '导演';
-      _actor.add(item);
-    });
-    widget._movie['casts'].forEach((item){
-      item['type'] = '演员';
-      _actor.add(item);
-    });
+    if(mounted){
+      widget._movie['directors'].forEach((item){
+        item['type'] = '导演';
+        _actor.add(item);
+      });
+      widget._movie['casts'].forEach((item){
+        item['type'] = '演员';
+        _actor.add(item);
+      });
+    }
 
   }
 

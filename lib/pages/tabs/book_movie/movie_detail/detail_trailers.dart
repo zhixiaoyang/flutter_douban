@@ -19,13 +19,15 @@ class _DetailTrailerState extends State<DetailTrailer> {
   void initState() { 
     super.initState();
 
-    if(widget._movie['trailers'].length > 0){
-      _trailerList.add(widget._movie['trailers'][0]);
-      widget._movie['photos'].forEach((item){
-        _trailerList.add({
-          "medium":item['cover']
+    if(mounted){
+      if(widget._movie['trailers'].length > 0 ){
+        _trailerList.add(widget._movie['trailers'][0]);
+        widget._movie['photos'].forEach((item){
+          _trailerList.add({
+            "medium":item['cover']
+          });
         });
-      });
+      }
     }
 
   }

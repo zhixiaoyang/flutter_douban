@@ -18,13 +18,15 @@ class _DetailGradeState extends State<DetailGrade> {
   @override
   void initState() { 
     super.initState();
-    double tempNum = 0;
-    for(var val in widget._movie['rating']['details'].keys){
-      tempNum+=widget._movie['rating']['details'][val];
+    if(mounted){
+      double tempNum = 0;
+      for(var val in widget._movie['rating']['details'].keys){
+        tempNum+=widget._movie['rating']['details'][val];
+      }
+      setState(() {
+        _total = tempNum.toInt();
+      });
     }
-    setState(() {
-      _total = tempNum.toInt();
-    });
   }
   @override
   Widget build(BuildContext context) {
