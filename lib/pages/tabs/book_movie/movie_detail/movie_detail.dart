@@ -42,24 +42,26 @@ class _MovieDetailState extends State<MovieDetail> {
   void initState() { 
     super.initState();
     _getDetail();
-    // 监听滚动
-    _scrollController.addListener((){
-      if(_scrollController.offset > 40){
-        setState(() {
-         _showTitle = true; 
-        });
-      }else{
-        setState(() {
-         _showTitle = false; 
-        });
-      }
-    });
+    if(mounted){
+      // 监听滚动
+      _scrollController.addListener((){
+        if(_scrollController.offset > 40){
+          setState(() {
+          _showTitle = true; 
+          });
+        }else{
+          setState(() {
+          _showTitle = false; 
+          });
+        }
+      });
+    }
   }
   @override
   void dispose() {
     //为了避免内存泄露，需要调用_controller.dispose
-    _scrollController.dispose();
     super.dispose();
+    _scrollController.dispose();
   }
   // 获取电影详情
   _getDetail() async{
@@ -72,17 +74,22 @@ class _MovieDetailState extends State<MovieDetail> {
       var paletteGenerator = await PaletteGenerator.fromImageProvider(
         NetworkImage(res.data['images']['small'])
       );
-      setState(() {
-       _movie = res.data; 
-       _themeColor = paletteGenerator.colors.toList()[1];
-       _detailThemeColor = paletteGenerator.colors.toList()[0];
-      });
+      if(mounted){
+        setState(() {
+        _movie = res.data; 
+        _themeColor = paletteGenerator.colors.toList()[1];
+        _detailThemeColor = paletteGenerator.colors.toList()[0];
+        });
+      }
     }
     catch(e){
       print(e);
-      setState(() {
-        _requestStatus = '暂无数据'; 
-      });
+      if(mounted){
+        setState(() {
+          _requestStatus = '暂无数据'; 
+        });
+      }
+      
     }
   }
 
