@@ -142,7 +142,7 @@ class _MovieDetailState extends State<MovieDetail> {
                 // 豆瓣评分
                 _paddingContainer(child:DetailGrade(_movie,_themeColor,_detailThemeColor)),
                 // 剧情简介
-                _paddingContainer(child:DetailPlot(_movie)),
+                _paddingContainer(child:DetailPlot(_movie,_detailThemeColor)),
                 SliverToBoxAdapter(child:SizedBox(height: ScreenAdapter.height(40))),
                 // 演职员
                 _paddingContainer(child:DetailActor(_movie)),
