@@ -203,6 +203,16 @@ class _MovieDetailState extends State<MovieDetail> {
         )
       ),
     ):Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+          textTheme: TextTheme(
+            title:TextStyle(color: Colors.black)
+          ),
+          iconTheme: IconThemeData(
+            color: Colors.black
+          ),
+          brightness: Brightness.dark,
+      ),
       body: BaseLoading(type: _requestStatus),
     );
   }
