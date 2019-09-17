@@ -19,9 +19,11 @@ class _DetailShortCommentsState extends State<DetailShortComments> {
   @override
   void initState() {
     super.initState();
-    widget._movie['popular_comments'].forEach((item){
-      item['showMore'] = 6;
-    });
+    if(mounted){
+      widget._movie['popular_comments'].forEach((item){
+        item['showMore'] = 6;
+      });
+    }
   }
 
 

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_jahn_douban/api/api_config.dart';
 import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
 import 'package:flutter_jahn_douban/weiget/base_loading.dart';
+import 'package:flutter_jahn_douban/weiget/refresh.dart';
+import 'package:flutter_jahn_douban/weiget/test.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class IsHit extends StatefulWidget {
   @override
@@ -33,9 +37,11 @@ class _IsHitState extends State<IsHit> {
         'start':_start
       };
       var res = await ApiConfig.ajax('get',ApiConfig.baseUrl +  '/v2/movie/in_theaters', params);
-      setState(() {
-        _isHitList =  res.data;
-      });
+      if(mounted){
+        setState(() {
+          _isHitList =  res.data;
+        });
+      }
     }
     catch (e) {
       print(e);
@@ -45,34 +51,49 @@ class _IsHitState extends State<IsHit> {
 
   @override
   Widget build(BuildContext context) {
-    return  _isHitList != null ? ListView.builder(
-      itemBuilder: (context,index){
-        return Container(
-          margin: EdgeInsets.only(bottom: ScreenAdapter.height(20)),
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                width: 0.5,
-                color: Colors.grey[300],
-              )
-            )
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              // 缩略图
-              _thumb(_isHitList['subjects'][index]), 
-              // 中间信息区域
-              SizedBox(width: ScreenAdapter.width(30)),
-              _info(_isHitList['subjects'][index]),
-              // 右侧操作区域
-              _actions()
-            ],
-          ),
-        );
+    RefreshController _controller = RefreshController();
+    return  SmartRefresher(
+      controller: _controller,
+      enablePullUp: true,
+      enablePullDown: true,
+      header: Refresh(),
+      onRefresh: () async {
+        await Future.delayed(Duration(milliseconds: 2000));
+        _controller.refreshCompleted();
       },
-      itemCount: _isHitList.length,
-    ):BaseLoading(type: _requestStatus);
+      onLoading: () async {
+         await Future.delayed(Duration(milliseconds: 1000));
+        _controller.loadComplete();
+      },
+      child: _isHitList != null ? ListView.builder(
+        itemBuilder: (context,index){
+          return Container(
+            margin: EdgeInsets.only(bottom: ScreenAdapter.height(20)),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  width: 0.5,
+                  color: Colors.grey[300],
+                )
+              )
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                // 缩略图
+                _thumb(_isHitList['subjects'][index]), 
+                // 中间信息区域
+                SizedBox(width: ScreenAdapter.width(30)),
+                _info(_isHitList['subjects'][index]),
+                // 右侧操作区域
+                _actions()
+              ],
+            ),
+          );
+        },
+        itemCount: _isHitList.length,
+      ):BaseLoading(type: _requestStatus),
+    );
   }
   // 右侧操作区域
   Widget _actions(){

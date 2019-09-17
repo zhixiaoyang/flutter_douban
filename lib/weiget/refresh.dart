@@ -1,0 +1,71 @@
+import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:flutter_gifimage/flutter_gifimage.dart';
+import 'package:flutter/material.dart'
+    hide RefreshIndicator, RefreshIndicatorState;
+import 'package:flutter/widgets.dart';
+
+class Refresh extends RefreshIndicator {
+  Refresh() : super(height: 70.0, refreshStyle: RefreshStyle.Follow);
+  @override
+  State<StatefulWidget> createState() {return RefreshState();}
+}
+
+class RefreshState extends RefreshIndicatorState<Refresh>with SingleTickerProviderStateMixin {
+  GifController _gifController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    // init frame is 2
+    _gifController = GifController(
+      vsync: this,
+      value: 1,
+    );
+    super.initState();
+  }
+
+  @override
+  void onModeChange(RefreshStatus mode) {
+    // TODO: implement onModeChange
+    if (mode == RefreshStatus.refreshing) {
+      _gifController.repeat(
+          min: 0, max: 29, period: Duration(milliseconds: 500));
+    }
+    super.onModeChange(mode);
+  }
+
+  @override
+  Future<void> endRefresh() {
+    // TODO: implement endRefresh
+    _gifController.value = 30;
+    return _gifController.animateTo(59, duration: Duration(milliseconds: 500));
+  }
+
+  @override
+  void resetValue() {
+    // TODO: implement resetValue
+    // reset not ok , the plugin need to update lowwer
+    _gifController.value = 0;
+    super.resetValue();
+  }
+
+  @override
+  Widget buildContent(BuildContext context, RefreshStatus mode) {
+    return Container(
+      margin: EdgeInsets.only(bottom: ScreenAdapter.height(60)),
+      child: GifImage(
+        image: AssetImage("lib/assets/douban_loading.gif"),
+        controller: _gifController,
+        height:ScreenAdapter.height(40),
+        width:ScreenAdapter.width(40),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _gifController.dispose();
+    super.dispose();
+  }
+}
