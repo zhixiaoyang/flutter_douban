@@ -23,7 +23,7 @@ class _DetailHeadState extends State<DetailHead> {
         children: <Widget>[
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
-            child: Image.network('${widget._movie['images']['small']}',width: ScreenAdapter.width(200),height: ScreenAdapter.height(260),),
+            child: Image.network('${widget._movie['images']['small']}',fit: BoxFit.cover,width: ScreenAdapter.width(200),height: ScreenAdapter.height(260),),
           ),
           SizedBox(width: ScreenAdapter.width(30)),
           

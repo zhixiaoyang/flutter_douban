@@ -142,7 +142,10 @@ class _MovieShowState extends State<MovieShow> {
             Row(
               children: <Widget>[
                 GestureDetector(
-                  child: Text('全部 ${_currentTabIndex == 1 ? _hotShowTotal : _comingSoonTotal }'),
+                  onTap: (){
+                    Application.router.navigateTo(context,'/theatricalFilm');
+                  },
+                  child: Text('全部 ${_currentTabIndex == 1 ? _hotShowTotal : _comingSoonTotal}'),
                 ),
                 Icon(Icons.chevron_right)
               ],
