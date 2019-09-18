@@ -38,7 +38,7 @@ class _IsHitState extends State<IsHit> with SingleTickerProviderStateMixin{
     try {
       Map<String,dynamic> params ={
         'apikey':ApiConfig.apiKey,
-        'count':5,
+        'count':10,
         'start':_start
       };
       var res = await ApiConfig.ajax('get',ApiConfig.baseUrl +  '/v2/movie/in_theaters', params);
@@ -165,7 +165,7 @@ class _IsHitState extends State<IsHit> with SingleTickerProviderStateMixin{
             Container(
               alignment: Alignment.centerLeft,
               margin: EdgeInsets.only(bottom: ScreenAdapter.height(10)),
-              child: Text('${item['title']}',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w400)),
+              child: Text('${item['title']}',maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w400)),
             ),
             Container(
               alignment: Alignment.centerLeft,
