@@ -4,7 +4,6 @@ import 'package:flutter_jahn_douban/api/api_config.dart';
 import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
 import 'package:flutter_jahn_douban/weiget/base_loading.dart';
 import 'package:flutter_jahn_douban/weiget/refresh.dart';
-import 'package:flutter_jahn_douban/weiget/test.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
