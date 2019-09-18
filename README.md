@@ -17,3 +17,7 @@
 
 
 <img src='https://github.com/jahnli/flutter_jahn_douban/blob/master/demoGif/movie.gif' width='300px'></img>
+
+<img src='https://github.com/jahnli/flutter_jahn_douban/blob/master/demoGif/movieDetail.gif' width='300px'></img>
+
+<img src='https://github.com/jahnli/flutter_jahn_douban/blob/master/demoGif/theatrical_film_is_hit.gif' width='300px'></img>
