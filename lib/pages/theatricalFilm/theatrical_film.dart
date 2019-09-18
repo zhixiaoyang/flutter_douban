@@ -37,7 +37,7 @@ class _TheatricalFilmState extends State<TheatricalFilm> {
           ),
         ),
         body: Container(
-          margin: EdgeInsets.all(ScreenAdapter.width(30)),
+          margin: EdgeInsets.only(left:ScreenAdapter.width(30),right:ScreenAdapter.width(30)),
           child: TabBarView(
             children: <Widget>[
               IsHit(),

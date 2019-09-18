@@ -5,13 +5,13 @@ import 'package:flutter/material.dart'
     hide RefreshIndicator, RefreshIndicatorState;
 import 'package:flutter/widgets.dart';
 
-class Refresh extends RefreshIndicator {
-  Refresh() : super(height: 70.0, refreshStyle: RefreshStyle.Follow);
+class CustomScrollHeader extends RefreshIndicator {
+  CustomScrollHeader() : super(height: 70.0, refreshStyle: RefreshStyle.Follow);
   @override
-  State<StatefulWidget> createState() {return RefreshState();}
+  State<StatefulWidget> createState() {return CustomScrollHeaderState();}
 }
 
-class RefreshState extends RefreshIndicatorState<Refresh>with SingleTickerProviderStateMixin {
+class CustomScrollHeaderState extends RefreshIndicatorState<CustomScrollHeader>with SingleTickerProviderStateMixin {
   GifController _gifController;
 
   @override

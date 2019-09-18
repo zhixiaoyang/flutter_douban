@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_jahn_douban/api/api_config.dart';
 import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
 import 'package:flutter_jahn_douban/weiget/base_loading.dart';
-import 'package:flutter_jahn_douban/weiget/refresh.dart';
+import 'package:flutter_jahn_douban/weiget/custom_scroll_footer.dart';
+import 'package:flutter_jahn_douban/weiget/custom_scroll_header.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -12,22 +12,28 @@ class IsHit extends StatefulWidget {
   _IsHitState createState() => _IsHitState();
 }
 
-class _IsHitState extends State<IsHit> {
+class _IsHitState extends State<IsHit> with SingleTickerProviderStateMixin{
 
   // 正在热映列表
-  Map _isHitList;
+  List _isHitList = [];
   // 分页
   int _start = 0;
+  // 总数量
+  int _total = 0;
   String _requestStatus = '';
+
+  RefreshController _controller = RefreshController();
+
 
   @override
   void initState() { 
     super.initState();
+
     _getIsHit();
   }
 
   // 获取正在热映列表数据
-  void _getIsHit() async {
+  _getIsHit() async {
 
     try {
       Map<String,dynamic> params ={
@@ -38,7 +44,8 @@ class _IsHitState extends State<IsHit> {
       var res = await ApiConfig.ajax('get',ApiConfig.baseUrl +  '/v2/movie/in_theaters', params);
       if(mounted){
         setState(() {
-          _isHitList =  res.data;
+          _isHitList.addAll(res.data['subjects']);
+          _total = res.data['total'];
         });
       }
     }
@@ -50,48 +57,63 @@ class _IsHitState extends State<IsHit> {
 
   @override
   Widget build(BuildContext context) {
-    RefreshController _controller = RefreshController();
     return  SmartRefresher(
       controller: _controller,
       enablePullUp: true,
       enablePullDown: true,
-      header: Refresh(),
+      header: CustomScrollHeader(),
+      footer: CustomScrollFooter(),
       onRefresh: () async {
-        await Future.delayed(Duration(milliseconds: 2000));
+        _controller.resetNoData();
+        setState(() {
+          _isHitList = [];
+          _start = 0;
+        });
+        await _getIsHit();
         _controller.refreshCompleted();
+        
       },
       onLoading: () async {
-         await Future.delayed(Duration(milliseconds: 1000));
-        _controller.loadComplete();
+        if(_start + 10 < _total){
+          setState(() {
+            _start = _start + 10;
+          });
+          await _getIsHit();
+          _controller.loadComplete();
+        }else{
+          _controller.loadNoData();
+        }
       },
-      child: _isHitList != null ? ListView.builder(
-        itemBuilder: (context,index){
-          return Container(
-            margin: EdgeInsets.only(bottom: ScreenAdapter.height(20)),
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  width: 0.5,
-                  color: Colors.grey[300],
+      child: _isHitList.length > 0 ? ListView.builder(
+          itemBuilder: (context,index){
+            return Container(
+              margin: EdgeInsets.only(top:index == 0 ? ScreenAdapter.height(40):ScreenAdapter.height(20)),
+              padding: EdgeInsets.only(bottom: ScreenAdapter.height(20)),
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    width: 0.5,
+                    color: Colors.grey[300],
+                  )
                 )
-              )
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                // 缩略图
-                _thumb(_isHitList['subjects'][index]), 
-                // 中间信息区域
-                SizedBox(width: ScreenAdapter.width(30)),
-                _info(_isHitList['subjects'][index]),
-                // 右侧操作区域
-                _actions()
-              ],
-            ),
-          );
-        },
-        itemCount: _isHitList.length,
-      ):BaseLoading(type: _requestStatus),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  // 缩略图
+                  _thumb(_isHitList[index]), 
+                  // 中间信息区域
+                  SizedBox(width: ScreenAdapter.width(30)),
+                  _info(_isHitList[index]),
+                  SizedBox(width: ScreenAdapter.width(30)),
+                  // 右侧操作区域
+                  _actions()
+                ],
+              ),
+            );
+          },
+          itemCount: _isHitList.length,
+        ):BaseLoading(type: _requestStatus),
     );
   }
   // 右侧操作区域
@@ -135,9 +157,10 @@ class _IsHitState extends State<IsHit> {
     return Expanded(
       child: Container(
         constraints: BoxConstraints(
-          minHeight: ScreenAdapter.height(260)
+          minHeight: ScreenAdapter.height(240)
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Container(
               alignment: Alignment.centerLeft,
@@ -167,9 +190,27 @@ class _IsHitState extends State<IsHit> {
               )
             ),
             Container(
-              margin: EdgeInsets.only(bottom: ScreenAdapter.height(10)),
-              child: Text('${item['year']} / ${item['genres'][0]} / ${item['mainland_pubdate']}上映 / 片长${item['durations'][0]}',style: TextStyle(fontSize: 12,color: Colors.grey)),
+              alignment: Alignment.centerLeft,
+              child: Text('${item['year']} ${item['directors'].length > 0 ? ' / ' + item['directors'][0]['name']:''}',maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 12,color: Colors.grey)),
             ),
+            Container(
+              height: ScreenAdapter.height(40),
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: item['genres'].asMap().keys.map<Widget>((index){
+                  return Text('${item['genres'][index]} ${index == item['genres'].length - 1 ? '':' / '}',style: TextStyle(fontSize: 12,color: Colors.grey));
+                }).toList(),
+              ),
+            ),
+            Container(
+              height: ScreenAdapter.height(30),
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: item['casts'].asMap().keys.map<Widget>((index){
+                  return Text('${item['casts'][index]['name']} ${index == item['casts'].length - 1 ? '':' / '}',style: TextStyle(fontSize: 12,color: Colors.grey));
+                }).toList(),
+              ),
+            )
           ],
         ),
       ), 
