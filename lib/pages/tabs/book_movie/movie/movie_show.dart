@@ -145,7 +145,7 @@ class _MovieShowState extends State<MovieShow> {
                   onTap: (){
                     Application.router.navigateTo(context,'/theatricalFilm');
                   },
-                  child: Text('全部 ${_currentTabIndex == 1 ? _hotShowTotal : _comingSoonTotal}'),
+                  child: Text('全部 ${_currentTabIndex == 1 ? _hotShowTotal : _comingSoonTotal}',style: TextStyle(fontSize: 20)),
                 ),
                 Icon(Icons.chevron_right)
               ],

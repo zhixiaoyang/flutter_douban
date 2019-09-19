@@ -6,7 +6,7 @@ import 'package:flutter/material.dart'
 import 'package:flutter/widgets.dart';
 
 class CustomScrollHeader extends RefreshIndicator {
-  CustomScrollHeader() : super(height: 70.0, refreshStyle: RefreshStyle.Follow);
+  CustomScrollHeader() : super(height: 60.0, refreshStyle: RefreshStyle.Follow);
   @override
   State<StatefulWidget> createState() {return CustomScrollHeaderState();}
 }
@@ -53,12 +53,15 @@ class CustomScrollHeaderState extends RefreshIndicatorState<CustomScrollHeader>w
   @override
   Widget buildContent(BuildContext context, RefreshStatus mode) {
     return Container(
-      margin: EdgeInsets.only(bottom: ScreenAdapter.height(60)),
-      child: GifImage(
-        image: AssetImage("lib/assets/douban_loading.gif"),
-        controller: _gifController,
-        height:ScreenAdapter.height(40),
-        width:ScreenAdapter.width(40),
+      height: ScreenAdapter.height(80),
+      margin: EdgeInsets.only(top: ScreenAdapter.height(40)),
+      child: Center(
+        child: GifImage(
+          image: AssetImage("lib/assets/douban_loading.gif"),
+          controller: _gifController,
+          height:ScreenAdapter.height(40),
+          width:ScreenAdapter.width(40),
+        ),
       ),
     );
   }

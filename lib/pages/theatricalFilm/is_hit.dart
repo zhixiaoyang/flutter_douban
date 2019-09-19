@@ -71,7 +71,6 @@ class _IsHitState extends State<IsHit> with SingleTickerProviderStateMixin{
         });
         await _getIsHit();
         _controller.refreshCompleted();
-        
       },
       onLoading: () async {
         if(_start + 10 < _total){

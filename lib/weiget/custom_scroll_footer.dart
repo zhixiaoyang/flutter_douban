@@ -28,35 +28,11 @@ class _CustomScrollFooterState extends State<CustomScrollFooter> with SingleTick
   @override
   Widget build(BuildContext context) {
     return CustomFooter(
-      builder: (BuildContext context,LoadStatus mode){
-        Widget body ;
-        if(mode==LoadStatus.idle){
-          _gifController.value = 30;
-          _gifController.animateTo(59, duration: Duration(milliseconds: 500));
-          body = Container(
-            child: GifImage(
-              image: AssetImage("lib/assets/douban_loading.gif"),
-              controller: _gifController,
-              height:ScreenAdapter.height(40),
-              width:ScreenAdapter.width(40),
-            ),
-          );
-        }
-        else if(mode==LoadStatus.loading){
-          _gifController.repeat( min: 0, max: 29, period: Duration(milliseconds: 500));
-          body = Container(
-            child: GifImage(
-              image: AssetImage("lib/assets/douban_loading.gif"),
-              controller: _gifController,
-              height:ScreenAdapter.height(40),
-              width:ScreenAdapter.width(40),
-            ),
-          );
-        }
-        else if(mode==LoadStatus.noMore){
-          _gifController.value = 30;
-          _gifController.animateTo(59, duration: Duration(milliseconds: 500));
-          body = Row(
+      height:ScreenAdapter.height(100),
+      builder: (context,mode){
+        return mode == LoadStatus.noMore ? Container(
+          height:ScreenAdapter.height(100),
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
@@ -70,15 +46,30 @@ class _CustomScrollFooterState extends State<CustomScrollFooter> with SingleTick
               ),
               Text(' 已经触碰了我的底线 ！',style: TextStyle(color: Colors.grey),)
             ],
-          );
-        }
-        else if(mode == LoadStatus.failed){
-          body = Text("加载失败 ！");
-        }
-        return Container(
+          ),
+        ):Container(
           height:ScreenAdapter.height(100),
-          child: Center(child:body),
+          child: Center(
+            child: GifImage(
+              image: AssetImage("lib/assets/douban_loading.gif"),
+              controller: _gifController,
+              height:ScreenAdapter.height(40),
+              width:ScreenAdapter.width(40),
+            ),
+          ),
         );
+      },
+      loadStyle: LoadStyle.ShowWhenLoading,
+      onModeChange: (mode){
+        if (mode == LoadStatus.loading) { _gifController.repeat( min: 0, max: 29, period: Duration(milliseconds: 500)); }
+        if (mode == LoadStatus.idle || mode == LoadStatus.noMore) { 
+           _gifController.value = 30;
+           _gifController.animateTo(59, duration: Duration(milliseconds: 500));
+        }
+      },
+      endLoading: () async {
+        _gifController.value = 30;
+        _gifController.animateTo(59, duration: Duration(milliseconds: 500));
       },
     );
   }
