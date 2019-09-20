@@ -9,9 +9,12 @@ class ApiConfig {
   static ajax(type,url,params) async {
     try{
       var res ;
+      Options options = Options(
+        contentType : "json"
+      );
       switch (type) {
         case 'get':
-          res = await Dio().get(url,queryParameters: params);
+          res = await Dio().get(url,queryParameters: params,options:options);
           break;
         case 'post':
           res = await Dio().post(url,data: params);

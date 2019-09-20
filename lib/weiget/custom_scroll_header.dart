@@ -18,12 +18,16 @@ class CustomScrollHeaderState extends RefreshIndicatorState<CustomScrollHeader>w
   void initState() {
     // TODO: implement initState
     // init frame is 2
-    _gifController = GifController(
-      vsync: this,
-      value: 1,
-    );
     super.initState();
+    if(mounted){
+      _gifController = GifController(
+        vsync: this,
+        value: 1,
+      );
+    }
   }
+
+
 
   @override
   void onModeChange(RefreshStatus mode) {
@@ -68,7 +72,7 @@ class CustomScrollHeaderState extends RefreshIndicatorState<CustomScrollHeader>w
 
   @override
   void dispose() {
-    _gifController.dispose();
     super.dispose();
+    _gifController.dispose();
   }
 }

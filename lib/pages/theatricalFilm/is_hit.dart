@@ -56,6 +56,12 @@ class _IsHitState extends State<IsHit> with SingleTickerProviderStateMixin{
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return  SmartRefresher(
       controller: _controller,

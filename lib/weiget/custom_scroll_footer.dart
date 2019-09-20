@@ -19,10 +19,18 @@ class _CustomScrollFooterState extends State<CustomScrollFooter> with SingleTick
   @override
   void initState() { 
     super.initState();
-    _gifController = GifController(
-      vsync: this,
-      value: 1,
-    );
+    if(mounted){
+      _gifController = GifController(
+        vsync: this,
+        value: 1,
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _gifController.dispose();
   }
 
   @override
