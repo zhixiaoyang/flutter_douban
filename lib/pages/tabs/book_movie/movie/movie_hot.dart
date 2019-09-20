@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jahn_douban/api/api_config.dart';
+import 'package:flutter_jahn_douban/routes/application.dart';
 import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 class MovieHot extends StatefulWidget {
@@ -71,7 +72,7 @@ class _MovieHotState extends State<MovieHot> {
           itemBuilder: (context,index){
             return GestureDetector(
               onTap:(){
-                print(_movieHot[index]);
+                Application.router.navigateTo(context, '/movieDetail?id=${_movieHot[index]['id']}');
               },
               child: Container(
                 child: Column(
