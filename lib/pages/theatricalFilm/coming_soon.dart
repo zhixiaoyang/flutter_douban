@@ -4,21 +4,21 @@ import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
 import 'package:flutter_jahn_douban/weiget/base_loading.dart';
 import 'package:flutter_jahn_douban/weiget/custom_scroll_footer.dart';
 import 'package:flutter_jahn_douban/weiget/custom_scroll_header.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class IsHit extends StatefulWidget {
+class ComingSoon extends StatefulWidget {
   @override
-  _IsHitState createState() => _IsHitState();
+  _ComingSoonState createState() => _ComingSoonState();
 }
 
-class _IsHitState extends State<IsHit> with SingleTickerProviderStateMixin , AutomaticKeepAliveClientMixin{
+
+class _ComingSoonState extends State<ComingSoon> with AutomaticKeepAliveClientMixin{
 
   // 保持状态
-  bool get wantKeepAlive => true;
+  bool get wantKeepAlive  => true;
 
   // 正在热映列表
-  List _isHitList = [];
+  List _comingSoonList = [];
   // 分页
   int _start = 0;
   // 总数量
@@ -27,16 +27,16 @@ class _IsHitState extends State<IsHit> with SingleTickerProviderStateMixin , Aut
 
   RefreshController _controller = RefreshController();
 
-
-  @override
+    @override
   void initState() { 
     super.initState();
 
-    _getIsHit();
+    _getComingSoon();
+
   }
 
-  // 获取正在热映列表数据
-  _getIsHit() async {
+  // 获取即将上映列表数据
+  _getComingSoon() async {
 
     try {
       Map<String,dynamic> params ={
@@ -44,10 +44,10 @@ class _IsHitState extends State<IsHit> with SingleTickerProviderStateMixin , Aut
         'count':10,
         'start':_start
       };
-      var res = await ApiConfig.ajax('get',ApiConfig.baseUrl +  '/v2/movie/in_theaters', params);
+      var res = await ApiConfig.ajax('get',ApiConfig.baseUrl +  '/v2/movie/coming_soon', params);
       if(mounted){
         setState(() {
-          _isHitList.addAll(res.data['subjects']);
+          _comingSoonList.addAll(res.data['subjects']);
           _total = res.data['total'];
         });
       }
@@ -64,7 +64,8 @@ class _IsHitState extends State<IsHit> with SingleTickerProviderStateMixin , Aut
     _controller.dispose();
   }
 
-  @override
+  
+    @override
   Widget build(BuildContext context) {
     return  SmartRefresher(
       controller: _controller,
@@ -75,10 +76,10 @@ class _IsHitState extends State<IsHit> with SingleTickerProviderStateMixin , Aut
       onRefresh: () async {
         _controller.resetNoData();
         setState(() {
-          _isHitList = [];
+          _comingSoonList = [];
           _start = 0;
         });
-        await _getIsHit();
+        await _getComingSoon();
         _controller.refreshCompleted();
       },
       onLoading: () async {
@@ -86,13 +87,13 @@ class _IsHitState extends State<IsHit> with SingleTickerProviderStateMixin , Aut
           setState(() {
             _start = _start + 10;
           });
-          await _getIsHit();
+          await _getComingSoon();
           _controller.loadComplete();
         }else{
           _controller.loadNoData();
         }
       },
-      child: _isHitList.length > 0 ? ListView.builder(
+      child: _comingSoonList.length > 0 ? ListView.builder(
           itemBuilder: (context,index){
             return Container(
               margin: EdgeInsets.only(top:index == 0 ? ScreenAdapter.height(40):ScreenAdapter.height(20)),
@@ -109,23 +110,23 @@ class _IsHitState extends State<IsHit> with SingleTickerProviderStateMixin , Aut
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   // 缩略图
-                  _thumb(_isHitList[index]), 
+                  _thumb(_comingSoonList[index]), 
                   // 中间信息区域
                   SizedBox(width: ScreenAdapter.width(30)),
-                  _info(_isHitList[index]),
+                  _info(_comingSoonList[index]),
                   SizedBox(width: ScreenAdapter.width(30)),
                   // 右侧操作区域
-                  _actions()
+                  _actions(_comingSoonList[index])
                 ],
               ),
             );
           },
-          itemCount: _isHitList.length,
+          itemCount: _comingSoonList.length,
         ):BaseLoading(type: _requestStatus),
     );
   }
   // 右侧操作区域
-  Widget _actions(){
+  Widget _actions(item){
     return Container(
       height: ScreenAdapter.height(240),
       child: Column(
@@ -135,19 +136,21 @@ class _IsHitState extends State<IsHit> with SingleTickerProviderStateMixin , Aut
             onTap: (){
 
             },
-            child: Container(
-              padding: EdgeInsets.only(left: ScreenAdapter.width(30),right: ScreenAdapter.width(30),top: ScreenAdapter.width(8),bottom: ScreenAdapter.width(8)),
-              decoration: BoxDecoration(
-                border: Border.all(
-                  width: 1,color: Colors.pink
+            child: Column(
+              children: <Widget>[
+                GestureDetector(
+                  onTap: (){
+
+                  },
+                  child: Icon(Icons.favorite_border,size: 16,color: Colors.orange),
                 ),
-                borderRadius: BorderRadius.circular(3)
-              ),
-              child: Text('购票',style: TextStyle(fontSize: 13,color: Colors.pink)),
+                SizedBox(height: ScreenAdapter.height(10)),
+                Text('想看',style: TextStyle(fontSize: 10,color: Colors.orange))
+              ],
             ),
           ),
           SizedBox(height: ScreenAdapter.height(10)),
-          Text('20W人看过',style: TextStyle(fontSize: 10,color: Colors.grey))
+          Text('${item['collect_count']}人想看',style: TextStyle(fontSize: 10,color: Colors.grey))
         ],
       )
     );
@@ -174,28 +177,6 @@ class _IsHitState extends State<IsHit> with SingleTickerProviderStateMixin , Aut
               alignment: Alignment.centerLeft,
               margin: EdgeInsets.only(bottom: ScreenAdapter.height(10)),
               child: Text('${item['title']}',maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w400)),
-            ),
-            Container(
-              alignment: Alignment.centerLeft,
-              margin: EdgeInsets.only(bottom: ScreenAdapter.height(10)),
-              child: Row(
-                children: <Widget>[
-                  RatingBarIndicator(
-                    rating:item['rating']['average'] / 2,
-                    alpha:0,
-                    unratedColor:Colors.grey,
-                    itemPadding: EdgeInsets.all(0),
-                    itemBuilder: (context, index) => Icon(
-                        Icons.star,
-                        color: Colors.amber,
-                    ),
-                    itemCount: 5,
-                    itemSize: 11,
-                  ),
-                  SizedBox(width: ScreenAdapter.width(15)),
-                  Text('${item['rating']['average']}',style: TextStyle(color: Colors.grey,fontSize: 12))
-                ],
-              )
             ),
             Container(
               alignment: Alignment.centerLeft,

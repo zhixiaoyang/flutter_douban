@@ -21,5 +21,6 @@ Handler movieDetailHandler = Handler(
 // 院线电影页
 Handler theatricalFilmHandler = Handler(
   handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  return TheatricalFilm();
+    int index = int.parse( params['index']?.first);
+  return TheatricalFilm(index:index);
 });

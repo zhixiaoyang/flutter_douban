@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_jahn_douban/pages/theatricalFilm/coming_soon.dart';
 import 'package:flutter_jahn_douban/pages/theatricalFilm/is_hit.dart';
 import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
 
 class TheatricalFilm extends StatefulWidget {
+  int index;
+  TheatricalFilm({this.index = 0});
   @override
   _TheatricalFilmState createState() => _TheatricalFilmState();
 }
 
 class _TheatricalFilmState extends State<TheatricalFilm> {
+
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
+      initialIndex:widget.index,
       length: 3,
       child: Scaffold(
         appBar: AppBar(
@@ -41,7 +47,7 @@ class _TheatricalFilmState extends State<TheatricalFilm> {
           child: TabBarView(
             children: <Widget>[
               IsHit(),
-              Text('x'),
+              ComingSoon(),
               Text('x'),
             ],
           ),
