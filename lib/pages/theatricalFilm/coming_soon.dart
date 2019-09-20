@@ -39,7 +39,6 @@ class _ComingSoonState extends State<ComingSoon> with AutomaticKeepAliveClientMi
 
   // 获取即将上映列表数据
   _getComingSoon() async {
-
     try {
       Map<String,dynamic> params ={
         'apikey':ApiConfig.apiKey,
@@ -47,9 +46,12 @@ class _ComingSoonState extends State<ComingSoon> with AutomaticKeepAliveClientMi
         'start':_start
       };
       var res = await ApiConfig.ajax('get',ApiConfig.baseUrl +  '/v2/movie/coming_soon', params);
+      // 定义临时数组
       List temp = [];
       for(var i = 0 ; i < res.data['subjects'].length;i++){
-       String validate = res.data['subjects'][i]['pubdates'][res.data['subjects'][i]['pubdates'].length - 1].substring(0,10);
+        // 定义验证日期
+        String validate = res.data['subjects'][i]['pubdates'][res.data['subjects'][i]['pubdates'].length - 1].substring(0,10);
+        // 如果日期列表里没有该日期，则添加该日期和空list待用
         if(_dateList.indexOf("$validate") == -1){
           _dateList.add(validate);
           temp.add({
@@ -57,6 +59,7 @@ class _ComingSoonState extends State<ComingSoon> with AutomaticKeepAliveClientMi
             "list":[]
           });
         }else{
+          // 如果有，循环旧数据列表，填充到对应日期的list中
           bool a = _comingSoonList.any((item){
             if(item['date'] == validate){
               item['list'].add(res.data['subjects'][i]);
@@ -65,7 +68,7 @@ class _ComingSoonState extends State<ComingSoon> with AutomaticKeepAliveClientMi
           });
         }
       }
-
+      // 组合数据
       res.data['subjects'].forEach((value){
         bool b = temp.any((tempItem){ 
           if(tempItem['date'] == value['pubdates'][value['pubdates'].length - 1].substring(0,10)){
