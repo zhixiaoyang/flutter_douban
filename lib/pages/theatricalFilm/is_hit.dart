@@ -224,6 +224,4 @@ class _IsHitState extends State<IsHit> with SingleTickerProviderStateMixin , Aut
       ), 
     );
   }
-
-
 }

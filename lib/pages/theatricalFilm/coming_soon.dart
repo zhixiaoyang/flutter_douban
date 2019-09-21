@@ -33,6 +33,8 @@ class _ComingSoonState extends State<ComingSoon> with AutomaticKeepAliveClientMi
   void initState() { 
     super.initState();
 
+    print(DateTime.parse('2019-09-21').day.toString());
+
     _getComingSoon();
 
   }
@@ -125,50 +127,65 @@ class _ComingSoonState extends State<ComingSoon> with AutomaticKeepAliveClientMi
           _controller.loadNoData();
         }
       },
-      child: _comingSoonList.length > 0 ? ListView.builder(
-        itemBuilder: (context,index){
-          return Column(
-            children: <Widget>[
-              Container(
-                height: ScreenAdapter.height(70),
-                alignment: Alignment.centerLeft,
-                color: Colors.grey[200],
-                padding: EdgeInsets.only(left: ScreenAdapter.width(30)),
-                child: Text('${_comingSoonList[index]['date']}',style: TextStyle(color: Colors.grey[600])),
-              ),
-              Column(
-                children: _comingSoonList[index]['list'].map<Widget>((item){
-                  return Container(
-                    margin: EdgeInsets.only(left:ScreenAdapter.width(30),right:ScreenAdapter.width(30),top: ScreenAdapter.height(30)),
-                    padding: EdgeInsets.only(bottom: ScreenAdapter.height(20)),
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          width: 0.5,
-                          color: Colors.grey[300],
-                        )
-                      )
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        // 缩略图
-                        _thumb(item), 
-                        // 中间信息区域
-                        SizedBox(width: ScreenAdapter.width(30)),
-                        _info(item),
-                        SizedBox(width: ScreenAdapter.width(30)),
-                        // 右侧操作区域
-                        _actions(item)
-                      ],
-                    ),
-                  );
-                }).toList(),
-              )
-            ],
-          );
-        },
-        itemCount: _comingSoonList.length,
+      child: _comingSoonList.length > 0 ? ListView(
+        children: <Widget>[
+          Container(
+            height: ScreenAdapter.height(80),
+            padding: EdgeInsets.only(left: ScreenAdapter.width(30)),
+            child: Row(
+              children: <Widget>[
+                Text('影视 $_total')
+              ],
+            ),
+          ),
+          ListView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemBuilder: (context,index){
+              return Column(
+                children: <Widget>[
+                  Container(
+                    height: ScreenAdapter.height(70),
+                    alignment: Alignment.centerLeft,
+                    color: Colors.grey[200],
+                    padding: EdgeInsets.only(left: ScreenAdapter.width(30)),
+                    child: Text('${_comingSoonList[index]['date']}',style: TextStyle(color: Colors.grey[600])),
+                  ),
+                  Column(
+                    children: _comingSoonList[index]['list'].map<Widget>((item){
+                      return Container(
+                        margin: EdgeInsets.only(left:ScreenAdapter.width(30),right:ScreenAdapter.width(30),top: ScreenAdapter.height(30)),
+                        padding: EdgeInsets.only(bottom: ScreenAdapter.height(20)),
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              width: 0.5,
+                              color: Colors.grey[300],
+                            )
+                          )
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            // 缩略图
+                            _thumb(item), 
+                            // 中间信息区域
+                            SizedBox(width: ScreenAdapter.width(30)),
+                            _info(item),
+                            SizedBox(width: ScreenAdapter.width(30)),
+                            // 右侧操作区域
+                            _actions(item)
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                  )
+                ],
+              );
+            },
+            itemCount: _comingSoonList.length,
+          )
+        ],
       ):BaseLoading(type: _requestStatus),
     );
   }
@@ -189,15 +206,15 @@ class _ComingSoonState extends State<ComingSoon> with AutomaticKeepAliveClientMi
                   onTap: (){
 
                   },
-                  child: Icon(Icons.favorite_border,size: 16,color: Colors.orange),
+                  child: Icon(Icons.favorite_border,size: 18,color: Colors.orange),
                 ),
                 SizedBox(height: ScreenAdapter.height(10)),
-                Text('想看',style: TextStyle(fontSize: 10,color: Colors.orange))
+                Text('想看',style: TextStyle(fontSize: 12,color: Colors.orange))
               ],
             ),
           ),
           SizedBox(height: ScreenAdapter.height(10)),
-          Text('${item['collect_count']}人想看',style: TextStyle(fontSize: 10,color: Colors.grey))
+          Text('${item['collect_count']}人想看',style: TextStyle(fontSize: 12,color: Colors.grey))
         ],
       )
     );

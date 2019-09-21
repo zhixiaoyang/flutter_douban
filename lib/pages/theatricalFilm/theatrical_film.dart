@@ -17,7 +17,7 @@ class _TheatricalFilmState extends State<TheatricalFilm> {
   Widget build(BuildContext context) {
     return DefaultTabController(
       initialIndex:widget.index,
-      length: 3,
+      length: 2,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -38,7 +38,6 @@ class _TheatricalFilmState extends State<TheatricalFilm> {
             tabs: <Widget>[
               Tab(text: '正在热映'),
               Tab(text: '即将上映'),
-              Tab(text: '观影指南'),
             ],
           ),
         ),
@@ -50,7 +49,6 @@ class _TheatricalFilmState extends State<TheatricalFilm> {
                 child:IsHit(),
               ),
               ComingSoon(),
-              Text('x'),
             ],
           ),
         ),
