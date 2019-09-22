@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_jahn_douban/api/api_config.dart';
 import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
@@ -23,15 +24,19 @@ class _MovieTopState extends State<MovieTop> {
   // 获取豆瓣电影top250
   _getTopData()async{
     try{
-      var params = {
+      Map<String,dynamic> params = {
         "start":0,
         "count":4,
         "apikey":ApiConfig.apiKey
       };
-      var res = await ApiConfig.ajax('get', ApiConfig.baseUrl + '/v2/movie/top250', params);
-      setState(() {
-        _topMovieList = res.data['subjects']; 
-      });
+      Response res = await ApiConfig.ajax('get', ApiConfig.baseUrl + '/v2/movie/top250', params);
+
+      if (mounted) {
+        setState(() {
+          _topMovieList = res.data['subjects']; 
+        });        
+      }
+
     }
     catch(e){
       print(e);
@@ -41,29 +46,31 @@ class _MovieTopState extends State<MovieTop> {
     // 获取一周热门数据
   _getHotData()async{
    try{
-     var params = {
+     Map<String,dynamic> params = {
       "sort":"U",
       "tags":'电影',
       "range":'0,10',
       "start":'0',
       "year_range":'2019,2019',
      };
-     var res = await ApiConfig.ajax('get', 'https://movie.douban.com/j/new_search_subjects',params);
-     setState(() {
-      _hotMovieList = res.data['data'].sublist(0,4).map((item){
-          var result = {
-            "title":item['title'],
-            "id":item['id'],
-            "rating":{
-              "average":item['rate']
-            },
-            "images":{
-              "small":item['cover']
-            }
-          };
-          return result;
-        }).toList();
-     });
+     Response res = await ApiConfig.ajax('get', 'https://movie.douban.com/j/new_search_subjects',params);
+     if(mounted){
+       setState(() {
+        _hotMovieList = res.data['data'].sublist(0,4).map((item){
+            var result = {
+              "title":item['title'],
+              "id":item['id'],
+              "rating":{
+                "average":item['rate']
+              },
+              "images":{
+                "small":item['cover']
+              }
+            };
+            return result;
+          }).toList();
+      });
+     }
    }
    catch(e){
 
@@ -73,19 +80,21 @@ class _MovieTopState extends State<MovieTop> {
   // 一周口碑电影榜
   _getWeekData() async{
     try{
-      var params = {
+      Map<String,dynamic> params = {
         "start":0,
         "count":4,
         "apikey":ApiConfig.apiKey
       };
-      var res = await ApiConfig.ajax('get', ApiConfig.baseUrl + '/v2/movie/weekly', params);
-      setState(() {
-        _weekMovieList = res.data['subjects'].sublist(0,4).map((item){
-          var result = item['subject'];
-          result['rank'] = item['rank'];
-          return result;
-        }).toList(); 
-      });
+      Response res = await ApiConfig.ajax('get', ApiConfig.baseUrl + '/v2/movie/weekly', params);
+      if(mounted){
+        setState(() {
+          _weekMovieList = res.data['subjects'].sublist(0,4).map((item){
+            var result = item['subject'];
+            result['rank'] = item['rank'];
+            return result;
+          }).toList(); 
+        });
+      }
     }
     catch(e){
       print(e);

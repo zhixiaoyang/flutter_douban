@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_jahn_douban/api/api_config.dart';
 import 'package:flutter_jahn_douban/routes/application.dart';
@@ -40,14 +41,14 @@ class _MovieShowState extends State<MovieShow> {
 
   // 获取热映列表
   _getHotShowList()async{
-    var params = {
+    Map<String,dynamic> params = {
       "start":0,
       "count":6,
       "apikey":ApiConfig.apiKey
     };
     try{
-      var res = await ApiConfig.ajax('get', ApiConfig.baseUrl + '/v2/movie/in_theaters', params);
-      if(res.data['subjects'].length > 0){
+      Response res = await ApiConfig.ajax('get', ApiConfig.baseUrl + '/v2/movie/in_theaters', params);
+      if(res.data['subjects'].length > 0 && mounted){
         setState(() {
          _hotShowList = res.data['subjects'];
          _hotShowTotal = res.data['total'];
@@ -60,14 +61,14 @@ class _MovieShowState extends State<MovieShow> {
   }
     // 获取即将上映列表
   _getComingSoonList()async{
-    var params = {
+    Map<String,dynamic> params = {
       "start":0,
       "count":6,
       "apikey":ApiConfig.apiKey
     };
     try{
-      var res = await ApiConfig.ajax('get', ApiConfig.baseUrl + '/v2/movie/coming_soon', params);
-      if(res.data['subjects'].length > 0){
+      Response res = await ApiConfig.ajax('get', ApiConfig.baseUrl + '/v2/movie/coming_soon', params);
+      if(res.data['subjects'].length > 0 && mounted){
         setState(() {
          _comingSoonList = res.data['subjects'];
          _comingSoonTotal = res.data['total'];

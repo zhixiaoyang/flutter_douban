@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_jahn_douban/api/api_config.dart';
 import 'package:flutter_jahn_douban/routes/application.dart';
@@ -22,16 +23,19 @@ class _MovieHotState extends State<MovieHot> {
   // 获取数据
   _getData()async{
    try{
-      var params = {
-      "type":'movie',
-      "tag":'热门',
-      "page_limit":6,
-      "page_start":0
-    };
-    var res = await ApiConfig.ajax('get', 'https://movie.douban.com/j/search_subjects', params);
-    setState(() {
-     _movieHot = res.data['subjects']; 
-    });
+      Map<String,dynamic> params = {
+        "type":'movie',
+        "tag":'热门',
+        "page_limit":6,
+        "page_start":0
+      };
+      Response res = await ApiConfig.ajax('get', 'https://movie.douban.com/j/search_subjects', params);
+      if (mounted) {
+        setState(() {
+          _movieHot = res.data['subjects']; 
+        });        
+      }
+
    }
    catch(e){
 
@@ -46,7 +50,10 @@ class _MovieHotState extends State<MovieHot> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text('豆瓣热门',style: TextStyle(fontSize: 20,color:Colors.black,fontWeight: FontWeight.w600)),
-            Container(
+            GestureDetector(
+              onTap: (){
+                Application.router.navigateTo(context, '/doubanHot');
+              },
               child: Row(
                 children: <Widget>[
                   Text('全部',style: TextStyle(fontSize: 17,color:Colors.black,fontWeight: FontWeight.w600)),

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_jahn_douban/api/api_config.dart';
 import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
@@ -32,26 +33,29 @@ class _MovieTodayPlayState extends State<MovieTodayPlay> {
   // 获取今日播放
   _getTodayMovie()  async{
     try{
-      var params = {
+      Map<String,dynamic> params = {
         'apikey':ApiConfig.apiKey,
         'start':Random().nextInt(200),
         'count':4
       };
-      var res = await ApiConfig.ajax('get', ApiConfig.baseUrl + '/v2/movie/top250', params);
-      if(res.data['count'] > 0){
-        // 今日播放主题颜色
-        var paletteGenerator = await PaletteGenerator.fromImageProvider(
-          NetworkImage(res.data['subjects'][0]['images']['small'])
-        );
-        setState(() {
-          _todayPlayThemeColor =  paletteGenerator.colors.toList()[0];
-          _todayPlayList = res.data['subjects']; 
-        });
-      }else{
-        setState(() {
-          _requestStatus = '暂无今日播放'; 
-        });
+      Response res = await ApiConfig.ajax('get', ApiConfig.baseUrl + '/v2/movie/top250', params);
+      if (mounted) {
+        if(res.data['count'] > 0){
+          // 今日播放主题颜色
+          var paletteGenerator = await PaletteGenerator.fromImageProvider(
+            NetworkImage(res.data['subjects'][0]['images']['small'])
+          );
+          setState(() {
+            _todayPlayThemeColor =  paletteGenerator.colors.toList()[0];
+            _todayPlayList = res.data['subjects']; 
+          });
+        }else{
+          setState(() {
+            _requestStatus = '暂无今日播放'; 
+          });
+        }        
       }
+
     }
     catch(e){
       print(e);

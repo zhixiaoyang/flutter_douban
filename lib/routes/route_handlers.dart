@@ -1,5 +1,6 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_jahn_douban/pages/doubanHot/douban_hot.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/movie_detail.dart';
 import 'package:flutter_jahn_douban/pages/tabs/tabs.dart';
 import 'package:flutter_jahn_douban/pages/theatricalFilm/theatrical_film.dart';
@@ -23,4 +24,10 @@ Handler theatricalFilmHandler = Handler(
   handlerFunc: (BuildContext context, Map<String, List<String>> params) {
     int index = int.parse( params['index']?.first);
   return TheatricalFilm(index:index);
+});
+
+// 豆瓣热门页
+Handler doubanHotHandler = Handler(
+  handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return DoubanHot();
 });
