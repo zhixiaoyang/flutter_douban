@@ -19,6 +19,8 @@ class _DoubanHotState extends State<DoubanHot> {
   int _start = 0;
   // 总数量
   int _total = 500;
+  // 筛选
+  String _sort = 'recommend';
   String _requestStatus = '';
   // 搜索类型切换
   AlignmentGeometry _alignment = Alignment.centerLeft;
@@ -28,18 +30,19 @@ class _DoubanHotState extends State<DoubanHot> {
     @override
   void initState() { 
     super.initState();
-    _getComingSoon();
+    _getDouBanHot();
   }
 
   // 获取豆瓣热门500列表数据
-  _getComingSoon() async {
+  _getDouBanHot() async {
     try {
       Map<String,dynamic> params ={
         'apikey':ApiConfig.apiKey,
         'page_limit':10,
         'page_start':_start,
         'tag':'热门',
-        'type':'movie'
+        'type':'movie',
+        'sort':_sort
       };
       Response res = await ApiConfig.ajax('get','https://movie.douban.com/j/search_subjects', params);
      
@@ -86,7 +89,7 @@ class _DoubanHotState extends State<DoubanHot> {
             setState(() {
               _start = _start + 10;
             });
-            await _getComingSoon();
+            await _getDouBanHot();
             _controller.loadComplete();
           }else{
             _controller.loadNoData();
@@ -96,8 +99,9 @@ class _DoubanHotState extends State<DoubanHot> {
           children: <Widget>[
             Container(
               height: ScreenAdapter.height(80),
-              padding: EdgeInsets.only(left: ScreenAdapter.width(30)),
+              padding: EdgeInsets.only(left: ScreenAdapter.width(30),right: ScreenAdapter.width(30)),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text('影视 $_total'),
                   // 类型切换
@@ -254,19 +258,27 @@ class _DoubanHotState extends State<DoubanHot> {
               GestureDetector(
                 onTap: (){
                   setState(() {
+                    _start = 0;
+                    _hotList = [];
+                    _sort = 'recommend';
                     _alignment = Alignment.centerLeft; 
                   });
+                  _getDouBanHot();
                 },
-                child: Text('时间',style: TextStyle(fontSize: 11,color:_alignment == Alignment.centerLeft ?  Colors.black: Colors.grey[500])),
+                child: Text('热度',style: TextStyle(fontSize: 11,color:_alignment == Alignment.centerLeft ?  Colors.black: Colors.grey[500])),
               ),
               GestureDetector(
                 onTap: (){
                   setState(() {
                     _alignment = Alignment.centerRight; 
+                    _start = 0;
+                    _hotList = [];
+                    _sort = 'time';
                   });
+                  _getDouBanHot();
                 },
-                child: Text('热度',style: TextStyle(fontSize: 11,color:_alignment == Alignment.centerRight ?  Colors.black: Colors.grey[500])),
-              )
+                child: Text('时间',style: TextStyle(fontSize: 11,color:_alignment == Alignment.centerRight ?  Colors.black: Colors.grey[500])),
+              ),
             ],
           ),
         ],
