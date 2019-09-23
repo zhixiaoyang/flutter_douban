@@ -1,11 +1,8 @@
-import 'dart:math';
-
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_jahn_douban/api/api_config.dart';
 import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
 import 'package:flutter_jahn_douban/weiget/base_loading.dart';
-import 'package:palette_generator/palette_generator.dart';
 class MovieTodayPlay extends StatefulWidget {
 
 
@@ -18,8 +15,8 @@ class _MovieTodayPlayState extends State<MovieTodayPlay> {
   // 今日播放主题颜色
   Color _todayPlayThemeColor;
 
-  // 今日播放列表
-  List _todayPlayList = [];
+  // 今日播放
+  Map _todayPlay;
 
   String _requestStatus = '';
 
@@ -33,21 +30,15 @@ class _MovieTodayPlayState extends State<MovieTodayPlay> {
   // 获取今日播放
   _getTodayMovie()  async{
     try{
-      Map<String,dynamic> params = {
-        'apikey':ApiConfig.apiKey,
-        'start':Random().nextInt(200),
-        'count':4
-      };
-      Response res = await ApiConfig.ajax('get', ApiConfig.baseUrl + '/v2/movie/top250', params);
+      Response res = await Dio().get('https://m.douban.com/rexxar/api/v2/skynet/playlist/recommend/event_videos?count=3&out_skynet=true&for_mobile=1', options: Options(
+        headers: {
+          HttpHeaders.refererHeader: 'https://m.douban.com/movie/beta',
+        },
+      ));
       if (mounted) {
         if(res.data['count'] > 0){
-          // 今日播放主题颜色
-          var paletteGenerator = await PaletteGenerator.fromImageProvider(
-            NetworkImage(res.data['subjects'][0]['images']['small'])
-          );
           setState(() {
-            _todayPlayThemeColor =  paletteGenerator.colors.toList()[0];
-            _todayPlayList = res.data['subjects']; 
+            _todayPlay= res.data; 
           });
         }else{
           setState(() {
@@ -64,7 +55,7 @@ class _MovieTodayPlayState extends State<MovieTodayPlay> {
 
   @override
   Widget build(BuildContext context) {
-    return _todayPlayList.length > 0  ? Container(
+    return _todayPlay !=null ? Container(
       margin: EdgeInsets.only(top: ScreenAdapter.height(30)),
       height: ScreenAdapter.height(350),
       child:  Stack(
@@ -73,45 +64,67 @@ class _MovieTodayPlayState extends State<MovieTodayPlay> {
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(ScreenAdapter.width(20)),
-              color: _todayPlayThemeColor,
+              color: Color(int.parse('0xff' + _todayPlay['videos'][0]['header_bg_color'])),
             ),
             width: double.infinity,
             height: ScreenAdapter.height(300),
           ),
           Positioned(
             left: ScreenAdapter.width(160),
-            bottom: ScreenAdapter.width(45),
+            bottom: ScreenAdapter.width(85),
             child: Container(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
-                child: Image.network('${_todayPlayList[2]['images']['small']}',fit: BoxFit.fill),
+                child: Image.network('${_todayPlay['videos'][2]['pic']['normal']}',fit: BoxFit.fill),
               ),
-              width:ScreenAdapter.width(260),
-              height: ScreenAdapter.height(220),
+              width:ScreenAdapter.width(220),
+              height: ScreenAdapter.height(180),
             ),
           ),
           Positioned(
             left: ScreenAdapter.width(100),
-            bottom: ScreenAdapter.width(45),
+            bottom: ScreenAdapter.width(85),
             child: Container(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
-                child: Image.network('${_todayPlayList[1]['images']['small']}',fit: BoxFit.fill),
+                child: Image.network('${_todayPlay['videos'][1]['pic']['normal']}',fit: BoxFit.fill),
               ),
-              width:ScreenAdapter.width(260),
-              height: ScreenAdapter.height(260),
+              width:ScreenAdapter.width(220),
+              height: ScreenAdapter.height(220),
             ),
           ),
           Positioned(
             left: ScreenAdapter.width(40),
-            bottom: ScreenAdapter.width(45),
+            bottom: ScreenAdapter.width(85),
             child: Container(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
-                child: Image.network('${_todayPlayList[0]['images']['small']}',fit: BoxFit.fill),
+                child: Image.network('${_todayPlay['videos'][0]['pic']['normal']}',fit: BoxFit.fill),
               ),
-              width:ScreenAdapter.width(260),
-              height: ScreenAdapter.height(300),
+              width:ScreenAdapter.width(220),
+              height: ScreenAdapter.height(260),
+            ),
+          ),
+          Positioned(
+            right: ScreenAdapter.width(10),
+            top: ScreenAdapter.width(100),
+            child: Column(
+              children: <Widget>[
+                Container(
+                  width: ScreenAdapter.width(280),
+                  margin: EdgeInsets.only(bottom: ScreenAdapter.height(10)),
+                  child: Text('${_todayPlay['title']}',style: TextStyle(color: Colors.white,fontSize: 13)),
+                ),
+                Container(
+                  width: ScreenAdapter.width(280),
+                  child: Row(
+                    children: <Widget>[
+                      Text('全部 ${_todayPlay['total']}',style: TextStyle(color: Colors.white,fontSize: 13)),
+                      Icon(Icons.keyboard_arrow_right,size:17,color:Colors.white)
+                    ],
+                  ),
+                )
+              ],
             ),
           ),
           Positioned(

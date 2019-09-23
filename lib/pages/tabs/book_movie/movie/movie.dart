@@ -1,4 +1,8 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_jahn_douban/api/api_config.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie/movie_category.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie/movie_hot.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie/movie_show.dart';
@@ -12,6 +16,20 @@ class MoviePage extends StatefulWidget {
 }
 
 class _MoviePageState extends State<MoviePage> with AutomaticKeepAliveClientMixin{
+
+  @override
+  void initState() { 
+    super.initState();
+    _getData();
+  }
+  // 获取数据
+  _getData()async{
+    Response res = await Dio().get('https://m.douban.com/rexxar/api/v2/movie/modules?for_mobile=1', options: Options(
+      headers: {
+        HttpHeaders.refererHeader: 'https://m.douban.com/movie/beta',
+      },
+    ));
+  }
 
   bool get wantKeepAlive => true;
 

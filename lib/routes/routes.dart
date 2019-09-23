@@ -9,6 +9,7 @@ class Routes {
   static String movieDetail = "/movieDetail";
   static String theatricalFilm = "/theatricalFilm";
   static String doubanHot = "/doubanHot";
+  static String publicPraiseList = "/publicPraiseList";
   
   // 路由配置
   static void configureRoutes(Router router) {
@@ -21,6 +22,7 @@ class Routes {
     router.define(movieDetail, handler:movieDetailHandler);
     router.define(theatricalFilm, handler:theatricalFilmHandler);
     router.define(doubanHot, handler:doubanHotHandler);
+    router.define(publicPraiseList, handler:publicPraiseListHandler);
 
   }
 }

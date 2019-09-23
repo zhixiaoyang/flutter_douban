@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_jahn_douban/api/api_config.dart';
+import 'package:flutter_jahn_douban/routes/application.dart';
 import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
 import 'package:flutter_jahn_douban/weiget/base_loading.dart';
 
@@ -137,9 +138,14 @@ class _MovieTopState extends State<MovieTop> {
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(left: ScreenAdapter.width(30)),
-                child: _weekMovieList.length > 0  ? _item(_weekMovieList,'一周口碑电影榜','每周五更新 · 共10部'):BaseLoading(type:_requestStatus),
+              GestureDetector(
+                onTap: (){
+                  Application.router.navigateTo(context, '/publicPraiseList');
+                },
+                child: Container(
+                  margin: EdgeInsets.only(left: ScreenAdapter.width(30)),
+                  child: _weekMovieList.length > 0  ? _item(_weekMovieList,'一周口碑电影榜','每周五更新 · 共10部'):BaseLoading(type:_requestStatus),
+                ),
               ),
               SizedBox(width: ScreenAdapter.width(30)),
               _topMovieList.length > 0  ? _item(_topMovieList,'豆瓣电影 Top250','豆瓣榜单 · 共250部'):BaseLoading(type:_requestStatus),
