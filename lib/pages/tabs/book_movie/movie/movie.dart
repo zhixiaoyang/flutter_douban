@@ -20,16 +20,8 @@ class _MoviePageState extends State<MoviePage> with AutomaticKeepAliveClientMixi
   @override
   void initState() { 
     super.initState();
-    _getData();
   }
-  // 获取数据
-  _getData()async{
-    Response res = await Dio().get('https://m.douban.com/rexxar/api/v2/movie/modules?for_mobile=1', options: Options(
-      headers: {
-        HttpHeaders.refererHeader: 'https://m.douban.com/movie/beta',
-      },
-    ));
-  }
+
 
   bool get wantKeepAlive => true;
 
