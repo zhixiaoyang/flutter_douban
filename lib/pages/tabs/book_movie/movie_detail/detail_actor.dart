@@ -4,7 +4,8 @@ import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
 class DetailActor extends StatefulWidget {
 
   final Map _movie;
-  DetailActor(this._movie);
+  final bool _isDark;
+  DetailActor(this._movie,this._isDark);
 
   @override
   _DetailActorState createState() => _DetailActorState();
@@ -14,11 +15,12 @@ class _DetailActorState extends State<DetailActor> {
 
   // 演员列表
   List _actor = []; 
+  Color _baseTextColor;
 
   @override
   void initState() { 
     super.initState();
-
+    _baseTextColor = widget._isDark == true ? Colors.white:Colors.black;
     if(mounted){
       widget._movie['directors'].forEach((item){
         item['type'] = '导演';
@@ -40,11 +42,11 @@ class _DetailActorState extends State<DetailActor> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text('演职员',style: TextStyle(fontSize: 20)),
+              Text('演职员',style: TextStyle(fontSize: 20,color: _baseTextColor)),
               Row(
                 children: <Widget>[
-                  Text('全部'),
-                  Icon(Icons.keyboard_arrow_right,color:Colors.white)
+                  Text('全部',style: TextStyle(color: _baseTextColor)),
+                  Icon(Icons.keyboard_arrow_right,color:_baseTextColor)
                 ],
               )
             ],
@@ -63,12 +65,12 @@ class _DetailActorState extends State<DetailActor> {
                       SizedBox(height: ScreenAdapter.height(10)),
                       Container(
                         width: ScreenAdapter.width(160),
-                        child: Text('${_actor[index]['name']}',maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 12)),
+                        child: Text('${_actor[index]['name']}',maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 12,color: _baseTextColor)),
                       ),
                       SizedBox(height: ScreenAdapter.height(10)),
                       Container(
                         width: ScreenAdapter.width(160),
-                        child: Text('${_actor[index]['type']}',style: TextStyle(fontSize: 10)),
+                        child: Text('${_actor[index]['type']}',style: TextStyle(fontSize: 10,color: _baseTextColor)),
                       )
                     ],
                   ),
@@ -77,7 +79,7 @@ class _DetailActorState extends State<DetailActor> {
               itemCount: _actor.length,
             ),
           ):Center(
-            child: Text('暂无演员表'),
+            child: Text('暂无演员表',style: TextStyle(color: _baseTextColor)),
           )
         ],
       ),

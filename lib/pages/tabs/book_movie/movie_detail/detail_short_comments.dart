@@ -5,9 +5,9 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 class DetailShortComments extends StatefulWidget {
 
   final Map _movie;
-  final Color _detailThemeColor;
+  final bool _isDark;
 
-  DetailShortComments(this._movie,this._detailThemeColor);
+  DetailShortComments(this._movie,this._isDark);
 
   @override
   _DetailShortCommentsState createState() => _DetailShortCommentsState();
@@ -15,10 +15,12 @@ class DetailShortComments extends StatefulWidget {
 
 class _DetailShortCommentsState extends State<DetailShortComments> {
 
+  Color _baseTextColor;
   
   @override
   void initState() {
     super.initState();
+    _baseTextColor = widget._isDark == true ? Colors.white:Colors.black;
     if(mounted){
       widget._movie['popular_comments'].forEach((item){
         item['showMore'] = 6;
@@ -32,7 +34,7 @@ class _DetailShortCommentsState extends State<DetailShortComments> {
     return Container(
       padding: EdgeInsets.all(ScreenAdapter.width(20)),
       decoration: BoxDecoration(
-        color: widget._detailThemeColor,
+        color: Color.fromRGBO(0, 0, 0, 0.1),
         borderRadius: BorderRadius.circular(8)
       ),
       child: Column(
@@ -40,11 +42,11 @@ class _DetailShortCommentsState extends State<DetailShortComments> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text('短评',style: TextStyle(fontSize: 20)),
+              Text('短评',style: TextStyle(fontSize: 20,color:_baseTextColor)),
               Row(
                 children: <Widget>[
-                  Text('全部短评 ${widget._movie['comments_count']}'),
-                  Icon(Icons.keyboard_arrow_right,color:Colors.white)
+                  Text('全部短评 ${widget._movie['comments_count']}',style:TextStyle(color: _baseTextColor)),
+                  Icon(Icons.keyboard_arrow_right,color:_baseTextColor)
                 ],
               )
             ],
@@ -58,8 +60,8 @@ class _DetailShortCommentsState extends State<DetailShortComments> {
             itemCount: widget._movie['popular_comments'].length,
           ),
           ListTile(
-            title: Text('查看全部短评'),
-            trailing: Icon(Icons.keyboard_arrow_right,color:Colors.white),
+            title: Text('查看全部短评',style: TextStyle(color: _baseTextColor)),
+            trailing: Icon(Icons.keyboard_arrow_right,color:_baseTextColor),
           )
         ],
       ),
@@ -76,7 +78,7 @@ class _DetailShortCommentsState extends State<DetailShortComments> {
             leading: ClipOval(
               child: Image.network('${item['author']['avatar']}',width: ScreenAdapter.width(60),fit: BoxFit.cover,),
             ),
-            title: Text('${item['author']['name']}',style: TextStyle(fontSize: 14),),
+            title: Text('${item['author']['name']}',style: TextStyle(fontSize: 14,color: _baseTextColor)),
             subtitle: Row(
               children: <Widget>[
                 RatingBarIndicator(
@@ -92,11 +94,11 @@ class _DetailShortCommentsState extends State<DetailShortComments> {
                   itemSize: 9,
                 ),
                 SizedBox(width: ScreenAdapter.width(20)),
-                Text('${((DateTime.now().millisecondsSinceEpoch - DateTime.parse(item['created_at']).millisecondsSinceEpoch) / 1000 / 60 / 60 / 24 / 31).round()}个月前',style: TextStyle(color: Colors.white54,fontSize: 12))
+                Text('${((DateTime.now().millisecondsSinceEpoch - DateTime.parse(item['created_at']).millisecondsSinceEpoch) / 1000 / 60 / 60 / 24 / 31).round()}个月前',style: TextStyle(color: widget._isDark ? Colors.white54:Colors.grey[600],fontSize: 12))
               ],
             ),
             trailing: IconButton(
-              icon: Icon(Icons.more_horiz,color: Colors.white54),
+              icon: Icon(Icons.more_horiz,color:widget._isDark ?Colors.white54:Colors.grey[600]),
               onPressed: (){
                 print('object');
                 showCupertinoModalPopup(
@@ -126,7 +128,7 @@ class _DetailShortCommentsState extends State<DetailShortComments> {
           ),
           Container(
             alignment: Alignment.centerLeft,
-            child: Text('${item['content']}',maxLines: item['showMore'],overflow: TextOverflow.ellipsis),
+            child: Text('${item['content']}',style: TextStyle(color: _baseTextColor),maxLines: item['showMore'],overflow: TextOverflow.ellipsis),
           ),
           Container(
             margin: EdgeInsets.only(right: ScreenAdapter.width(20),top: ScreenAdapter.height(10)),
@@ -144,9 +146,9 @@ class _DetailShortCommentsState extends State<DetailShortComments> {
             alignment: Alignment.centerLeft,
             child: Row(
               children: <Widget>[
-                Icon(Icons.thumb_up,color: Colors.white,size: 15,),
+                Icon(Icons.thumb_up,color: _baseTextColor,size: 15,),
                 SizedBox(width: ScreenAdapter.width(20)),
-                Text('${item['useful_count'] ?? 0}')
+                Text('${item['useful_count'] ?? 0}',style: TextStyle(color: _baseTextColor))
               ],
             ),
           )

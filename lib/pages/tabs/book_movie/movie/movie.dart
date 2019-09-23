@@ -1,8 +1,4 @@
-import 'dart:io';
-
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_jahn_douban/api/api_config.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie/movie_category.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie/movie_hot.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie/movie_show.dart';

@@ -3,8 +3,10 @@ import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
 
 class DetailTrailer extends StatefulWidget {
 
-  Map _movie;
-  DetailTrailer(this._movie);
+  final Map _movie;
+  final bool _isDark;
+
+  DetailTrailer(this._movie,this._isDark);
 
   @override
   _DetailTrailerState createState() => _DetailTrailerState();
@@ -14,10 +16,12 @@ class _DetailTrailerState extends State<DetailTrailer> {
 
   // 预告片
   List _trailerList = [];
+  Color _baseTextColor;
 
   @override
   void initState() { 
     super.initState();
+    _baseTextColor = widget._isDark == true ? Colors.white:Colors.black;
 
     if(mounted){
       if(widget._movie['trailers'].length > 0 ){
@@ -40,11 +44,11 @@ class _DetailTrailerState extends State<DetailTrailer> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text('预告片 / 剧照',style: TextStyle(fontSize: 20)),
+              Text('预告片 / 剧照',style: TextStyle(fontSize: 20,color: _baseTextColor)),
               Row(
                 children: <Widget>[
-                  Text('全部'),
-                  Icon(Icons.keyboard_arrow_right,color:Colors.white)
+                  Text('全部',style: TextStyle(color: _baseTextColor)),
+                  Icon(Icons.keyboard_arrow_right,color: _baseTextColor)
                 ],
               )
             ],

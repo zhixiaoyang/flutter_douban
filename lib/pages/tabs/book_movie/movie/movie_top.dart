@@ -1,8 +1,6 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_jahn_douban/api/api_config.dart';
 import 'package:flutter_jahn_douban/routes/application.dart';
 import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
 import 'package:flutter_jahn_douban/weiget/base_loading.dart';
@@ -33,9 +31,9 @@ class _MovieTopState extends State<MovieTop> {
     ));
     if(mounted){
       setState(() {
-        _weekMovie = res.data['modules'][7]['data']['selected_collections'][0]; 
-        _topMovie = res.data['modules'][7]['data']['selected_collections'][1]; 
-        _hotMovie = res.data['modules'][7]['data']['selected_collections'][2]; 
+        _weekMovie = res.data['modules'][8]['data']['selected_collections'][0]; 
+        _topMovie = res.data['modules'][8]['data']['selected_collections'][1]; 
+        _hotMovie = res.data['modules'][8]['data']['selected_collections'][2]; 
       });     
     }
   }

@@ -4,9 +4,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class DetailGrade extends StatefulWidget {
   final Map _movie;
-  final Color _themeColor;
-  final Color _detailThemeColor;
-  DetailGrade(this._movie,this._themeColor,this._detailThemeColor);
+  bool _isDark;
+  DetailGrade(this._movie,this._isDark);
   @override
   _DetailGradeState createState() => _DetailGradeState();
 }
@@ -14,10 +13,12 @@ class DetailGrade extends StatefulWidget {
 class _DetailGradeState extends State<DetailGrade> {
   // 总评分数
   var _total;
+  Color _baseTextColor;
 
   @override
   void initState() { 
     super.initState();
+    _baseTextColor = widget._isDark == true ? Colors.white:Colors.black;
     if(mounted){
       double tempNum = 0;
       for(var val in widget._movie['rating']['details'].keys){
@@ -33,7 +34,7 @@ class _DetailGradeState extends State<DetailGrade> {
     return Container(
       decoration:BoxDecoration(
         borderRadius: BorderRadius.circular(6),
-        color: widget._detailThemeColor,
+        color: Color.fromRGBO(0, 0, 0, 0.1)
       ),
       padding: EdgeInsets.all(ScreenAdapter.width(20)),
       child: Column(
@@ -41,8 +42,8 @@ class _DetailGradeState extends State<DetailGrade> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text('豆瓣评分'),
-              Icon(Icons.keyboard_arrow_right,color: Colors.white,)
+              Text('豆瓣评分',style: TextStyle(color: _baseTextColor)),
+              Icon(Icons.keyboard_arrow_right,color: _baseTextColor,)
             ],
           ),
           SizedBox(height: ScreenAdapter.height(10)),
@@ -53,7 +54,7 @@ class _DetailGradeState extends State<DetailGrade> {
               children: <Widget>[
                 Column(
                   children: <Widget>[
-                    Text('${widget._movie['rating']['average']}',style: TextStyle(fontSize: 30),),
+                    Text('${widget._movie['rating']['average']}',style: TextStyle(fontSize: 30,color: _baseTextColor)),
                     _ratingBar(widget._movie['rating']['average'] / 2)
                   ],
                 ),
@@ -68,7 +69,7 @@ class _DetailGradeState extends State<DetailGrade> {
                       _ratingProgress(0,percent:widget._movie['rating']['details']['2']  / _total,count:2),
                       _ratingProgress(0,percent:widget._movie['rating']['details']['1']  / _total,count:1),
                       Container(
-                        child:Text('${_total}人评分',style: TextStyle(color: Colors.grey[400],fontSize: 10)),
+                        child:Text('$_total人评分',style: TextStyle(color:widget._isDark ? Colors.grey[400] :Colors.grey[600] ,fontSize: 10)),
                       )
                     ],
                   ),
@@ -80,7 +81,7 @@ class _DetailGradeState extends State<DetailGrade> {
           Container(
             alignment: Alignment.centerRight,
             margin: EdgeInsets.only(right: ScreenAdapter.width(30)),
-            child: Text('${_compute(widget._movie['collect_count'])}看过    ${_compute(widget._movie['wish_count'])}想看',style: TextStyle(color: Colors.grey[300],fontSize: 11)),
+            child: Text('${_compute(widget._movie['collect_count'])}看过    ${_compute(widget._movie['wish_count'])}想看',style: TextStyle(color: widget._isDark ? Colors.grey[300] :Colors.grey[600],fontSize: 11)),
           )
         ],
       ),

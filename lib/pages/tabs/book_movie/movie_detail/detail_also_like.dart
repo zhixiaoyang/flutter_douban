@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_jahn_douban/api/api_config.dart';
 import 'package:flutter_jahn_douban/routes/application.dart';
@@ -7,9 +8,10 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class DetailAlsoLike extends StatefulWidget {
 
-// 类型
-String _type = '';
-DetailAlsoLike(this._type);
+  // 类型
+  String _type = '';
+  final bool _isDark;
+  DetailAlsoLike(this._type,this._isDark);
 
   @override
   _DetailAlsoLikeState createState() => _DetailAlsoLikeState();
@@ -19,12 +21,14 @@ class _DetailAlsoLikeState extends State<DetailAlsoLike> {
 
   // 可能喜欢列表
   List _alsoLikeList = [];
+  Color _baseTextColor;
   // 
   String _requestStatus = '';
 
   @override
   void initState() { 
     super.initState();
+    _baseTextColor = widget._isDark == true ? Colors.white:Colors.black;
     _getAlsoLike();
   }
   // 获取也可能喜欢
@@ -35,11 +39,11 @@ class _DetailAlsoLikeState extends State<DetailAlsoLike> {
         'page_start':0,
         'page_limit':8
       };
-      var res = await ApiConfig.ajax('get', 'https://movie.douban.com/j/search_subjects?tag=纪录片', params);
+      Response res = await ApiConfig.ajax('get', 'https://movie.douban.com/j/search_subjects?tag=纪录片', params);
       if(mounted){
         if( res.data['subjects'].length > 0){
           setState(() {
-          _alsoLikeList = res.data['subjects'];
+            _alsoLikeList = res.data['subjects'];
           });
         }else{
           setState(() {
@@ -59,8 +63,8 @@ class _DetailAlsoLikeState extends State<DetailAlsoLike> {
         children: <Widget>[
           ListTile(
             contentPadding: EdgeInsets.all(0),
-            title: Text('喜欢这部电影的也喜欢'),
-            trailing: Icon(Icons.keyboard_arrow_right,color: Colors.white),
+            title: Text('喜欢这部电影的也喜欢',style: TextStyle(color: _baseTextColor)),
+            trailing: Icon(Icons.keyboard_arrow_right,color: _baseTextColor),
           ),
           _alsoLikeList.length > 0 ? _item(_alsoLikeList):BaseLoading(type:_requestStatus),
         ],
@@ -101,7 +105,7 @@ class _DetailAlsoLikeState extends State<DetailAlsoLike> {
                 Container(
                   margin: EdgeInsets.only(top: ScreenAdapter.height(10),bottom: ScreenAdapter.height(10)),
                   alignment: Alignment.centerLeft,
-                  child: Text('${data[index]['title']}',maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 13,fontWeight: FontWeight.w600)),
+                  child: Text('${data[index]['title']}',maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(color:_baseTextColor,fontSize: 13,fontWeight: FontWeight.w600)),
                 ),
                 Row(
                   children: <Widget>[
@@ -118,7 +122,7 @@ class _DetailAlsoLikeState extends State<DetailAlsoLike> {
                       itemSize: 9,
                     ),
                     SizedBox(width: ScreenAdapter.width(20)),
-                    Text('${data[index]['rate']}',style: TextStyle(fontSize: 10,color: Colors.grey))
+                    Text('${data[index]['rate']}',style: TextStyle(fontSize: 10,color: _baseTextColor))
                   ],
                 )
               ],

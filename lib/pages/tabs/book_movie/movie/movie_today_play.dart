@@ -12,9 +12,6 @@ class MovieTodayPlay extends StatefulWidget {
 
 class _MovieTodayPlayState extends State<MovieTodayPlay> {
 
-  // 今日播放主题颜色
-  Color _todayPlayThemeColor;
-
   // 今日播放
   Map _todayPlay;
 

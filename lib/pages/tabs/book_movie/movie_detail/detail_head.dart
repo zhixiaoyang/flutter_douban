@@ -4,17 +4,23 @@ import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
 class DetailHead extends StatefulWidget {
 
   Map _movie;
-  DetailHead(this._movie);
+  bool _isDark;
+  DetailHead(this._movie,this._isDark);
 
   @override
   _DetailHeadState createState() => _DetailHeadState();
 }
 
 class _DetailHeadState extends State<DetailHead> {
+
+  Color _baseTextColor;
+
   @override
-  void initState() {
+  void initState() { 
     super.initState();
+    _baseTextColor = widget._isDark == true ? Colors.white:Colors.black;
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -26,7 +32,6 @@ class _DetailHeadState extends State<DetailHead> {
             child: Image.network('${widget._movie['images']['small']}',fit: BoxFit.cover,width: ScreenAdapter.width(200),height: ScreenAdapter.height(260),),
           ),
           SizedBox(width: ScreenAdapter.width(30)),
-          
           Expanded(
             child: Container(
               constraints: BoxConstraints(
@@ -38,16 +43,17 @@ class _DetailHeadState extends State<DetailHead> {
                   Container(
                     alignment: Alignment.centerLeft,
                     margin: EdgeInsets.only(bottom: ScreenAdapter.height(10)),
-                    child: Text('${widget._movie['title']}',style: TextStyle(fontSize: 24,fontWeight: FontWeight.w600)),
+                    child: Text('${widget._movie['title']}',style: TextStyle(color:_baseTextColor,fontSize: 24,fontWeight: FontWeight.w600)),
                   ),
                   Container(
                     margin: EdgeInsets.only(bottom: ScreenAdapter.height(10)),
                     alignment: Alignment.centerLeft,
-                    child: Text('${widget._movie['original_title']}',style: TextStyle(fontSize: 18)),
+                    child: Text('${widget._movie['original_title']}',style: TextStyle(color: _baseTextColor,fontSize: 18)),
                   ),
                   Container(
+                    alignment: Alignment.centerLeft,
                     margin: EdgeInsets.only(bottom: ScreenAdapter.height(10)),
-                    child: Text('${widget._movie['countries'][0]} / ${widget._movie['genres'][0]} / ${widget._movie['pubdate']}上映 / 片长${widget._movie['durations'][0]}',style: TextStyle(fontSize: 12,color: Colors.grey[300])),
+                    child: Text('${widget._movie['countries'][0]} / ${widget._movie['genres'][0]} / ${widget._movie['pubdate']}上映 / 片长${widget._movie['durations'][0]}',style: TextStyle(fontSize: 12,color: widget._isDark ? Colors.grey[300]:Colors.grey[600])),
                   ),
                   Row(
                     children: <Widget>[

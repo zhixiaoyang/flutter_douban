@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_jahn_douban/api/api_config.dart';
 import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
@@ -7,8 +8,9 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 class DetailComments extends StatefulWidget {
 
   final String movieId;
+  final bool _isDark;
 
-  DetailComments({@required this.movieId});
+  DetailComments(this._isDark,{@required this.movieId});
 
 
   @override
@@ -18,6 +20,7 @@ class DetailComments extends StatefulWidget {
 class _DetailCommentsState extends State<DetailComments> with AutomaticKeepAliveClientMixin{
 
   bool get wantKeepAlive => true;
+  Color _baseTextColor;
 
   // 评论
   List _commentsList = [];
@@ -28,6 +31,7 @@ class _DetailCommentsState extends State<DetailComments> with AutomaticKeepAlive
   @override
   void initState() { 
     super.initState();
+    _baseTextColor = widget._isDark == true ? Colors.white:Colors.black;
     _getComments();
   }
 
@@ -37,7 +41,7 @@ class _DetailCommentsState extends State<DetailComments> with AutomaticKeepAlive
       Map<String,dynamic> params = {
         'apikey':ApiConfig.apiKey
       };
-      var res = await ApiConfig.ajax('get', ApiConfig.baseUrl + '/v2/movie/subject/${widget.movieId}/reviews', params);
+      Response res = await ApiConfig.ajax('get', ApiConfig.baseUrl + '/v2/movie/subject/${widget.movieId}/reviews', params);
       if(mounted){
         if(res.data['reviews'].length > 0){
           setState(() {
@@ -72,9 +76,9 @@ class _DetailCommentsState extends State<DetailComments> with AutomaticKeepAlive
                       child: Image.network('${_commentsList[index]['author']['avatar']}',fit: BoxFit.cover,width: ScreenAdapter.width(60)),
                     ),
                     SizedBox(width: ScreenAdapter.width(20)),
-                    Text('${_commentsList[index]['author']['name']}'),
+                    Text('${_commentsList[index]['author']['name']}',style: TextStyle(color: _baseTextColor)),
                     SizedBox(width: ScreenAdapter.width(40)),
-                    Text('看过'),
+                    Text('看过',style: TextStyle(color: _baseTextColor)),
                     SizedBox(width: ScreenAdapter.width(20)),
                     RatingBarIndicator(
                       rating:_commentsList[index]['rating']['value'] > 0 ? _commentsList[index]['rating']['value']:0,
@@ -94,16 +98,16 @@ class _DetailCommentsState extends State<DetailComments> with AutomaticKeepAlive
                 Container(
                   margin: EdgeInsets.only(bottom: ScreenAdapter.height(20)),
                   alignment: Alignment.centerLeft,
-                  child: Text('${_commentsList[index]['title']}',style: TextStyle(fontSize: 18)),
+                  child: Text('${_commentsList[index]['title']}',style: TextStyle(fontSize: 18,color: _baseTextColor)),
                 ),
                 Container(
                   margin: EdgeInsets.only(bottom: ScreenAdapter.height(20)),
                   alignment: Alignment.centerLeft,
-                  child: Text('${_commentsList[index]['content']}',style: TextStyle(color: Colors.grey[200]),maxLines: 3,overflow: TextOverflow.ellipsis),
+                  child: Text('${_commentsList[index]['content']}',style: TextStyle(color: widget._isDark ? Colors.grey[300]:Colors.grey[600]),maxLines: 3,overflow: TextOverflow.ellipsis),
                 ),
                 Row(
                   children: <Widget>[
-                    Text('${_commentsList[index]['comments_count']}回复 · ${_commentsList[index]['useful_count']}有用',style: TextStyle(color: Colors.grey[400]),),
+                    Text('${_commentsList[index]['comments_count']}回复 · ${_commentsList[index]['useful_count']}有用',style: TextStyle(color: widget._isDark ? Colors.grey[300]:Colors.grey[500])),
                   ],
                 )
               ],

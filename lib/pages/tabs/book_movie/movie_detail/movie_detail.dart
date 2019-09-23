@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_jahn_douban/api/api_config.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/detail_actor.dart';
@@ -29,8 +32,8 @@ class _MovieDetailState extends State<MovieDetail> {
   // 电影详情内容
   Map _movie;
   // 主题颜色
-  Color _themeColor;
-  Color _detailThemeColor;
+  String _themeColor = '';
+  bool _isDark;
   String _requestStatus = '';
 
   // 滚动控制器
@@ -42,16 +45,17 @@ class _MovieDetailState extends State<MovieDetail> {
   void initState() { 
     super.initState();
     _getDetail();
+    _getDetailTheme();
     if(mounted){
       // 监听滚动
       _scrollController.addListener((){
         if(_scrollController.offset > 40){
           setState(() {
-          _showTitle = true; 
+            _showTitle = true; 
           });
         }else{
           setState(() {
-          _showTitle = false; 
+            _showTitle = false; 
           });
         }
       });
@@ -64,21 +68,17 @@ class _MovieDetailState extends State<MovieDetail> {
     _scrollController.dispose();
   }
   // 获取电影详情
-  _getDetail() async{
+  _getDetailTheme() async{
     try{
-      var params = {
-        "apikey":ApiConfig.apiKey
-      };
-      var res = await ApiConfig.ajax('get', ApiConfig.baseUrl + '/v2/movie/subject/${widget.movieId}', params);
-      // 今日播放主题颜色
-      var paletteGenerator = await PaletteGenerator.fromImageProvider(
-        NetworkImage(res.data['images']['small'])
-      );
+      Response res = await Dio().get('https://m.douban.com/rexxar/api/v2/movie/${widget.movieId}?ck=&for_mobile=1', options: Options(
+        headers: {
+          HttpHeaders.refererHeader: 'https://m.douban.com/movie/beta',
+        },
+      ));
       if(mounted){
         setState(() {
-          _movie = res.data; 
-          _themeColor = paletteGenerator.colors.toList()[1];
-          _detailThemeColor = paletteGenerator.colors.toList()[0];
+          _themeColor = res.data['header_bg_color'];
+          _isDark = res.data['color_scheme']['is_dark'];
         });
       }
     }
@@ -93,9 +93,32 @@ class _MovieDetailState extends State<MovieDetail> {
     }
   }
 
+    // 获取电影详情
+  _getDetail() async{
+    try{
+      Map<String,dynamic> params = {
+        "apikey":ApiConfig.apiKey
+      };
+      Response res = await ApiConfig.ajax('get', ApiConfig.baseUrl + '/v2/movie/subject/${widget.movieId}', params);
+      if(mounted){
+        setState(() {
+          _movie = res.data; 
+        });
+      }
+    }
+    catch(e){
+      print(e);
+      if(mounted){
+        setState(() {
+          _requestStatus = '暂无数据'; 
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return _themeColor != null ? Theme(
+    return _themeColor.isNotEmpty && _movie !=null ? Theme(
       data: ThemeData(
         textTheme: TextTheme(
           body1: TextStyle(color: Colors.white),
@@ -104,7 +127,7 @@ class _MovieDetailState extends State<MovieDetail> {
         )
       ),
       child: Scaffold(
-        backgroundColor: _themeColor,
+        backgroundColor:Color(int.parse('0xff' + _themeColor)),
         appBar: AppBar(
           centerTitle: true,
           title: _showTitle ? Column(
@@ -134,7 +157,7 @@ class _MovieDetailState extends State<MovieDetail> {
               )
             ],
           ) : Text('电影') ,
-          backgroundColor: _themeColor,
+          backgroundColor: Color(int.parse('0xff' + _themeColor)),
         ),
         body: DefaultTabController(
           length: 3,
@@ -144,23 +167,23 @@ class _MovieDetailState extends State<MovieDetail> {
               return [
                  // 详情头部
                 SliverToBoxAdapter(child:SizedBox(height: ScreenAdapter.height(30))),
-                _paddingContainer(child:DetailHead(_movie)),
+                _paddingContainer(child:DetailHead(_movie,_isDark)),
                 SliverToBoxAdapter(child:SizedBox(height: ScreenAdapter.height(30))),
                 // 豆瓣评分
-                _paddingContainer(child:DetailGrade(_movie,_themeColor,_detailThemeColor)),
+                _paddingContainer(child:DetailGrade(_movie,_isDark)),
                 // 剧情简介
-                _paddingContainer(child:DetailPlot(_movie,_detailThemeColor)),
+                _paddingContainer(child:DetailPlot(_movie,_isDark)),
                 SliverToBoxAdapter(child:SizedBox(height: ScreenAdapter.height(40))),
                 // 演职员
-                _paddingContainer(child:DetailActor(_movie)),
+                _paddingContainer(child:DetailActor(_movie,_isDark)),
                 // 预告片 / 剧照
-                _paddingContainer(child:DetailTrailer(_movie)),
+                _paddingContainer(child:DetailTrailer(_movie,_isDark)),
                 SliverToBoxAdapter(child:SizedBox(height: ScreenAdapter.height(40))),
                 // 短评
-                _paddingContainer(child:DetailShortComments(_movie,_detailThemeColor)),
+                _paddingContainer(child:DetailShortComments(_movie,_isDark)),
                 SliverToBoxAdapter(child:SizedBox(height: ScreenAdapter.height(40))),
                 // 有可能喜欢
-                _paddingContainer(child: DetailAlsoLike(_movie['genres'][0])),
+                _paddingContainer(child: DetailAlsoLike(_movie['genres'][0],_isDark)),
                 // 影评
                 SliverPersistentHeader(
                   pinned: true,
@@ -169,7 +192,7 @@ class _MovieDetailState extends State<MovieDetail> {
                       preferredSize: Size.fromHeight(40),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: _detailThemeColor
+                          color: Colors.grey[600]
                         ),
                         child: TabBar(
                           labelColor: Colors.white,
@@ -190,7 +213,7 @@ class _MovieDetailState extends State<MovieDetail> {
             },
             body: TabBarView(
               children: <Widget>[
-                DetailComments(movieId: widget.movieId),
+                DetailComments(_isDark,movieId: widget.movieId),
                 Center(
                   child: Text('暂无话题数据'),
                 ),
