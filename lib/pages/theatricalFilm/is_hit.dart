@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jahn_douban/api/api_config.dart';
+import 'package:flutter_jahn_douban/routes/application.dart';
 import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
 import 'package:flutter_jahn_douban/weiget/base_loading.dart';
 import 'package:flutter_jahn_douban/weiget/custom_scroll_footer.dart';
@@ -105,19 +106,24 @@ class _IsHitState extends State<IsHit> with SingleTickerProviderStateMixin , Aut
                   )
                 )
               ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  // 缩略图
-                  _thumb(_isHitList[index]), 
-                  // 中间信息区域
-                  SizedBox(width: ScreenAdapter.width(30)),
-                  _info(_isHitList[index]),
-                  SizedBox(width: ScreenAdapter.width(30)),
-                  // 右侧操作区域
-                  _actions()
-                ],
-              ),
+              child: GestureDetector(
+                onTap: (){
+                  Application.router.navigateTo(context, '/movieDetail?id=${_isHitList[index]['id']}');
+                },
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    // 缩略图
+                    _thumb(_isHitList[index]), 
+                    // 中间信息区域
+                    SizedBox(width: ScreenAdapter.width(30)),
+                    _info(_isHitList[index]),
+                    SizedBox(width: ScreenAdapter.width(30)),
+                    // 右侧操作区域
+                    _actions()
+                  ],
+                ),
+              )
             );
           },
           itemCount: _isHitList.length,
