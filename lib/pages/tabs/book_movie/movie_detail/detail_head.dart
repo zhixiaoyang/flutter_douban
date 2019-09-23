@@ -53,7 +53,7 @@ class _DetailHeadState extends State<DetailHead> {
                   Container(
                     alignment: Alignment.centerLeft,
                     margin: EdgeInsets.only(bottom: ScreenAdapter.height(10)),
-                    child: Text('${widget._movie['countries'][0]} / ${widget._movie['genres'][0]} / ${widget._movie['pubdate']}上映 / 片长${widget._movie['durations'][0]}',style: TextStyle(fontSize: 12,color: widget._isDark ? Colors.grey[300]:Colors.grey[600])),
+                    child: Text('${widget._movie['countries'][0]} / ${widget._movie['genres'][0]} / ${widget._movie['pubdate']}上映 / 片长${widget._movie['durations'].length != 0 ? widget._movie['durations'][0]:'暂无'}',style: TextStyle(fontSize: 12,color: widget._isDark ? Colors.grey[300]:Colors.grey[600])),
                   ),
                   Row(
                     children: <Widget>[
