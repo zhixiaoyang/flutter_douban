@@ -90,7 +90,6 @@ class _DetailAlsoLikeState extends State<DetailAlsoLike> {
       itemBuilder: (BuildContext context, int index) {
         return GestureDetector(
           onTap: (){
-            print(data[index]['id']);
             Application.router.navigateTo(context, '/movieDetail?id=${data[index]['id']}');
           },
           child: Container(

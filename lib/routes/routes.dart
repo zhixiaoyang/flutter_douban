@@ -22,7 +22,6 @@ class Routes {
     router.define(movieDetail, handler:movieDetailHandler);
     router.define(theatricalFilm, handler:theatricalFilmHandler);
     router.define(doubanHot, handler:doubanHotHandler);
-    router.define(publicPraiseList, handler:publicPraiseListHandler);
 
   }
 }

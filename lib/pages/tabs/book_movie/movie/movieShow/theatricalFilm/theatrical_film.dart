@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_jahn_douban/pages/theatricalFilm/coming_soon.dart';
-import 'package:flutter_jahn_douban/pages/theatricalFilm/is_hit.dart';
+import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie/movieShow/theatricalFilm/coming_soon.dart';
+import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie/movieShow/theatricalFilm/is_hit.dart';
 import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
 
 class TheatricalFilm extends StatefulWidget {
