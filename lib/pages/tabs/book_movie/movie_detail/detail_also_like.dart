@@ -39,7 +39,7 @@ class _DetailAlsoLikeState extends State<DetailAlsoLike> {
         'page_start':0,
         'page_limit':8
       };
-      Response res = await ApiConfig.ajax('get', 'https://movie.douban.com/j/search_subjects?tag=纪录片', params);
+      Response res = await ApiConfig.ajax('get', 'https://movie.douban.com/j/search_subjects', params);
       if(mounted){
         if( res.data['subjects'].length > 0){
           setState(() {
