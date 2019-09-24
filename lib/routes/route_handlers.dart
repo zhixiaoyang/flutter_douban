@@ -1,10 +1,10 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_jahn_douban/pages/doubanHot/douban_hot.dart';
-import 'package:flutter_jahn_douban/pages/publicPraiseList/public_praise_list.dart';
+import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie/movieHot/movie_hot_detail.dart';
+import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie/movieShow/theatricalFilm/theatrical_film.dart';
+import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie/movieTop/movie_top_detail.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/movie_detail.dart';
 import 'package:flutter_jahn_douban/pages/tabs/tabs.dart';
-import 'package:flutter_jahn_douban/pages/theatricalFilm/theatrical_film.dart';
 
 // 配置清单路由
 // tabs
@@ -28,13 +28,15 @@ Handler theatricalFilmHandler = Handler(
 });
 
 // 豆瓣热门页
-Handler doubanHotHandler = Handler(
+Handler movieHotDetailHandler = Handler(
   handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  return DoubanHot();
+  return MovieHotDetail();
 });
 
-// 一周口碑电影榜单
-Handler publicPraiseListHandler = Handler(
+// 豆瓣榜单详情页
+Handler movieTopDetailHandler = Handler(
   handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  return PublicPraiseList();
+  return MovieTopDetail();
 });
+
+

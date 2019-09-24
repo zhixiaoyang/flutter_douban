@@ -52,7 +52,7 @@ class _MovieHotState extends State<MovieHot> {
             Text('豆瓣热门',style: TextStyle(fontSize: 20,color:Colors.black,fontWeight: FontWeight.w600)),
             GestureDetector(
               onTap: (){
-                Application.router.navigateTo(context, '/doubanHot');
+                Application.router.navigateTo(context, '/movieHotDetail');
               },
               child: Row(
                 children: <Widget>[

@@ -8,12 +8,12 @@ import 'package:flutter_jahn_douban/weiget/base_loading.dart';
 import 'package:flutter_jahn_douban/weiget/custom_scroll_footer.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-class DoubanHot extends StatefulWidget {
+class MovieHotDetail extends StatefulWidget {
   @override
-  _DoubanHotState createState() => _DoubanHotState();
+  _MovieHotDetailState createState() => _MovieHotDetailState();
 }
 
-class _DoubanHotState extends State<DoubanHot> {
+class _MovieHotDetailState extends State<MovieHotDetail> {
  // 豆瓣500热映列表
   List _hotList = [];
   // 分页
@@ -214,7 +214,7 @@ class _DoubanHotState extends State<DoubanHot> {
                   onTap: (){
 
                   },
-                  child: Icon(Icons.favorite_border,size: 18,color: Colors.orange),
+                  child: Image.asset('lib/assets/favorite.png',width: ScreenAdapter.width(40)),
                 ),
                 SizedBox(height: ScreenAdapter.height(10)),
                 Text('想看',style: TextStyle(fontSize: 12,color: Colors.orange))
