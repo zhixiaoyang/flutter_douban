@@ -72,8 +72,49 @@ class _MovieTopDetailState extends State<MovieTopDetail> {
     }
 
   }
-
-
+  // 时间筛选
+  _timeFilter(){
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Stack(
+            children: <Widget>[
+              Container(
+                width: double.infinity,
+                height: 30,
+                color: Colors.black54,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(15),
+                    topRight: Radius.circular(15),
+                  )
+                ),
+              ),
+              Container(
+                width: double.infinity,
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4),
+                        color: Colors.black26,
+                      ),
+                      alignment: Alignment.center,
+                      margin:EdgeInsets.only(top:8),
+                      width: ScreenAdapter.width(60),
+                      height: ScreenAdapter.width(8),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          );
+        },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -126,6 +167,10 @@ class _MovieTopDetailState extends State<MovieTopDetail> {
                     Text('片单列表 · 共$_total部',style: TextStyle(color: Colors.grey)),
                     Row(
                       children: <Widget>[
+                        GestureDetector(
+                          child: Text('更新时间'),
+                          onTap:_timeFilter,
+                        )
                       ],
                     )
                   ]
