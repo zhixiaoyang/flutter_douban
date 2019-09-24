@@ -2,6 +2,7 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie/movieHot/movie_hot_detail.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie/movieShow/theatricalFilm/theatrical_film.dart';
+import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie/movieTop/movie_top_detail.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/movie_detail.dart';
 import 'package:flutter_jahn_douban/pages/tabs/tabs.dart';
 
@@ -27,8 +28,15 @@ Handler theatricalFilmHandler = Handler(
 });
 
 // 豆瓣热门页
-Handler doubanHotHandler = Handler(
+Handler movieHotDetailHandler = Handler(
   handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   return MovieHotDetail();
 });
+
+// 豆瓣榜单详情页
+Handler movieTopDetailHandler = Handler(
+  handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return MovieTopDetail();
+});
+
 

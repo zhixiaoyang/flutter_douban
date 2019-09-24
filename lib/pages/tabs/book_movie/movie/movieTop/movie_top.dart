@@ -24,17 +24,27 @@ class _MovieTopState extends State<MovieTop> {
 
     // 获取数据
   _getData()async{
-    Response res = await Dio().get('https://m.douban.com/rexxar/api/v2/movie/modules?for_mobile=1', options: Options(
+    try{
+      Response res = await Dio().get('https://m.douban.com/rexxar/api/v2/movie/modules?for_mobile=1', options: Options(
       headers: {
         HttpHeaders.refererHeader: 'https://m.douban.com/movie/beta',
       },
-    ));
-    if(mounted){
-      setState(() {
-        _weekMovie = res.data['modules'][8]['data']['selected_collections'][0]; 
-        _topMovie = res.data['modules'][8]['data']['selected_collections'][1]; 
-        _hotMovie = res.data['modules'][8]['data']['selected_collections'][2]; 
-      });     
+      ));
+      if(mounted){
+        setState(() {
+          _weekMovie = res.data['modules'][8]['data']['selected_collections'][0]; 
+          _topMovie = res.data['modules'][8]['data']['selected_collections'][1]; 
+          _hotMovie = res.data['modules'][8]['data']['selected_collections'][2]; 
+          _requestStatus = '获取豆瓣榜单成功';
+        });     
+      }
+    }
+    catch(e){
+      if(mounted){
+        setState(() {
+          _requestStatus = '获取豆瓣榜单失败'; 
+        });
+      }
     }
   }
 
@@ -68,14 +78,14 @@ class _MovieTopState extends State<MovieTop> {
           ),
         ),
         SizedBox(height: ScreenAdapter.height(30)),
-        Container(
+        _requestStatus.isNotEmpty ? Container(
           height: ScreenAdapter.height(480),
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: <Widget>[
               GestureDetector(
                 onTap: (){
-                  Application.router.navigateTo(context, '/publicPraiseList');
+                  Application.router.navigateTo(context, '/movieTopDetail');
                 },
                 child: Container(
                   margin: EdgeInsets.only(left: ScreenAdapter.width(30)),
@@ -92,7 +102,7 @@ class _MovieTopState extends State<MovieTop> {
               
             ],
           ),
-        )
+        ):BaseLoading(type: _requestStatus)
       ],
     );
   }
