@@ -76,41 +76,29 @@ class _MovieTopDetailState extends State<MovieTopDetail> {
   _timeFilter(){
     showModalBottomSheet(
         context: context,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(15),
+            topRight: Radius.circular(15),
+          )
+        ),
         builder: (BuildContext context) {
-          return Stack(
-            children: <Widget>[
-              Container(
-                width: double.infinity,
-                height: 30,
-                color: Colors.black54,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(15),
-                    topRight: Radius.circular(15),
-                  )
-                ),
-              ),
-              Container(
-                width: double.infinity,
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4),
-                        color: Colors.black26,
-                      ),
-                      alignment: Alignment.center,
-                      margin:EdgeInsets.only(top:8),
-                      width: ScreenAdapter.width(60),
-                      height: ScreenAdapter.width(8),
-                    )
-                  ],
-                ),
-              ),
-            ],
+          return Container(
+            height: 300,
+            child: Column(
+              children: <Widget>[
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4),
+                    color: Colors.black26,
+                  ),
+                  alignment: Alignment.center,
+                  margin:EdgeInsets.only(top:8),
+                  width: ScreenAdapter.width(60),
+                  height: ScreenAdapter.width(8),
+                )
+              ],
+            ),
           );
         },
     );
@@ -168,7 +156,23 @@ class _MovieTopDetailState extends State<MovieTopDetail> {
                     Row(
                       children: <Widget>[
                         GestureDetector(
-                          child: Text('更新时间'),
+                          child: Container(
+                            padding: EdgeInsets.fromLTRB(5, 2, 5, 2),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                width: 1,
+                                color: Colors.grey
+                              ),
+                              borderRadius: BorderRadius.circular(11)
+                            ),
+                            child: Row(
+                              children: <Widget>[
+                                Text('更新时间',style: TextStyle(color: _baseTextColor,fontSize: 12)),
+                                Text('09-20',style: TextStyle(color: _baseTextColor,fontSize: 11.5)),
+                                Icon(Icons.keyboard_arrow_down,color: _baseTextColor,size: 16,)
+                              ],
+                            ),
+                          ),
                           onTap:_timeFilter,
                         )
                       ],
