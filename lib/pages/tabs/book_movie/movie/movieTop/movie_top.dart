@@ -36,7 +36,7 @@ class _MovieTopState extends State<MovieTop> {
           _topMovie = res.data['modules'][8]['data']['selected_collections'][1]; 
           _hotMovie = res.data['modules'][8]['data']['selected_collections'][2]; 
           _requestStatus = '获取豆瓣榜单成功';
-        });     
+        });   
       }
     }
     catch(e){

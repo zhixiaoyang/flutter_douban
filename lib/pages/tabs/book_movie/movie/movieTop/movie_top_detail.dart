@@ -262,7 +262,7 @@ class _MovieTopDetailState extends State<MovieTopDetail> {
                   onTap: (){
 
                   },
-                  child: Icon(Icons.favorite_border,size: 18,color: Colors.orange),
+                  child: Image.asset('lib/assets/favorite.png',width: ScreenAdapter.width(40))
                 ),
                 SizedBox(height: ScreenAdapter.height(10)),
                 Text('想看',style: TextStyle(fontSize: 12,color: Colors.orange))
