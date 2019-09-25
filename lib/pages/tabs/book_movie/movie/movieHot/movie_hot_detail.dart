@@ -78,7 +78,7 @@ class _MovieHotDetailState extends State<MovieHotDetail> {
         iconTheme: IconThemeData(
           color: Colors.black
         ),
-        brightness: Brightness.dark,
+        brightness: Brightness.light,
       ),
       body: SmartRefresher(
         controller: _controller,

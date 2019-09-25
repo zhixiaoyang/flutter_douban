@@ -234,7 +234,7 @@ class _MovieDetailState extends State<MovieDetail> {
           iconTheme: IconThemeData(
             color: Colors.black
           ),
-          brightness: Brightness.dark,
+          brightness: Brightness.light,
       ),
       body: BaseLoading(type: _requestStatus),
     );

@@ -21,13 +21,13 @@ class _TheatricalFilmState extends State<TheatricalFilm> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
+          brightness: Brightness.light,
           textTheme: TextTheme(
             title:TextStyle(color: Colors.black)
           ),
           iconTheme: IconThemeData(
             color: Colors.black
           ),
-          brightness: Brightness.dark,
           centerTitle: true,
           title: Text('院线电影',style: TextStyle(fontSize: 20)),
           bottom: TabBar(

@@ -108,7 +108,7 @@ class _MovieTopDetailState extends State<MovieTopDetail> {
               iconTheme: IconThemeData(
                 color:_isExpand ? Colors.white: Colors.black
               ),
-              brightness: Brightness.dark,
+              brightness: Brightness.light,
               pinned: true,
               expandedHeight: 200,
               flexibleSpace: FlexibleSpaceBar(
