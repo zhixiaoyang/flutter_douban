@@ -5,7 +5,8 @@ class DetailHead extends StatefulWidget {
 
   Map _movie;
   bool _isDark;
-  DetailHead(this._movie,this._isDark);
+  List _honorInfo;
+  DetailHead(this._movie,this._honorInfo,this._isDark);
 
   @override
   _DetailHeadState createState() => _DetailHeadState();
@@ -50,6 +51,49 @@ class _DetailHeadState extends State<DetailHead> {
                     alignment: Alignment.centerLeft,
                     child: Text('${widget._movie['original_title']}',style: TextStyle(color: _baseTextColor,fontSize: 18)),
                   ),
+                  widget._honorInfo.length > 0 ? Container(
+                    margin: EdgeInsets.only(bottom: ScreenAdapter.height(10)),
+                    child:Row(
+                      children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.fromLTRB(ScreenAdapter.width(10), ScreenAdapter.height(3), ScreenAdapter.width(10), ScreenAdapter.height(3)),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topLeft:Radius.circular(2),
+                              bottomLeft:Radius.circular(2),
+                            ),
+                            gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                Color.fromRGBO(255, 243, 230, 1),
+                                Color.fromRGBO(254, 240, 179, 1),
+                              ]
+                            )
+                          ),
+                          child:Text('No.${widget._honorInfo[0]['rank']}',style: TextStyle(fontSize: 12,color: Color.fromRGBO(157, 95, 0, 1))),
+                        ),
+                        Container(
+                          padding: EdgeInsets.fromLTRB(ScreenAdapter.width(10), ScreenAdapter.height(3), ScreenAdapter.width(10), ScreenAdapter.height(3)),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topRight:Radius.circular(2),
+                              bottomRight:Radius.circular(2),
+                            ),
+                            gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                Color.fromRGBO(255, 197, 116, 1),
+                                Color.fromRGBO(255, 197, 7, 1),
+                              ]
+                            )
+                          ),
+                          child:Text('${widget._honorInfo[0]['title']}',style: TextStyle(fontSize: 10.6,color: Color.fromRGBO(157, 95, 0, 1))),
+                        )
+                      ],
+                    ),
+                  ):null,
                   Container(
                     alignment: Alignment.centerLeft,
                     margin: EdgeInsets.only(bottom: ScreenAdapter.height(10)),

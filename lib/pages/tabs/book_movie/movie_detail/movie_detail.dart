@@ -33,7 +33,8 @@ class _MovieDetailState extends State<MovieDetail> {
   String _themeColor = '';
   bool _isDark;
   String _requestStatus = '';
-
+  // 荣耀信息
+  List _honorInfo = [];
   // 滚动控制器
   ScrollController _scrollController = ScrollController();
   // 默认显示静态文字电影
@@ -76,6 +77,7 @@ class _MovieDetailState extends State<MovieDetail> {
       if(mounted){
         setState(() {
           _themeColor = res.data['header_bg_color'];
+          _honorInfo = res.data['honor_infos'];
           _isDark = res.data['color_scheme']['is_dark'];
         });
       }
@@ -165,7 +167,7 @@ class _MovieDetailState extends State<MovieDetail> {
               return [
                  // 详情头部
                 SliverToBoxAdapter(child:SizedBox(height: ScreenAdapter.height(30))),
-                _paddingContainer(child:DetailHead(_movie,_isDark)),
+                _paddingContainer(child:DetailHead(_movie,_honorInfo,_isDark)),
                 SliverToBoxAdapter(child:SizedBox(height: ScreenAdapter.height(30))),
                 // 豆瓣评分
                 _paddingContainer(child:DetailGrade(_movie,_isDark)),
