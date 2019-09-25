@@ -173,7 +173,7 @@ class _MovieShowState extends State<MovieShow> {
         //横轴间距
         crossAxisSpacing: 10.0,
         //子组件宽高长度比例
-        childAspectRatio: ScreenAdapter.getScreenWidth() / 3 /  ScreenAdapter.height(480)
+        childAspectRatio: ScreenAdapter.getScreenWidth() / 3 /  ScreenAdapter.height(420)
       ),
       itemBuilder: (BuildContext context, int index) {
         return GestureDetector(
@@ -186,7 +186,7 @@ class _MovieShowState extends State<MovieShow> {
                 ClipRRect(
                   child: Image.network('${data[index]['images']['small']}',
                   width: double.infinity,
-                  height:ScreenAdapter.height(300),fit: BoxFit.fill),
+                  height:ScreenAdapter.height(260),fit: BoxFit.fill),
                   borderRadius: BorderRadius.circular(5),
                 ),
                 Container(

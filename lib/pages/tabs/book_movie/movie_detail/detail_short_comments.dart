@@ -71,6 +71,14 @@ class _DetailShortCommentsState extends State<DetailShortComments> {
   // 单个短评
   Widget _commentItem(item){
     return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            width: 1,
+            color: Colors.grey[700]
+          )
+        )
+      ),
       child: Column(
         children: <Widget>[
           ListTile(
@@ -144,6 +152,7 @@ class _DetailShortCommentsState extends State<DetailShortComments> {
           ),
           Container(
             alignment: Alignment.centerLeft,
+            margin: EdgeInsets.only(bottom: ScreenAdapter.height(30)),
             child: Row(
               children: <Widget>[
                 Icon(Icons.thumb_up,color: _baseTextColor,size: 15,),

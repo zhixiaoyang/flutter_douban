@@ -162,7 +162,7 @@ class _IsHitState extends State<IsHit> with SingleTickerProviderStateMixin , Aut
   Widget _thumb(item){
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
-      child: Image.network('${item['images']['small']}',width: ScreenAdapter.width(200),height: ScreenAdapter.height(240),fit: BoxFit.cover,),
+      child: Image.network('${item['images']['small']}',width: ScreenAdapter.width(200),height: ScreenAdapter.height(220),fit: BoxFit.cover,),
     );
   }
 
@@ -171,7 +171,7 @@ class _IsHitState extends State<IsHit> with SingleTickerProviderStateMixin , Aut
     return Expanded(
       child: Container(
         constraints: BoxConstraints(
-          minHeight: ScreenAdapter.height(240)
+          minHeight: ScreenAdapter.height(220)
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

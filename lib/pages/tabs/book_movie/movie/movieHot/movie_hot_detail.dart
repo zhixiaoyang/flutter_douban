@@ -157,7 +157,7 @@ class _MovieHotDetailState extends State<MovieHotDetail> {
   Widget _thumb(item){
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
-      child: Image.network('${item['cover']}',width: ScreenAdapter.width(200),height: ScreenAdapter.height(240),fit: BoxFit.cover,),
+      child: Image.network('${item['cover']}',width: ScreenAdapter.width(200),height: ScreenAdapter.height(220),fit: BoxFit.cover,),
     );
   }
   // 中间信息区域
@@ -165,7 +165,7 @@ class _MovieHotDetailState extends State<MovieHotDetail> {
     return Expanded(
       child: Container(
         constraints: BoxConstraints(
-          minHeight: ScreenAdapter.height(240)
+          minHeight: ScreenAdapter.height(220)
         ),
         child: Column(
           children: <Widget>[

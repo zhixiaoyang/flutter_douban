@@ -85,7 +85,7 @@ class _DetailAlsoLikeState extends State<DetailAlsoLike> {
         //横轴间距
         crossAxisSpacing: 10.0,
         //子组件宽高长度比例
-        childAspectRatio: ScreenAdapter.getScreenWidth() / 6 /  ScreenAdapter.height(280)
+        childAspectRatio: ScreenAdapter.getScreenWidth() / 6 /  ScreenAdapter.height(220)
       ),
       itemBuilder: (BuildContext context, int index) {
         return GestureDetector(
@@ -98,7 +98,7 @@ class _DetailAlsoLikeState extends State<DetailAlsoLike> {
                 ClipRRect(
                   child: Image.network('${data[index]['cover']}',
                   width: double.infinity,
-                  height:ScreenAdapter.height(230),fit: BoxFit.fill),
+                  height:ScreenAdapter.height(180),fit: BoxFit.fill),
                   borderRadius: BorderRadius.circular(5),
                 ),
                 Container(

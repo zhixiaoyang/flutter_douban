@@ -122,7 +122,7 @@ class _MovieTopDetailState extends State<MovieTopDetail> {
               flexibleSpace: FlexibleSpaceBar(
                 title: AnimatedDefaultTextStyle(
                   duration: Duration(seconds:1),
-                  style: TextStyle(color: _isExpand ? Colors.white:Colors.black,fontSize: 18),
+                  style: TextStyle(color: _isExpand ? Colors.white:Colors.black,fontSize: 20),
                   child: Text('${_weekPraise['subject_collection']['name']}'),
                 ),
                 background: Container(
@@ -252,7 +252,7 @@ class _MovieTopDetailState extends State<MovieTopDetail> {
   Widget _thumb(item){
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
-      child: Image.network('${item['cover']['url']}',width: ScreenAdapter.width(200),height: ScreenAdapter.height(240),fit: BoxFit.cover,),
+      child: Image.network('${item['cover']['url']}',width: ScreenAdapter.width(200),height: ScreenAdapter.height(220),fit: BoxFit.cover,),
     );
   }
   // 中间信息区域
@@ -260,7 +260,7 @@ class _MovieTopDetailState extends State<MovieTopDetail> {
     return Expanded(
       child: Container(
         constraints: BoxConstraints(
-          minHeight: ScreenAdapter.height(240)
+          minHeight: ScreenAdapter.height(220)
         ),
         child: Column(
           children: <Widget>[

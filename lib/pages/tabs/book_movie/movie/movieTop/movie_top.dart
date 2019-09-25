@@ -79,7 +79,7 @@ class _MovieTopState extends State<MovieTop> {
         ),
         SizedBox(height: ScreenAdapter.height(30)),
         _requestStatus.isNotEmpty ? Container(
-          height: ScreenAdapter.height(480),
+          height: ScreenAdapter.height(420),
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: <Widget>[
@@ -122,16 +122,16 @@ class _MovieTopState extends State<MovieTop> {
                 Opacity(
                   opacity: 0.6,
                   child: ClipRRect(
-                      child: Image.network('${data['header_bg_image']}',width:  ScreenAdapter.width(450),height: ScreenAdapter.height(300),fit: BoxFit.fill),borderRadius: BorderRadius.only(topLeft: Radius.circular(8),topRight:Radius.circular(8) )
+                      child: Image.network('${data['header_bg_image']}',width:  ScreenAdapter.width(450),height: ScreenAdapter.height(220),fit: BoxFit.cover),borderRadius: BorderRadius.only(topLeft: Radius.circular(8),topRight:Radius.circular(8) )
                   ),
                 ),
                 Positioned(
-                  bottom: ScreenAdapter.width(40),
+                  bottom: ScreenAdapter.height(30),
                   left: ScreenAdapter.width(30),
                   child: Text('${data['name']}',style: TextStyle(fontSize: 24,color: Colors.white)),
                 ),
                 Positioned(
-                  top: ScreenAdapter.width(40),
+                  top: ScreenAdapter.height(40),
                   right: ScreenAdapter.width(30),
                   child: Text('${data['description']}',style: TextStyle(fontSize: 13,color: Colors.white)),
                 )

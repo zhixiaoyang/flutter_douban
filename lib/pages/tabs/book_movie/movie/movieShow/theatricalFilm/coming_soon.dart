@@ -198,7 +198,7 @@ class _ComingSoonState extends State<ComingSoon> with AutomaticKeepAliveClientMi
   // 右侧操作区域
   Widget _actions(item){
     return Container(
-      height: ScreenAdapter.height(240),
+      height: ScreenAdapter.height(220),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -229,7 +229,7 @@ class _ComingSoonState extends State<ComingSoon> with AutomaticKeepAliveClientMi
   Widget _thumb(item){
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
-      child: Image.network('${item['images']['small']}',width: ScreenAdapter.width(200),height: ScreenAdapter.height(240),fit: BoxFit.cover,),
+      child: Image.network('${item['images']['small']}',width: ScreenAdapter.width(200),height: ScreenAdapter.height(220),fit: BoxFit.cover,),
     );
   }
 
@@ -238,7 +238,7 @@ class _ComingSoonState extends State<ComingSoon> with AutomaticKeepAliveClientMi
     return Expanded(
       child: Container(
         constraints: BoxConstraints(
-          minHeight: ScreenAdapter.height(240)
+          minHeight: ScreenAdapter.height(220)
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
