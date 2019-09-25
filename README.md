@@ -19,6 +19,7 @@
 目前项目接口采用豆瓣测试Api，均为测试学习使用，不得用于任何利益和商业活动。
 
 ## 页面展示
+![avatar](http://cdn.jahnli.cn/flutter_douban/movie.gif?imageslim)
 <img src='http://cdn.jahnli.cn/flutter_douban/movie.gif?imageslim' width='300px'></img>   <img src='http://cdn.jahnli.cn/flutter_douban/movie_detail.gif?imageslim' width='300px'></img>   <img src='http://cdn.jahnli.cn/flutter_douban/movie_hot_detail.gif?imageslim' width='300px'></img><img src='http://cdn.jahnli.cn/flutter_douban/movie_show_detail.gif?imageslim' width='300px'></img><img src='http://cdn.jahnli.cn/flutter_douban/movie_top_week_praise.gif?imageslim' width='300px'></img>
 
 
