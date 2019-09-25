@@ -15,5 +15,7 @@
 2. cd flutter_jahn_douban
 3. flutter run
 
+#### 接口说明
+目前项目接口采用豆瓣测试Api，均为测试学习使用，如有侵犯请联系。
 
 <img src='https://github.com/jahnli/flutter_jahn_douban/blob/master/demoGif/movie.gif' width='300px'></img>   <img src='https://github.com/jahnli/flutter_jahn_douban/blob/master/demoGif/movieDetail.gif' width='300px'></img>   <img src='https://github.com/jahnli/flutter_jahn_douban/blob/master/demoGif/theatrical_film_is_hit.gif' width='300px'></img>
