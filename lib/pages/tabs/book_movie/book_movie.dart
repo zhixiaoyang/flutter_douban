@@ -25,10 +25,10 @@ class _BookMoviePageState extends State<BookMoviePage> with SingleTickerProvider
   @override
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
+   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        brightness: Brightness.dark,
         bottom: TabBar(
           labelColor:Colors.black,
           indicatorColor: Colors.black,
