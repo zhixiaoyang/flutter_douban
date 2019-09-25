@@ -25,12 +25,16 @@ class _MovieTopDetailState extends State<MovieTopDetail> {
   // 主题
   bool _isDark;
   Color _baseTextColor;
+  // 过滤日期列表
+  List _dateList = [];
+  int _currentFilterDate = 0;
 
   @override
   void initState() { 
     super.initState();
     _baseTextColor = _isDark == true ? Colors.white:Colors.black;
     _getWeekPraiseList();
+    _getFillterDate();
     // 监听滚动 控制标题栏样式
     _scrollController.addListener((){
       setState(() {
@@ -49,9 +53,9 @@ class _MovieTopDetailState extends State<MovieTopDetail> {
 
   // 获取一周口碑电影榜
   _getWeekPraiseList()async{
-
     try {
-      Response res = await Dio().get('https://m.douban.com/rexxar/api/v2/subject_collection/movie_weekly_best/items?start=0&count=20&for_mobile=1', options: Options(
+
+      Response res = await Dio().get('https://m.douban.com/rexxar/api/v2/subject_collection/movie_weekly_best/items?start=0&count=20&for_mobile=1&updated_at=${_dateList.length > 0 ? _dateList[_currentFilterDate]:''}', options: Options(
       headers: {
           HttpHeaders.refererHeader: 'https://m.douban.com/movie/beta',
         },
@@ -63,47 +67,35 @@ class _MovieTopDetailState extends State<MovieTopDetail> {
           _total = res.data['total'];
         });
       }
-    } catch (e) {
+    }
+    catch (e) {
+      print(e);
       if(mounted){
         setState(() {
           _requestStatus = '获取豆瓣榜单详情页失败';
         });
       }
     }
-
   }
-  // 时间筛选
-  _timeFilter(){
-    showModalBottomSheet(
-        context: context,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(15),
-            topRight: Radius.circular(15),
-          )
-        ),
-        builder: (BuildContext context) {
-          return Container(
-            height: 300,
-            child: Column(
-              children: <Widget>[
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                    color: Colors.black26,
-                  ),
-                  alignment: Alignment.center,
-                  margin:EdgeInsets.only(top:8),
-                  width: ScreenAdapter.width(60),
-                  height: ScreenAdapter.width(8),
-                )
-              ],
-            ),
-          );
+  // 获取筛选日期
+  _getFillterDate()async{
+    try {
+      Response res = await Dio().get('https://m.douban.com/rexxar/api/v2/subject_collection/movie_weekly_best/dates?for_mobile=1', options: Options(
+      headers: {
+          HttpHeaders.refererHeader: 'https://m.douban.com/movie/beta',
         },
-    );
+      ));
+      if(mounted){
+        setState(() {
+          _dateList = res.data['data']; 
+        });
+      }
+    }
+    catch (e) {
+      print(e);
+    }
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -157,6 +149,7 @@ class _MovieTopDetailState extends State<MovieTopDetail> {
                 itemBuilder: (ctx,index){
                   return Column(
                     children: <Widget>[
+                      // 头部排名
                       Container(
                         margin: EdgeInsets.only(left:ScreenAdapter.width(30),right:ScreenAdapter.width(30),top: ScreenAdapter.height(30)),
                         alignment: Alignment.centerLeft,
@@ -169,6 +162,7 @@ class _MovieTopDetailState extends State<MovieTopDetail> {
                           child: Text('No.${index+1}',style: TextStyle(color: Colors.white)),
                         ),
                       ),
+                      // 具体内容
                       Container(
                         margin: EdgeInsets.only(left:ScreenAdapter.width(30),right:ScreenAdapter.width(30),top: ScreenAdapter.height(30)),
                         padding: EdgeInsets.only(bottom: ScreenAdapter.height(20)),
@@ -191,6 +185,7 @@ class _MovieTopDetailState extends State<MovieTopDetail> {
                           ),
                         )
                       ),
+                      // 评价数
                       Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(4),
@@ -218,38 +213,122 @@ class _MovieTopDetailState extends State<MovieTopDetail> {
     );
   }
 
+  // 时间筛选
+  _timeFilter(){
+    showModalBottomSheet(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(15),
+          topRight: Radius.circular(15),
+        )
+      ),
+      context:context, 
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context,state){
+            return Container(
+              height: 300,
+              padding: EdgeInsets.fromLTRB(ScreenAdapter.width(30),0,ScreenAdapter.width(30),0),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                      color: Colors.black26,
+                    ),
+                    alignment: Alignment.center,
+                    margin:EdgeInsets.only(top:ScreenAdapter.height(16),bottom:ScreenAdapter.height(40)),
+                    width: ScreenAdapter.width(60),
+                    height: ScreenAdapter.width(8),
+                  ),
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    margin:EdgeInsets.only(bottom:ScreenAdapter.height(20)),
+                    child: Text('${DateTime.now().year}',style: TextStyle(fontSize: 18)),
+                  ),
+                  Container(
+                    width: double.infinity,
+                    child: GridView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        //横轴元素个数
+                        crossAxisCount: 4,
+                        //纵轴间距
+                        mainAxisSpacing: 8,
+                        //横轴间距
+                        crossAxisSpacing: 10.0,
+                        //子组件宽高长度比例
+                        childAspectRatio: 2.7 / 1
+                      ),
+                      itemBuilder: (context,index){
+                        return GestureDetector(
+                          onTap: (){
+                            state(() {
+                              _currentFilterDate = index; 
+                            });
+                            Navigator.pop(context);
+                            _getWeekPraiseList();
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color:_currentFilterDate == index ? Color.fromRGBO(66, 189, 86, 1):Colors.grey[200],
+                            ),
+                            alignment: Alignment.center,
+                            padding: EdgeInsets.fromLTRB(5, 2, 5, 2),
+                            child: Text('${_dateList[index].substring(5,10)}',style: TextStyle(fontSize: 12,color: _currentFilterDate == index ? Colors.white:Colors.black)),
+                          ),
+                        );
+                      },  
+                      itemCount: _dateList.length,
+                    )
+                  )
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   // 头部筛选
   Widget _headActions(){
     return Container(
       margin: EdgeInsets.only(left:ScreenAdapter.width(30),right:ScreenAdapter.width(30),top: ScreenAdapter.height(30)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text('片单列表 · 共$_total部',style: TextStyle(color: Colors.grey)),
-          Row(
-            children: <Widget>[
-              GestureDetector(
-                child: Container(
-                  padding: EdgeInsets.fromLTRB(5, 2, 5, 2),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 1,
-                      color: Colors.grey
-                    ),
-                    borderRadius: BorderRadius.circular(11)
-                  ),
-                  child: Row(
-                    children: <Widget>[
-                      Text('更新时间',style: TextStyle(color: _baseTextColor,fontSize: 11)),
-                      SizedBox(width: ScreenAdapter.width(8)),
-                      Text('09-20',style: TextStyle(color: _baseTextColor,fontSize: 10.5)),
-                      Icon(Icons.keyboard_arrow_down,color: _baseTextColor,size: 16,)
-                    ],
-                  ),
-                ),
-                onTap:_timeFilter,
-              )
-            ],
+          Container(
+            padding: EdgeInsets.fromLTRB(8, 2, 8, 2),
+            decoration: BoxDecoration(
+              border: Border.all(
+                width: 1,
+                color: Colors.grey
+              ),
+              borderRadius: BorderRadius.circular(11)
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                Text('更新时间',style: TextStyle(color: _baseTextColor,fontSize: 11)),
+                SizedBox(width: ScreenAdapter.width(8)),
+                Text('${_dateList[_currentFilterDate].substring(5,10)}',style: TextStyle(color: _baseTextColor,fontSize: 11))
+              ],
+            ),
+          ),
+          GestureDetector(
+            onTap:_timeFilter,
+            child: Row(
+              crossAxisAlignment:CrossAxisAlignment.end,
+              children: <Widget>[
+                Image.asset('lib/assets/filter.png',width: ScreenAdapter.width(30)),
+                Text('筛选',style: TextStyle(fontSize: 14))
+              ],  
+            ),
           )
         ]
       ),

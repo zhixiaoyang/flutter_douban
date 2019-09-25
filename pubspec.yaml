@@ -55,6 +55,7 @@ flutter:
    - lib/assets/launchPage/splash_bg.jpg
    - lib/assets/douban_loading.gif
    - lib/assets/favorite.png
+   - lib/assets/filter.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
