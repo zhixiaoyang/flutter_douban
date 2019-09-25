@@ -148,38 +148,8 @@ class _MovieTopDetailState extends State<MovieTopDetail> {
           child: ListView(
             padding: EdgeInsets.all(0),
             children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(left:ScreenAdapter.width(30),right:ScreenAdapter.width(30),top: ScreenAdapter.height(30)),
-                child: Row(
-                  children: <Widget>[
-                    Text('片单列表 · 共$_total部',style: TextStyle(color: Colors.grey)),
-                    Row(
-                      children: <Widget>[
-                        GestureDetector(
-                          child: Container(
-                            padding: EdgeInsets.fromLTRB(5, 2, 5, 2),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                width: 1,
-                                color: Colors.grey
-                              ),
-                              borderRadius: BorderRadius.circular(11)
-                            ),
-                            child: Row(
-                              children: <Widget>[
-                                Text('更新时间',style: TextStyle(color: _baseTextColor,fontSize: 12)),
-                                Text('09-20',style: TextStyle(color: _baseTextColor,fontSize: 11.5)),
-                                Icon(Icons.keyboard_arrow_down,color: _baseTextColor,size: 16,)
-                              ],
-                            ),
-                          ),
-                          onTap:_timeFilter,
-                        )
-                      ],
-                    )
-                  ]
-                ),
-              ),
+              // 头部操作区
+              _headActions(),
               ListView.builder(
                 padding: EdgeInsets.all(0),
                 shrinkWrap: true,
@@ -245,6 +215,44 @@ class _MovieTopDetailState extends State<MovieTopDetail> {
           ),
         )
       ):BaseLoading(type: _requestStatus),
+    );
+  }
+
+  // 头部筛选
+  Widget _headActions(){
+    return Container(
+      margin: EdgeInsets.only(left:ScreenAdapter.width(30),right:ScreenAdapter.width(30),top: ScreenAdapter.height(30)),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text('片单列表 · 共$_total部',style: TextStyle(color: Colors.grey)),
+          Row(
+            children: <Widget>[
+              GestureDetector(
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(5, 2, 5, 2),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 1,
+                      color: Colors.grey
+                    ),
+                    borderRadius: BorderRadius.circular(11)
+                  ),
+                  child: Row(
+                    children: <Widget>[
+                      Text('更新时间',style: TextStyle(color: _baseTextColor,fontSize: 11)),
+                      SizedBox(width: ScreenAdapter.width(8)),
+                      Text('09-20',style: TextStyle(color: _baseTextColor,fontSize: 10.5)),
+                      Icon(Icons.keyboard_arrow_down,color: _baseTextColor,size: 16,)
+                    ],
+                  ),
+                ),
+                onTap:_timeFilter,
+              )
+            ],
+          )
+        ]
+      ),
     );
   }
  
