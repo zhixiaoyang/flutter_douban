@@ -93,7 +93,7 @@ class _DetailHeadState extends State<DetailHead> {
                         )
                       ],
                     ),
-                  ):null,
+                  ):Container(),
                   Container(
                     alignment: Alignment.centerLeft,
                     margin: EdgeInsets.only(bottom: ScreenAdapter.height(10)),
