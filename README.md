@@ -9,14 +9,6 @@
 ## 进度说明
 目前还在Coding阶段，在逐步增加功能页面，学习Flutter阶段，后期会考虑优化，如有专业大佬请指教。
 
-##  已完成大部分功能待优化细节页面
-- [x] 书影音首页
-- [x] 电影详情页页
-- [x] 影院热映详情页
-- [x] 豆瓣热门详情页
-- [x] 豆瓣榜单 - 一周口碑榜详情页
-
-
 ## 使用说明
 
 > * git clone https://github.com/jahnli/flutter_jahn_douban
@@ -30,6 +22,17 @@
 <img src='https://github.com/jahnli/flutter_jahn_douban/blob/master/demoGif/movie.gif' width='300px'></img>   <img src='https://github.com/jahnli/flutter_jahn_douban/blob/master/demoGif/movieDetail.gif' width='300px'></img>   <img src='https://github.com/jahnli/flutter_jahn_douban/blob/master/demoGif/theatrical_film_is_hit.gif' width='300px'></img>
 
 
-## 前端小弟的第一次，请给个Star吧 
+## 前端小弟的第一次，请给个Star吧 ❀  ❤
 
+##  已完成大部分功能待优化细节页面
+- [x] 书影音首页
+- [x] 电影详情页
+- [x] 影院热映详情页
+- [x] 豆瓣热门详情页
+- [x] 豆瓣榜单 - 一周口碑榜详情页
+
+##  后续计划
+- [ ] Ios memory 虚拟机内存增长问题
+- [ ] 电影详情页 - 影评上拉菜单功能
+- [ ] 代码结构优化
 
