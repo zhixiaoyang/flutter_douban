@@ -19,7 +19,7 @@
 目前项目接口采用豆瓣测试Api，均为测试学习使用，不得用于任何利益和商业活动。
 
 ## 页面展示
-<img src='https://github.com/jahnli/flutter_jahn_douban/blob/master/demoGif/movie.gif' width='300px'></img>   <img src='https://github.com/jahnli/flutter_jahn_douban/blob/master/demoGif/movieDetail.gif' width='300px'></img>   <img src='https://github.com/jahnli/flutter_jahn_douban/blob/master/demoGif/theatrical_film_is_hit.gif' width='300px'></img>
+<img src='https://github.com/jahnli/flutter_jahn_douban/blob/master/demoGif/movie.gif' width='300px'></img>   <img src='https://github.com/jahnli/flutter_jahn_douban/blob/master/demoGif/movie_detail.gif' width='300px'></img>   <img src='https://github.com/jahnli/flutter_jahn_douban/blob/master/demoGif/movie_hot_detail.gif' width='300px'></img><img src='https://github.com/jahnli/flutter_jahn_douban/blob/master/demoGif/movie_show_detail.gif' width='300px'></img><img src='https://github.com/jahnli/flutter_jahn_douban/blob/master/demoGif/movie_top_week_praise.gif' width='300px'></img>
 
 
 ## 前端小弟的第一次，请给个Star吧 ❀  ❤
@@ -33,6 +33,7 @@
 
 ##  后续计划
 - [ ] Ios memory 虚拟机内存增长问题
+- [ ] 状态栏黑色字体
 - [ ] 电影详情页 - 影评上拉菜单功能
 - [ ] 代码结构优化
 
