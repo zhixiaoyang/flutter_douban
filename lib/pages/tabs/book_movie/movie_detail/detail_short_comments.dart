@@ -28,6 +28,33 @@ class _DetailShortCommentsState extends State<DetailShortComments> {
     }
   }
 
+  // 显示提醒
+  _showHelp(){
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return CupertinoAlertDialog(
+          title: Container(
+            margin: EdgeInsets.only(bottom: 8),
+            alignment: Alignment.centerLeft,
+            child: Text('短评'),
+          ),
+          content: Text('''短评区仅展示部分短评，由算法根据时间、热度等因素进行筛选，并随机展示。
+影片上映之前的、与影片无关的或包含人身攻击等内容的短评将被折叠，且评分不计入豆瓣评分。
+          ''',textAlign: TextAlign.left),
+          actions: <Widget>[
+            CupertinoDialogAction(
+              child: Text('我知道了',style: TextStyle(color: Color.fromRGBO(65, 172, 82, 1))),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,11 +69,22 @@ class _DetailShortCommentsState extends State<DetailShortComments> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text('短评',style: TextStyle(fontSize: 20,color:_baseTextColor)),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text('短评',style: TextStyle(fontSize: 20,color:_baseTextColor)),
+                  SizedBox(width: ScreenAdapter.width(10)),
+                  GestureDetector(
+                    onTap: _showHelp,
+                    child: Icon(Icons.help_outline,size:18,color: _baseTextColor),
+                  )
+                ],
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text('全部短评 ${widget._movie['comments_count']}',style:TextStyle(color: _baseTextColor)),
-                  Icon(Icons.keyboard_arrow_right,color:_baseTextColor)
+                  Icon(Icons.keyboard_arrow_right,color:_baseTextColor,size: 20,)
                 ],
               )
             ],
@@ -59,9 +97,11 @@ class _DetailShortCommentsState extends State<DetailShortComments> {
             },
             itemCount: widget._movie['popular_comments'].length,
           ),
-          ListTile(
+          widget._movie['popular_comments'].length > 0 ? ListTile(
             title: Text('查看全部短评',style: TextStyle(color: _baseTextColor)),
             trailing: Icon(Icons.keyboard_arrow_right,color:_baseTextColor),
+          ):Center(
+            child: Text('暂无短评'),
           )
         ],
       ),

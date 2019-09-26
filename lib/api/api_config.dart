@@ -3,8 +3,8 @@ import 'package:dio/dio.dart';
 
 class ApiConfig {
 
-  static String baseUrl = 'https://douban.uieee.com'; 
-  static String apiKey = '0df993c66c0c636e29ecbb5344252a4a'; 
+  static String baseUrl = 'https://api.douban.com'; 
+  static String apiKey = '0b2bdeda43b5688921839c8ecb20399b'; 
 
   static ajax(type,url,params) async {
     try{

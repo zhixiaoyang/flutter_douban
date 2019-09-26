@@ -173,15 +173,13 @@ class _MovieDetailState extends State<MovieDetail> {
                 _paddingContainer(child:DetailGrade(_movie,_isDark)),
                 // 剧情简介
                 _paddingContainer(child:DetailPlot(_movie,_isDark)),
-                SliverToBoxAdapter(child:SizedBox(height: ScreenAdapter.height(40))),
                 // 演职员
                 _paddingContainer(child:DetailActor(_movie,_isDark)),
                 // 预告片 / 剧照
                 _paddingContainer(child:DetailTrailer(_movie,_isDark)),
-                SliverToBoxAdapter(child:SizedBox(height: ScreenAdapter.height(40))),
+                SliverToBoxAdapter(child:SizedBox(height: ScreenAdapter.height(30))),
                 // 短评
                 _paddingContainer(child:DetailShortComments(_movie,_isDark)),
-                SliverToBoxAdapter(child:SizedBox(height: ScreenAdapter.height(40))),
                 // 有可能喜欢
                 _paddingContainer(child: DetailAlsoLike(_movie['genres'][0],_isDark)),
                 // 影评
