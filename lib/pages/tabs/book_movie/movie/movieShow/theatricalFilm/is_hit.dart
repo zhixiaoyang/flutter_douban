@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_jahn_douban/api/api_config.dart';
 import 'package:flutter_jahn_douban/routes/application.dart';
 import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
+import 'package:flutter_jahn_douban/utils/utils.dart';
 import 'package:flutter_jahn_douban/weiget/base_loading.dart';
 import 'package:flutter_jahn_douban/weiget/custom_scroll_footer.dart';
 import 'package:flutter_jahn_douban/weiget/custom_scroll_header.dart';
@@ -181,7 +182,7 @@ class _IsHitState extends State<IsHit> with SingleTickerProviderStateMixin , Aut
               margin: EdgeInsets.only(bottom: ScreenAdapter.height(10)),
               child: Text('${item['title']}',maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w400)),
             ),
-            Container(
+            Utils.computeIsBeOn(item['mainland_pubdate']) ? Container(
               alignment: Alignment.centerLeft,
               margin: EdgeInsets.only(bottom: ScreenAdapter.height(10)),
               child: Row(
@@ -202,13 +203,16 @@ class _IsHitState extends State<IsHit> with SingleTickerProviderStateMixin , Aut
                   Text('${item['rating']['average']}',style: TextStyle(color: Colors.grey,fontSize: 12))
                 ],
               )
+            ):Container(
+              alignment: Alignment.centerLeft,
+              child: Text('尚未上映',style: TextStyle(color: Colors.grey,fontSize: 12)),
             ),
             Container(
               alignment: Alignment.centerLeft,
               child: Text('${item['year']} ${item['directors'].length > 0 ? ' / ' + item['directors'][0]['name']:''}',maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 12,color: Colors.grey)),
             ),
             Container(
-              height: ScreenAdapter.height(40),
+              height: ScreenAdapter.height(30),
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: item['genres'].asMap().keys.map<Widget>((index){
