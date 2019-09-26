@@ -28,6 +28,7 @@ dependencies:
   flutter_easyrefresh: ^2.0.4
   flutter_gifimage: ^1.0.0
   pull_to_refresh: ^1.5.6
+  provider: ^3.1.0
   fluro: ^1.5.1
   dio: ^3.0.1
   palette_generator: ^0.2.0
@@ -56,6 +57,7 @@ flutter:
    - lib/assets/douban_loading.gif
    - lib/assets/favorite.png
    - lib/assets/filter.png
+   - lib/assets/fire.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

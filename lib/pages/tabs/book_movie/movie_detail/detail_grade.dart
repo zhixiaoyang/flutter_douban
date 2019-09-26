@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
+import 'package:flutter_jahn_douban/utils/utils.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class DetailGrade extends StatefulWidget {
@@ -15,15 +16,23 @@ class _DetailGradeState extends State<DetailGrade> {
   var _total;
   Color _baseTextColor;
 
+  // 是否正在上映
+  bool _isBeOn;
+
   @override
   void initState() { 
     super.initState();
-    _baseTextColor = widget._isDark == true ? Colors.white:Colors.black;
+
     if(mounted){
       double tempNum = 0;
       for(var val in widget._movie['rating']['details'].keys){
         tempNum+=widget._movie['rating']['details'][val];
       }
+      _baseTextColor = widget._isDark == true ? Colors.white:Colors.black;
+      
+      // 获取是否正在热映
+      _isBeOn = Utils.computeIsBeOn(widget._movie['pubdate']);
+
       setState(() {
         _total = tempNum.toInt();
       });
@@ -43,23 +52,27 @@ class _DetailGradeState extends State<DetailGrade> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text('豆瓣评分',style: TextStyle(color: _baseTextColor)),
-              Icon(Icons.keyboard_arrow_right,color: _baseTextColor,)
+              _isBeOn ?  Icon(Icons.keyboard_arrow_right,color: _baseTextColor):Container()
             ],
           ),
           SizedBox(height: ScreenAdapter.height(10)),
           Container(
             padding: EdgeInsets.only(left: ScreenAdapter.width(55),right: ScreenAdapter.width(55)),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: _isBeOn ? CrossAxisAlignment.start: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Column(
+                _isBeOn ? Column(
                   children: <Widget>[
                     Text('${widget._movie['rating']['average']}',style: TextStyle(fontSize: 30,color: _baseTextColor)),
                     _ratingBar(widget._movie['rating']['average'] / 2)
                   ],
+                ):Container(
+                  margin: EdgeInsets.only(top: ScreenAdapter.height(15),bottom: ScreenAdapter.height(15)),
+                  child: Text('尚未上映',style: TextStyle(color:widget._isDark ? Colors.grey[400] :Colors.grey[600],fontSize: 11)),
                 ),
                 SizedBox(width: ScreenAdapter.width(20)),
-                Expanded(
+                _isBeOn ? Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
@@ -73,16 +86,27 @@ class _DetailGradeState extends State<DetailGrade> {
                       )
                     ],
                   ),
+                ):Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    Image.asset('lib/assets/fire.png',width: 16),
+                    SizedBox(width: ScreenAdapter.width(8)),
+                    Text('${widget._movie['wish_count']}人想看',style: TextStyle(color: _baseTextColor,fontSize: 13))
+                  ],
                 )
               ],
             ),
           ),
-          Divider(color: Colors.grey[600]),
-          Container(
-            alignment: Alignment.centerRight,
-            margin: EdgeInsets.only(right: ScreenAdapter.width(30)),
-            child: Text('${_compute(widget._movie['collect_count'])}看过    ${_compute(widget._movie['wish_count'])}想看',style: TextStyle(color: widget._isDark ? Colors.grey[300] :Colors.grey[600],fontSize: 11)),
-          )
+          _isBeOn ? Column(
+            children: <Widget>[
+              Divider(color: Colors.grey[600]),
+              Container(
+                alignment: Alignment.centerRight,
+                margin: EdgeInsets.only(right: ScreenAdapter.width(30)),
+                child: Text('${_compute(widget._movie['collect_count'])}看过    ${_compute(widget._movie['wish_count'])}想看',style: TextStyle(color: widget._isDark ? Colors.grey[300] :Colors.grey[600],fontSize: 11)),
+              )
+            ],
+          ):Container()
         ],
       ),
     );

@@ -4,6 +4,8 @@ import 'package:flutter_jahn_douban/pages/launchPage/launch_page.dart';
 import 'package:flutter_jahn_douban/pages/tabs/tabs.dart';
 import 'package:flutter_jahn_douban/routes/application.dart';
 import 'package:flutter_jahn_douban/routes/routes.dart';
+// 引入Provider
+import 'package:provider/provider.dart';
 
 void main(){
   runApp(MyApp());
@@ -16,11 +18,17 @@ class MyApp extends StatelessWidget {
    final router = Router();
    Routes.configureRoutes(router);
    Application.router = router;
-    return MaterialApp(
-      home: Tabs(),
-      // 去掉debug
-      debugShowCheckedModeBanner: false,
-    );
+    return MultiProvider(
+      // 配置对应类
+      providers: [
+        // 电影是否上映
+      ],
+      child: MaterialApp(
+        home: Tabs(),
+        // 去掉debug
+        debugShowCheckedModeBanner: false,
+      )
+    ); 
   }
 }
 
