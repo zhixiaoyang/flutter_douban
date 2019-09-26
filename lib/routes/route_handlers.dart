@@ -36,7 +36,8 @@ Handler movieHotDetailHandler = Handler(
 // 豆瓣榜单详情页
 Handler movieTopDetailHandler = Handler(
   handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  return MovieTopDetail();
+  int index = int.parse(params['index']?.first);
+  return MovieTopDetail(index);
 });
 
 

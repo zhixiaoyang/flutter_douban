@@ -157,7 +157,7 @@ class _MovieDetailState extends State<MovieDetail> {
                 ],
               ):Container(
                 alignment: Alignment.centerLeft,
-                child: Text('尚未上映',style: TextStyle(fontSize: 12,color: Colors.grey[400]))
+                child: Text('尚未上映',style: TextStyle(fontSize: 12,color: Colors.grey[300]))
               )
             ],
           ) : Text('电影') ,

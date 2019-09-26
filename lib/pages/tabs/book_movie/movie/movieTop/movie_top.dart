@@ -85,21 +85,31 @@ class _MovieTopState extends State<MovieTop> {
             children: <Widget>[
               GestureDetector(
                 onTap: (){
-                  Application.router.navigateTo(context, '/movieTopDetail');
+                  Application.router.navigateTo(context, '/movieTopDetail?index=0');
                 },
                 child: Container(
                   margin: EdgeInsets.only(left: ScreenAdapter.width(30)),
                   child: _weekMovie !=null  ? _item(_weekMovie,'weekMovie'):BaseLoading(type:_requestStatus),
                 ),
               ),
-              SizedBox(width: ScreenAdapter.width(30)),
-              _topMovie !=null  ? _item(_topMovie,'topMovie'):BaseLoading(type:_requestStatus),
-              SizedBox(width: ScreenAdapter.width(30)),
-              Container(
-                margin: EdgeInsets.only(right: ScreenAdapter.width(30)),
-                child:_hotMovie  !=null  ? _item(_hotMovie,'hotMovie'):BaseLoading(type:_requestStatus),
+              GestureDetector(
+                onTap: (){
+                  Application.router.navigateTo(context, '/movieTopDetail?index=1');
+                },
+                child: Container(
+                  margin: EdgeInsets.only(left: ScreenAdapter.width(30)),
+                  child:  _topMovie !=null  ? _item(_topMovie,'topMovie'):BaseLoading(type:_requestStatus),
+                ),
               ),
-              
+              GestureDetector(
+                onTap: (){
+                  Application.router.navigateTo(context, '/movieTopDetail?index=2');
+                },
+                child: Container(
+                  margin: EdgeInsets.only(left: ScreenAdapter.width(30),right: ScreenAdapter.width(30)),
+                  child: _hotMovie  !=null  ? _item(_hotMovie,'hotMovie'):BaseLoading(type:_requestStatus),
+                ),
+              ),
             ],
           ),
         ):BaseLoading(type: _requestStatus)
