@@ -11,6 +11,7 @@ import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/detail_pl
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/detail_short_comments.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/detail_trailers.dart';
 import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
+import 'package:flutter_jahn_douban/utils/utils.dart';
 import 'package:flutter_jahn_douban/weiget/base_loading.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -137,7 +138,7 @@ class _MovieDetailState extends State<MovieDetail> {
                 alignment: Alignment.centerLeft,
                 child: Text('${_movie['title']}',style: TextStyle(fontSize: 14)),
               ),
-              Row(
+              Utils.computeIsBeOn(_movie['pubdate']) ? Row(
                 children: <Widget>[
                   RatingBarIndicator(
                     rating:_movie['rating']['average'] / 2,
@@ -154,6 +155,9 @@ class _MovieDetailState extends State<MovieDetail> {
                   SizedBox(width: ScreenAdapter.width(10)),
                   Text('${_movie['rating']['average']}',style: TextStyle(fontSize: 12))
                 ],
+              ):Container(
+                alignment: Alignment.centerLeft,
+                child: Text('尚未上映',style: TextStyle(fontSize: 12,color: Colors.grey[400]))
               )
             ],
           ) : Text('电影') ,

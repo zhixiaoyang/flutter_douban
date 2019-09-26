@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_jahn_douban/api/api_config.dart';
 import 'package:flutter_jahn_douban/routes/application.dart';
 import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
+import 'package:flutter_jahn_douban/utils/utils.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class MovieShow extends StatefulWidget {
@@ -24,7 +25,6 @@ class _MovieShowState extends State<MovieShow> {
   // 正在上映列表total
   int _comingSoonTotal = 0;
 
-
   // 当前热映列表
   // 热映列表：1，即将上映2
   int _currentTabIndex = 1;
@@ -37,6 +37,7 @@ class _MovieShowState extends State<MovieShow> {
     _getHotShowList();
     // 获取即将上映
     _getComingSoonList();
+    
   }
 
   // 获取热映列表
@@ -50,8 +51,8 @@ class _MovieShowState extends State<MovieShow> {
       Response res = await ApiConfig.ajax('get', ApiConfig.baseUrl + '/v2/movie/in_theaters', params);
       if(res.data['subjects'].length > 0 && mounted){
         setState(() {
-         _hotShowList = res.data['subjects'];
-         _hotShowTotal = res.data['total'];
+          _hotShowList = res.data['subjects'];
+          _hotShowTotal = res.data['total'];
         });
       }
     }
@@ -70,8 +71,8 @@ class _MovieShowState extends State<MovieShow> {
       Response res = await ApiConfig.ajax('get', ApiConfig.baseUrl + '/v2/movie/coming_soon', params);
       if(res.data['subjects'].length > 0 && mounted){
         setState(() {
-         _comingSoonList = res.data['subjects'];
-         _comingSoonTotal = res.data['total'];
+          _comingSoonList = res.data['subjects'];
+          _comingSoonTotal = res.data['total'];
         });
       }
     }
@@ -194,7 +195,9 @@ class _MovieShowState extends State<MovieShow> {
                   alignment: Alignment.centerLeft,
                   child: Text('${data[index]['title']}',maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 13,fontWeight: FontWeight.w600)),
                 ),
-                _currentTabIndex == 1 ?  Row(
+                // 如果当前是影院热映，显示 Row 部件  否则显示Align部件
+                // 如果当前是影院热映 电影未上映显示未上映字样，否则显示评分
+                _currentTabIndex == 1 ? Utils.computeIsBeOn(data[index]['mainland_pubdate']) ? Row(
                   children: <Widget>[
                     RatingBarIndicator(
                       rating:data[index]['rating']['average'] / 2,
@@ -211,6 +214,9 @@ class _MovieShowState extends State<MovieShow> {
                     SizedBox(width: ScreenAdapter.width(20)),
                     Text('${data[index]['rating']['average']}',style: TextStyle(fontSize: 11,color: Colors.grey))
                   ],
+                ):Container(
+                  alignment: Alignment.centerLeft,
+                  child: Text('尚未上映',style: TextStyle(fontSize: 9)),
                 ):Align(
                   alignment: Alignment.centerLeft,
                   child: Container(
