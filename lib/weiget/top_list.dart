@@ -44,12 +44,12 @@ class _TopListState extends State<TopList> {
   void initState() { 
 
     super.initState();
-    // 监听滚动 控制标题栏样式
-    _scrollController.addListener((){
-      setState(() {
-        _isExpand = _scrollController.offset > 140 ? false:true;
-      });
-    });
+    // // 监听滚动 控制标题栏样式
+    // _scrollController.addListener((){
+    //   setState(() {
+    //     _isExpand = _scrollController.offset > 140 ? false:true;
+    //   });r
+    // });
   }
   WidgetsBinding _binding = WidgetsBinding.instance;
   @override
@@ -99,8 +99,8 @@ class _TopListState extends State<TopList> {
               pinned: true,
               delegate: SliverBarDelegate(
                 PreferredSize(
-                  preferredSize: Size.fromHeight(33),
-                  child:_headActions(),
+                  preferredSize: Size.fromHeight(ScreenAdapter.height(80)),
+                  child:_headActions()
                 ),
               ),
             ),
@@ -117,8 +117,9 @@ class _TopListState extends State<TopList> {
   
   Widget _headActions(){
     return Container(
-      color: Colors.grey,
-      margin: EdgeInsets.only(left:ScreenAdapter.width(30),right:ScreenAdapter.width(30),top: ScreenAdapter.height(30)),
+      alignment: Alignment.bottomCenter,
+      height: ScreenAdapter.height(80),
+      margin: EdgeInsets.only(left:ScreenAdapter.width(30),right:ScreenAdapter.width(30)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
