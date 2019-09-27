@@ -36,15 +36,13 @@ class TopList extends StatefulWidget {
 }
 
 class _TopListState extends State<TopList> {
- 
- 
   // 控制滚动
   ScrollController _scrollController = ScrollController();
   // 是否展开
   bool _isExpand = true;
-
   @override
   void initState() { 
+
     super.initState();
     // 监听滚动 控制标题栏样式
     _scrollController.addListener((){
@@ -53,7 +51,7 @@ class _TopListState extends State<TopList> {
       });
     });
   }
-  
+  WidgetsBinding _binding = WidgetsBinding.instance;
   @override
   void dispose() { 
     super.dispose();
@@ -64,7 +62,6 @@ class _TopListState extends State<TopList> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: widget.requestStatus.isNotEmpty ?  NestedScrollView(
-        controller: _scrollController,
         headerSliverBuilder: (context,isScroll){
           return [
             SliverAppBar(
@@ -97,107 +94,36 @@ class _TopListState extends State<TopList> {
                   ),
                 ),
               ),
-            )
+            ),
+            SliverPersistentHeader(
+              pinned: true,
+              delegate: SliverBarDelegate(
+                PreferredSize(
+                  preferredSize: Size.fromHeight(33),
+                  child:_headActions(),
+                ),
+              ),
+            ),
           ];
         },
-        body:Container(
-          child: ListView(
-            padding: EdgeInsets.all(0),
-            children: <Widget>[
-              // 头部操作区
-              _headActions(),
-              // 列表
-              ListView.builder(
-                padding: EdgeInsets.all(0),
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (ctx,index){
-                  return Column(
-                    children: <Widget>[
-                      // 头部排名
-                      Container(
-                        margin: EdgeInsets.only(left:ScreenAdapter.width(30),right:ScreenAdapter.width(30),top: ScreenAdapter.height(30)),
-                        alignment: Alignment.centerLeft,
-                        child: Container(
-                          padding: EdgeInsets.only(left: 10,right: 10,top: 3,bottom: 3),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4),
-                            color: index == 0 ? Color.fromRGBO(225, 102, 119, 1):index == 1 ? Colors.orange :index == 2 ?  Color.fromRGBO(255, 193, 93, 1):Color.fromRGBO(209, 206, 201, 1)
-                          ),
-                          child: Text('No.${index+1}',style: TextStyle(color: Colors.white)),
-                        ),
-                      ),
-                      // 具体内容
-                      Container(
-                        margin: EdgeInsets.only(left:ScreenAdapter.width(30),right:ScreenAdapter.width(30),top: ScreenAdapter.height(30)),
-                        padding: EdgeInsets.only(bottom: ScreenAdapter.height(20)),
-                        child:GestureDetector(
-                          onTap: (){
-                            Application.router.navigateTo(context, '/movieDetail?id=${widget.data['subject_collection_items'][index]['id']}');
-                          },
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              // 缩略图
-                              _thumb(widget.data['subject_collection_items'][index]), 
-                              // 中间信息区域
-                              SizedBox(width: ScreenAdapter.width(30)),
-                              _info(widget.data['subject_collection_items'][index]),
-                              SizedBox(width: ScreenAdapter.width(30)),
-                              // 右侧操作区域
-                              _actions(widget.data['subject_collection_items'][index])
-                            ],
-                          ),
-                        )
-                      ),
-                      // 底部描述
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4),
-                          color: Color.fromRGBO(243, 243, 243, 1),
-                        ),
-                        height: ScreenAdapter.height(60),
-                        padding: EdgeInsets.only(left: ScreenAdapter.width(15)),
-                        margin: EdgeInsets.only(left:ScreenAdapter.width(30),right:ScreenAdapter.width(30),bottom: ScreenAdapter.height(30)),
-                        alignment: Alignment.centerLeft,
-                        child: Text(_footerDesc(widget.data['subject_collection_items'][index]),style: TextStyle(color: Color.fromRGBO(0, 0, 0, 0.5),fontSize: 12)),
-                      ),
-                      Container(
-                        height: ScreenAdapter.height(20),
-                        color: Color.fromRGBO(235, 235, 235, 1),
-                      )
-                    ],
-                  );
-                },  
-                itemCount: widget.data['subject_collection_items'].length,
-              )
-            ],
-          ),
+        body:BodyView(
+          widget.currentFilterCondition,
+          data:widget.data,
+          footerFieldType:widget.footerFieldType,
         )
       ):BaseLoading(type: widget.requestStatus),
     ); 
   }   
-// 底部描述
-_footerDesc(item){
-  switch (widget.footerFieldType) {
-    case 'evaluate':
-      return '${item['rating']['count']}评价';
-      break;
-    case 'desc':
-      return '${item['description']}';
-      break;
-    default:
-  }
-}
-// 头部筛选
+  
   Widget _headActions(){
     return Container(
+      color: Colors.grey,
       margin: EdgeInsets.only(left:ScreenAdapter.width(30),right:ScreenAdapter.width(30),top: ScreenAdapter.height(30)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text('片单列表 · 共${widget.data['total']}部',style: TextStyle(color: Colors.grey)),
+          Text('片单列表 · 共${widget.data['total']}部'),
           Container(
             padding: EdgeInsets.fromLTRB(8, 2, 8, 2),
             decoration: BoxDecoration(
@@ -217,7 +143,9 @@ _footerDesc(item){
             ),
           ),
           GestureDetector(
-            onTap:_timeFilter,
+            onTap:(){
+              _timeFilter();
+            },
             child: Row(
               crossAxisAlignment:CrossAxisAlignment.end,
               children: <Widget>[
@@ -230,8 +158,7 @@ _footerDesc(item){
       ),
     );
   }
- 
-// 时间筛选
+  // 时间筛选
   _timeFilter(){
     showModalBottomSheet(
       shape: RoundedRectangleBorder(
@@ -285,9 +212,13 @@ _footerDesc(item){
                             state(() {
                               widget.cb(index);
                             });
+                            if(index == 0 ){
+                              _binding.addPostFrameCallback((callback) => _scrollController.jumpTo(0.1));
+                            }
                             Navigator.pop(context);
+                            
                             if(widget.footerFieldType == 'desc'){
-                              _scrollController.jumpTo(2000);
+                              print(widget.currentFilterCondition);
                             }
                           },
                           child: Container(
@@ -313,6 +244,175 @@ _footerDesc(item){
       },
     );
   }
+}
+
+
+class BodyView extends StatefulWidget {
+  
+  int tt ;
+  // 列表数据
+  final Map data;
+
+  // 底部描述类型
+  String footerFieldType;
+
+
+  BodyView(this.tt,{
+      this.footerFieldType = 'evaluate', 
+      @required this.data,
+     
+  });
+
+
+  @override
+  _BodyViewState createState() => _BodyViewState();
+}
+
+class _BodyViewState extends State<BodyView> {
+  ScrollController innerC;
+  Type typeOf<T>() => T;
+  WidgetsBinding _binding = WidgetsBinding.instance;
+
+  @override
+  void initState() {
+    super.initState();
+    PrimaryScrollController primaryScrollController = context.ancestorWidgetOfExactType(typeOf<PrimaryScrollController>());
+    innerC = primaryScrollController.controller;
+  }
+
+
+  gogo(int type) {
+    setState(() {
+        _binding.addPostFrameCallback((callback) {
+          print(innerC.offset);
+            if(type == 1){
+              innerC.jumpTo(100);
+            }
+            if(type == 2){
+              innerC.jumpTo(600);
+            }
+            if(type == 3){
+                innerC.jumpTo(800);
+            }
+            if(type == 4){
+              innerC.jumpTo(1200);
+            }
+          if(type == 5){
+              innerC.jumpTo(2600);
+            }
+         
+        });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    gogo(widget.tt);
+    return  ListView.builder(
+      padding: EdgeInsets.all(0),
+      shrinkWrap: true,
+      controller: innerC,
+      itemBuilder: (ctx,index){
+        return Column(
+          children: <Widget>[
+            // 头部排名
+            Container(
+              margin: EdgeInsets.only(left:ScreenAdapter.width(30),right:ScreenAdapter.width(30),top: ScreenAdapter.height(30)),
+              alignment: Alignment.centerLeft,
+              child: Container(
+                padding: EdgeInsets.only(left: 10,right: 10,top: 3,bottom: 3),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4),
+                  color: index == 0 ? Color.fromRGBO(225, 102, 119, 1):index == 1 ? Colors.orange :index == 2 ?  Color.fromRGBO(255, 193, 93, 1):Color.fromRGBO(209, 206, 201, 1)
+                ),
+                child: Text('No.${index+1}',style: TextStyle(color: Colors.white)),
+              ),
+            ),
+            // 具体内容
+            Container(
+              margin: EdgeInsets.only(left:ScreenAdapter.width(30),right:ScreenAdapter.width(30),top: ScreenAdapter.height(30)),
+              padding: EdgeInsets.only(bottom: ScreenAdapter.height(20)),
+              child:GestureDetector(
+                onTap: (){
+                  Application.router.navigateTo(context, '/movieDetail?id=${widget.data['subject_collection_items'][index]['id']}');
+                },
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    // 缩略图
+                    _thumb(widget.data['subject_collection_items'][index]), 
+                    // 中间信息区域
+                    SizedBox(width: ScreenAdapter.width(30)),
+                    _info(widget.data['subject_collection_items'][index]),
+                    SizedBox(width: ScreenAdapter.width(30)),
+                    // 右侧操作区域
+                    _actions(widget.data['subject_collection_items'][index])
+                  ],
+                ),
+              )
+            ),
+            // 底部描述
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4),
+                color: Color.fromRGBO(243, 243, 243, 1),
+              ),
+              height: ScreenAdapter.height(60),
+              padding: EdgeInsets.only(left: ScreenAdapter.width(15)),
+              margin: EdgeInsets.only(left:ScreenAdapter.width(30),right:ScreenAdapter.width(30),bottom: ScreenAdapter.height(30)),
+              alignment: Alignment.centerLeft,
+              child: Text(_footerDesc(widget.data['subject_collection_items'][index]),style: TextStyle(color: Color.fromRGBO(0, 0, 0, 0.5),fontSize: 12)),
+            ),
+            Container(
+              height: ScreenAdapter.height(20),
+              color: Color.fromRGBO(235, 235, 235, 1),
+            )
+          ],
+        );
+      },  
+      itemCount: widget.data['subject_collection_items'].length,
+    );
+  }
+   // 右侧操作区域
+  Widget _actions(item){
+    return Container(
+      height: ScreenAdapter.height(180),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          GestureDetector(
+            onTap: (){
+
+            },
+            child: Column(
+              children: <Widget>[
+                GestureDetector(
+                  onTap: (){
+                  },
+                  child: Image.asset('lib/assets/favorite.png',width: ScreenAdapter.width(40))
+                ),
+                SizedBox(height: ScreenAdapter.height(10)),
+                Text('想看',style: TextStyle(fontSize: 12,color: Colors.orange))
+              ],
+            ),
+          ),
+        ],
+      )
+    );
+  }
+  // 底部描述
+  _footerDesc(item){
+    switch (widget.footerFieldType) {
+      case 'evaluate':
+        return '${item['rating']['count']}评价';
+        break;
+      case 'desc':
+        return '${item['description']}';
+        break;
+      default:
+    }
+  }
+ 
 
    // 左侧缩略图
   Widget _thumb(item){
@@ -360,35 +460,32 @@ _footerDesc(item){
       ), 
     );
   }
-  // 右侧操作区域
-  Widget _actions(item){
+ 
+}
+
+
+
+class SliverBarDelegate extends SliverPersistentHeaderDelegate {
+  final  widget;
+
+  SliverBarDelegate(this.widget);
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
-      height: ScreenAdapter.height(180),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          GestureDetector(
-            onTap: (){
-
-            },
-            child: Column(
-              children: <Widget>[
-                GestureDetector(
-                  onTap: (){
-
-                  },
-                  child: Image.asset('lib/assets/favorite.png',width: ScreenAdapter.width(40))
-                ),
-                SizedBox(height: ScreenAdapter.height(10)),
-                Text('想看',style: TextStyle(fontSize: 12,color: Colors.orange))
-              ],
-            ),
-          ),
-        ],
-      )
+      child: widget,
     );
   }
 
+  @override
+  bool shouldRebuild(SliverBarDelegate oldDelegate) {
+    return false;
+  }
 
+  @override
+  double get maxExtent => widget.preferredSize.height;
 
+  @override
+  double get minExtent => widget.preferredSize.height;
 }
