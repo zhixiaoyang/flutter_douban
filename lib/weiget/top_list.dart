@@ -98,7 +98,7 @@ class _TopListState extends State<TopList> {
                     children: <Widget>[
                       Opacity(
                         opacity: 0.7,
-                        child: Image.network('${widget.data['subject_collection']['header_bg_image']}',fit: BoxFit.cover,height: 200 +  MediaQuery.of(context).padding.top),
+                        child: Image.network('${widget.data['subject_collection']['header_bg_image']}',width: ScreenAdapter.getScreenWidth(),fit: BoxFit.cover,height: 200 +  MediaQuery.of(context).padding.top),
                       ),
                       Positioned(
                         top: 100,
@@ -269,10 +269,10 @@ class _TopListState extends State<TopList> {
   // 头部操作
   Widget _headActions(){
     return Container(
-      color: Colors.grey,
-      alignment: Alignment.bottomCenter,
-      height: ScreenAdapter.height(80),
-      margin: EdgeInsets.only(left:ScreenAdapter.width(30),right:ScreenAdapter.width(30)),
+      color: Colors.white,
+      alignment: Alignment.center,
+      height: ScreenAdapter.height(100),
+      padding: EdgeInsets.only(left:ScreenAdapter.width(30),right:ScreenAdapter.width(30)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
