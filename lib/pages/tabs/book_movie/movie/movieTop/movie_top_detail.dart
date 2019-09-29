@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie/movieTop/top_250.dart';
+import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie/movieTop/week_hot.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie/movieTop/week_praise.dart';
 
 
@@ -17,7 +18,7 @@ class _MovieTopDetailState extends State<MovieTopDetail> {
   List<Widget> _widgetList = [
     WeekPraise(),
     Top250(),
-    Top250(),
+    WeekHot(),
   ];
 
   @override

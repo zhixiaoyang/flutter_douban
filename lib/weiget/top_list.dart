@@ -3,10 +3,9 @@ import 'package:flutter_jahn_douban/routes/application.dart';
 import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
 import 'package:flutter_jahn_douban/weiget/base_loading.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-
 class TopList extends StatefulWidget {
 
-  // 列表数据
+   // 列表数据
   final Map data;
   // 过滤列表数据
   List filterList = [];
@@ -36,33 +35,49 @@ class TopList extends StatefulWidget {
 }
 
 class _TopListState extends State<TopList> {
-  // 控制滚动
-  ScrollController _scrollController = ScrollController();
+
+   // 控制滚动
+  ScrollController _innerControll =  ScrollController();
+  ScrollController _otherControll =  ScrollController();
+
+  
   // 是否展开
   bool _isExpand = true;
+
   @override
   void initState() { 
-
     super.initState();
     // // 监听滚动 控制标题栏样式
-    // _scrollController.addListener((){
-    //   setState(() {
-    //     _isExpand = _scrollController.offset > 140 ? false:true;
-    //   });r
-    // });
+    _otherControll.addListener((){
+      setState(() {
+        _isExpand = _otherControll.offset > 140 ? false:true;
+      });
+    });
+
+    // 如果是筛选top 锚点跳转就进行控制
+    double start = 0;
+    _innerControll.addListener(() {
+      if ((_innerControll.offset - start).abs() > 3) {
+        _otherControll.jumpTo(_innerControll.offset);
+        start = _innerControll.offset;
+      }
+    });
+    
   }
-  WidgetsBinding _binding = WidgetsBinding.instance;
+
   @override
   void dispose() { 
     super.dispose();
-    _scrollController.dispose();
+    _innerControll.dispose();
+    _otherControll.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: widget.requestStatus.isNotEmpty ?  NestedScrollView(
-        headerSliverBuilder: (context,isScroll){
+        controller: _otherControll,
+        headerSliverBuilder: (context,isScroll){  
           return [
             SliverAppBar(
               backgroundColor: Colors.white,
@@ -106,17 +121,155 @@ class _TopListState extends State<TopList> {
             ),
           ];
         },
-        body:BodyView(
-          widget.currentFilterCondition,
-          data:widget.data,
-          footerFieldType:widget.footerFieldType,
+        body:CustomScrollView(
+          controller: _innerControll,
+          slivers: <Widget>[
+            SliverFixedExtentList(
+              itemExtent: ScreenAdapter.height(460),
+              delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+                  return  Column(
+                    children: <Widget>[
+                      // 头部排名
+                      Container(
+                        margin: EdgeInsets.only(left:ScreenAdapter.width(30),right:ScreenAdapter.width(30),top: ScreenAdapter.height(30)),
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                          padding: EdgeInsets.only(left: 10,right: 10,top: 3,bottom: 3),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4),
+                            color: index == 0 ? Color.fromRGBO(225, 102, 119, 1):index == 1 ? Colors.orange :index == 2 ?  Color.fromRGBO(255, 193, 93, 1):Color.fromRGBO(209, 206, 201, 1)
+                          ),
+                          child: Text('No.${index+1}',style: TextStyle(color: Colors.white)),
+                        ),
+                      ),
+                      // 具体内容
+                      Container(
+                        margin: EdgeInsets.only(left:ScreenAdapter.width(30),right:ScreenAdapter.width(30),top: ScreenAdapter.height(30)),
+                        padding: EdgeInsets.only(bottom: ScreenAdapter.height(20)),
+                        child:GestureDetector(
+                          onTap: (){
+                            Application.router.navigateTo(context, '/movieDetail?id=${widget.data['subject_collection_items'][index]['id']}');
+                          },
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              // 缩略图
+                              _thumb(widget.data['subject_collection_items'][index]), 
+                              // 中间信息区域
+                              SizedBox(width: ScreenAdapter.width(30)),
+                              _info(widget.data['subject_collection_items'][index]),
+                              SizedBox(width: ScreenAdapter.width(30)),
+                              // 右侧操作区域
+                              _actions(widget.data['subject_collection_items'][index])
+                            ],
+                          ),
+                        )
+                      ),
+                      // 底部描述
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4),
+                          color: Color.fromRGBO(243, 243, 243, 1),
+                        ),
+                        height: ScreenAdapter.height(60),
+                        padding: EdgeInsets.only(left: ScreenAdapter.width(15)),
+                        margin: EdgeInsets.only(left:ScreenAdapter.width(30),right:ScreenAdapter.width(30),bottom: ScreenAdapter.height(30)),
+                        alignment: Alignment.centerLeft,
+                        child: Text(_footerDesc(widget.data['subject_collection_items'][index]),style: TextStyle(color: Color.fromRGBO(0, 0, 0, 0.5),fontSize: 12)),
+                      ),
+                      Container(
+                        height: ScreenAdapter.height(20),
+                        color: Color.fromRGBO(235, 235, 235, 1),
+                      )
+                    ],
+                  );
+                },
+                childCount: widget.data['subject_collection_items'].length,
+              ),
+            ),
+          ],
         )
       ):BaseLoading(type: widget.requestStatus),
     ); 
-  }   
-  
+  }
+
+    // 左侧缩略图
+  Widget _thumb(item){
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(8),
+      child: Image.network('${item['cover']['url']}',width: ScreenAdapter.width(200),height: ScreenAdapter.height(220),fit: BoxFit.cover,),
+    );
+  }
+  // 中间信息区域
+  Widget _info(item){
+    return Expanded(
+      child: Container(
+        constraints: BoxConstraints(
+          minHeight: ScreenAdapter.height(220)
+        ),
+        child: Column(
+          children: <Widget>[
+            Container(
+              alignment: Alignment.centerLeft,
+              margin: EdgeInsets.only(bottom: ScreenAdapter.height(10)),
+              child: Text('${item['title']}',maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w400)),
+            ),
+            Row(
+              children: <Widget>[
+                RatingBarIndicator(
+                  rating:item['rating']['value'] / 2,
+                  alpha:0,
+                  unratedColor:Colors.grey,
+                  itemPadding: EdgeInsets.all(0),
+                  itemBuilder: (context, index) => Icon(
+                      Icons.star,
+                      color: Colors.amber,
+                  ),
+                  itemCount: 5,
+                  itemSize: 11,
+                ),
+                SizedBox(width: ScreenAdapter.width(15)),
+                Text('${item['rating']['value']}',style: TextStyle(color: Colors.grey,fontSize: 12))
+              ],
+            ),
+            SizedBox(height: ScreenAdapter.width(15)),
+            Text('${item['card_subtitle']}',maxLines: 3,overflow: TextOverflow.ellipsis,style: TextStyle(color: Colors.grey,fontSize: 12))
+          ],
+        ),
+      ), 
+    );
+  }
+ // 右侧操作区域
+  Widget _actions(item){
+    return Container(
+      height: ScreenAdapter.height(180),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          GestureDetector(
+            onTap: (){
+
+            },
+            child: Column(
+              children: <Widget>[
+                GestureDetector(
+                  onTap: (){
+                  },
+                  child: Image.asset('lib/assets/favorite.png',width: ScreenAdapter.width(40))
+                ),
+                SizedBox(height: ScreenAdapter.height(10)),
+                Text('想看',style: TextStyle(fontSize: 12,color: Colors.orange))
+              ],
+            ),
+          ),
+        ],
+      )
+    );
+  }
+  // 头部操作
   Widget _headActions(){
     return Container(
+      color: Colors.grey,
       alignment: Alignment.bottomCenter,
       height: ScreenAdapter.height(80),
       margin: EdgeInsets.only(left:ScreenAdapter.width(30),right:ScreenAdapter.width(30)),
@@ -213,13 +366,9 @@ class _TopListState extends State<TopList> {
                             state(() {
                               widget.cb(index);
                             });
-                            if(index == 0 ){
-                              _binding.addPostFrameCallback((callback) => _scrollController.jumpTo(0.1));
-                            }
                             Navigator.pop(context);
-                            
                             if(widget.footerFieldType == 'desc'){
-                              print(widget.currentFilterCondition);
+                              _otherControll.jumpTo(double.parse((300*index).toString()));
                             }
                           },
                           child: Container(
@@ -245,162 +394,6 @@ class _TopListState extends State<TopList> {
       },
     );
   }
-}
-
-
-class BodyView extends StatefulWidget {
-  
-  int tt ;
-  // 列表数据
-  final Map data;
-
-  // 底部描述类型
-  String footerFieldType;
-
-
-  BodyView(this.tt,{
-      this.footerFieldType = 'evaluate', 
-      @required this.data,
-     
-  });
-
-
-  @override
-  _BodyViewState createState() => _BodyViewState();
-}
-
-class _BodyViewState extends State<BodyView> {
-  ScrollController innerC;
-  Type typeOf<T>() => T;
-  WidgetsBinding _binding = WidgetsBinding.instance;
-
-  @override
-  void initState() {
-    super.initState();
-    PrimaryScrollController primaryScrollController = context.ancestorWidgetOfExactType(typeOf<PrimaryScrollController>());
-    innerC = primaryScrollController.controller;
-  }
-
-
-  gogo(int type) {
-    setState(() {
-        _binding.addPostFrameCallback((callback) {
-          print(innerC.offset);
-            if(type == 1){
-              innerC.jumpTo(100);
-            }
-            if(type == 2){
-              innerC.jumpTo(600);
-            }
-            if(type == 3){
-                innerC.jumpTo(800);
-            }
-            if(type == 4){
-              innerC.jumpTo(1200);
-            }
-          if(type == 5){
-              innerC.jumpTo(2600);
-            }
-         
-        });
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    gogo(widget.tt);
-    return  ListView.builder(
-      padding: EdgeInsets.all(0),
-      shrinkWrap: true,
-      controller: innerC,
-      itemBuilder: (ctx,index){
-        return Column(
-          children: <Widget>[
-            // 头部排名
-            Container(
-              margin: EdgeInsets.only(left:ScreenAdapter.width(30),right:ScreenAdapter.width(30),top: ScreenAdapter.height(30)),
-              alignment: Alignment.centerLeft,
-              child: Container(
-                padding: EdgeInsets.only(left: 10,right: 10,top: 3,bottom: 3),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4),
-                  color: index == 0 ? Color.fromRGBO(225, 102, 119, 1):index == 1 ? Colors.orange :index == 2 ?  Color.fromRGBO(255, 193, 93, 1):Color.fromRGBO(209, 206, 201, 1)
-                ),
-                child: Text('No.${index+1}',style: TextStyle(color: Colors.white)),
-              ),
-            ),
-            // 具体内容
-            Container(
-              margin: EdgeInsets.only(left:ScreenAdapter.width(30),right:ScreenAdapter.width(30),top: ScreenAdapter.height(30)),
-              padding: EdgeInsets.only(bottom: ScreenAdapter.height(20)),
-              child:GestureDetector(
-                onTap: (){
-                  Application.router.navigateTo(context, '/movieDetail?id=${widget.data['subject_collection_items'][index]['id']}');
-                },
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    // 缩略图
-                    _thumb(widget.data['subject_collection_items'][index]), 
-                    // 中间信息区域
-                    SizedBox(width: ScreenAdapter.width(30)),
-                    _info(widget.data['subject_collection_items'][index]),
-                    SizedBox(width: ScreenAdapter.width(30)),
-                    // 右侧操作区域
-                    _actions(widget.data['subject_collection_items'][index])
-                  ],
-                ),
-              )
-            ),
-            // 底部描述
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4),
-                color: Color.fromRGBO(243, 243, 243, 1),
-              ),
-              height: ScreenAdapter.height(60),
-              padding: EdgeInsets.only(left: ScreenAdapter.width(15)),
-              margin: EdgeInsets.only(left:ScreenAdapter.width(30),right:ScreenAdapter.width(30),bottom: ScreenAdapter.height(30)),
-              alignment: Alignment.centerLeft,
-              child: Text(_footerDesc(widget.data['subject_collection_items'][index]),style: TextStyle(color: Color.fromRGBO(0, 0, 0, 0.5),fontSize: 12)),
-            ),
-            Container(
-              height: ScreenAdapter.height(20),
-              color: Color.fromRGBO(235, 235, 235, 1),
-            )
-          ],
-        );
-      },  
-      itemCount: widget.data['subject_collection_items'].length,
-    );
-  }
-   // 右侧操作区域
-  Widget _actions(item){
-    return Container(
-      height: ScreenAdapter.height(180),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          GestureDetector(
-            onTap: (){
-
-            },
-            child: Column(
-              children: <Widget>[
-                GestureDetector(
-                  onTap: (){
-                  },
-                  child: Image.asset('lib/assets/favorite.png',width: ScreenAdapter.width(40))
-                ),
-                SizedBox(height: ScreenAdapter.height(10)),
-                Text('想看',style: TextStyle(fontSize: 12,color: Colors.orange))
-              ],
-            ),
-          ),
-        ],
-      )
-    );
-  }
   // 底部描述
   _footerDesc(item){
     switch (widget.footerFieldType) {
@@ -413,57 +406,8 @@ class _BodyViewState extends State<BodyView> {
       default:
     }
   }
- 
 
-   // 左侧缩略图
-  Widget _thumb(item){
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(8),
-      child: Image.network('${item['cover']['url']}',width: ScreenAdapter.width(200),height: ScreenAdapter.height(220),fit: BoxFit.cover,),
-    );
-  }
-  // 中间信息区域
-  Widget _info(item){
-    return Expanded(
-      child: Container(
-        constraints: BoxConstraints(
-          minHeight: ScreenAdapter.height(220)
-        ),
-        child: Column(
-          children: <Widget>[
-            Container(
-              alignment: Alignment.centerLeft,
-              margin: EdgeInsets.only(bottom: ScreenAdapter.height(10)),
-              child: Text('${item['title']}',maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w400)),
-            ),
-            Row(
-              children: <Widget>[
-                RatingBarIndicator(
-                  rating:item['rating']['value'] / 2,
-                  alpha:0,
-                  unratedColor:Colors.grey,
-                  itemPadding: EdgeInsets.all(0),
-                  itemBuilder: (context, index) => Icon(
-                      Icons.star,
-                      color: Colors.amber,
-                  ),
-                  itemCount: 5,
-                  itemSize: 11,
-                ),
-                SizedBox(width: ScreenAdapter.width(15)),
-                Text('${item['rating']['value']}',style: TextStyle(color: Colors.grey,fontSize: 12))
-              ],
-            ),
-            SizedBox(height: ScreenAdapter.width(15)),
-            Text('${item['card_subtitle']}',style: TextStyle(color: Colors.grey,fontSize: 12))
-          ],
-        ),
-      ), 
-    );
-  }
- 
 }
-
 
 
 class SliverBarDelegate extends SliverPersistentHeaderDelegate {
