@@ -31,7 +31,7 @@ class _DetailGradeState extends State<DetailGrade> {
       _baseTextColor = widget._isDark == true ? Colors.white:Colors.black;
       
       // 获取是否正在热映
-      _isBeOn = Utils.computeIsBeOn(widget._movie['pubdate']);
+      _isBeOn = widget._movie['pubdate'].isNotEmpty ? Utils.computeIsBeOn(widget._movie['pubdate']):false;
 
       setState(() {
         _total = tempNum.toInt();

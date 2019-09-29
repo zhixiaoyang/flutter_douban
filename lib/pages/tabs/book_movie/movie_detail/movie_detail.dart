@@ -41,6 +41,9 @@ class _MovieDetailState extends State<MovieDetail> {
   // 默认显示静态文字电影
   bool _showTitle = false;
 
+  // 是否上映
+  bool _isBeOn;
+
   @override
   void initState() { 
     super.initState();
@@ -103,7 +106,9 @@ class _MovieDetailState extends State<MovieDetail> {
       Response res = await ApiConfig.ajax('get', ApiConfig.baseUrl + '/v2/movie/subject/${widget.movieId}', params);
       if(mounted){
         setState(() {
-          _movie = res.data; 
+          _movie = res.data;  
+          // 获取是否正在热映
+          _isBeOn = _movie['pubdate'].isNotEmpty ? Utils.computeIsBeOn(_movie['pubdate']):false;
         });
       }
     }
@@ -138,7 +143,7 @@ class _MovieDetailState extends State<MovieDetail> {
                 alignment: Alignment.centerLeft,
                 child: Text('${_movie['title']}',style: TextStyle(fontSize: 14)),
               ),
-              Utils.computeIsBeOn(_movie['pubdate']) ? Row(
+              _isBeOn ? Row(
                 children: <Widget>[
                   RatingBarIndicator(
                     rating:_movie['rating']['average'] / 2,
