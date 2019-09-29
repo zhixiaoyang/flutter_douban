@@ -368,7 +368,7 @@ class _TopListState extends State<TopList> {
                             });
                             Navigator.pop(context);
                             if(widget.footerFieldType == 'desc'){
-                              _otherControll.jumpTo(double.parse((300*index).toString()));
+                              _innerControll.animateTo(double.parse((ScreenAdapter.height(460)*index*49.5).toString()),duration: Duration(milliseconds: 800),curve: Curves.linear);
                             }
                           },
                           child: Container(
