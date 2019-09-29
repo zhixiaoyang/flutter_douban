@@ -424,8 +424,9 @@ class SliverBarDelegate extends SliverPersistentHeaderDelegate {
   }
 
   @override
+  //如果传递的这几个参数变化了，那就重写创建
   bool shouldRebuild(SliverBarDelegate oldDelegate) {
-    return false;
+    return true;
   }
 
   @override
