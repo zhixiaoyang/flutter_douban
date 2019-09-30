@@ -170,68 +170,71 @@ class _IsHitState extends State<IsHit> with SingleTickerProviderStateMixin , Aut
   // 中间信息区域
   Widget _info(item){
     return Expanded(
-      child: Container(
-        constraints: BoxConstraints(
-          minHeight: ScreenAdapter.height(220)
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Container(
-              alignment: Alignment.centerLeft,
-              margin: EdgeInsets.only(bottom: ScreenAdapter.height(10)),
-              child: Text('${item['title']}',maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w400)),
-            ),
-            Utils.computeIsBeOn(item['mainland_pubdate']) ? Container(
-              alignment: Alignment.centerLeft,
-              margin: EdgeInsets.only(bottom: ScreenAdapter.height(10)),
-              child: Row(
-                children: <Widget>[
-                  RatingBarIndicator(
-                    rating:item['rating']['average'] / 2,
-                    alpha:0,
-                    unratedColor:Colors.grey,
-                    itemPadding: EdgeInsets.all(0),
-                    itemBuilder: (context, index) => Icon(
-                        Icons.star,
-                        color: Colors.amber,
+      child: DefaultTextStyle(
+        style: TextStyle(color: Colors.grey),
+        child: Container(
+          constraints: BoxConstraints(
+            minHeight: ScreenAdapter.height(220)
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Container(
+                alignment: Alignment.centerLeft,
+                margin: EdgeInsets.only(bottom: ScreenAdapter.height(10)),
+                child: Text('${item['title']}',maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w400)),
+              ),
+              Utils.computeIsBeOn(item['mainland_pubdate']) ? Container(
+                alignment: Alignment.centerLeft,
+                margin: EdgeInsets.only(bottom: ScreenAdapter.height(10)),
+                child: Row(
+                  children: <Widget>[
+                    RatingBarIndicator(
+                      rating:item['rating']['average'] / 2,
+                      alpha:0,
+                      unratedColor:Colors.grey,
+                      itemPadding: EdgeInsets.all(0),
+                      itemBuilder: (context, index) => Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                      ),
+                      itemCount: 5,
+                      itemSize: 11,
                     ),
-                    itemCount: 5,
-                    itemSize: 11,
-                  ),
-                  SizedBox(width: ScreenAdapter.width(15)),
-                  Text('${item['rating']['average']}',style: TextStyle(color: Colors.grey,fontSize: 12))
-                ],
+                    SizedBox(width: ScreenAdapter.width(15)),
+                    Text('${item['rating']['average']}',style: TextStyle(fontSize: 12))
+                  ],
+                )
+              ):Container(
+                alignment: Alignment.centerLeft,
+                child: Text('尚未上映',style: TextStyle(color: Colors.grey,fontSize: 12)),
+              ),
+              Container(
+                alignment: Alignment.centerLeft,
+                child: Text('${item['year']} ${item['directors'].length > 0 ? ' / ' + item['directors'][0]['name']:''}',maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 12,color: Colors.grey)),
+              ),
+              Container(
+                height: ScreenAdapter.height(30),
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: item['genres'].asMap().keys.map<Widget>((index){
+                    return Text('${item['genres'][index]} ${index == item['genres'].length - 1 ? '':' / '}',style: TextStyle(fontSize: 12,color: Colors.grey));
+                  }).toList(),
+                ),
+              ),
+              Container(
+                height: ScreenAdapter.height(30),
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: item['casts'].asMap().keys.map<Widget>((index){
+                    return Text('${item['casts'][index]['name']} ${index == item['casts'].length - 1 ? '':' / '}',style: TextStyle(fontSize: 12,color: Colors.grey));
+                  }).toList(),
+                ),
               )
-            ):Container(
-              alignment: Alignment.centerLeft,
-              child: Text('尚未上映',style: TextStyle(color: Colors.grey,fontSize: 12)),
-            ),
-            Container(
-              alignment: Alignment.centerLeft,
-              child: Text('${item['year']} ${item['directors'].length > 0 ? ' / ' + item['directors'][0]['name']:''}',maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 12,color: Colors.grey)),
-            ),
-            Container(
-              height: ScreenAdapter.height(30),
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: item['genres'].asMap().keys.map<Widget>((index){
-                  return Text('${item['genres'][index]} ${index == item['genres'].length - 1 ? '':' / '}',style: TextStyle(fontSize: 12,color: Colors.grey));
-                }).toList(),
-              ),
-            ),
-            Container(
-              height: ScreenAdapter.height(30),
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: item['casts'].asMap().keys.map<Widget>((index){
-                  return Text('${item['casts'][index]['name']} ${index == item['casts'].length - 1 ? '':' / '}',style: TextStyle(fontSize: 12,color: Colors.grey));
-                }).toList(),
-              ),
-            )
-          ],
+            ],
+          ),
         ),
-      ), 
+      )
     );
   }
 }

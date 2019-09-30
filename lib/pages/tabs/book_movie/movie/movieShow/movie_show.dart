@@ -4,6 +4,7 @@ import 'package:flutter_jahn_douban/api/api_config.dart';
 import 'package:flutter_jahn_douban/routes/application.dart';
 import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
 import 'package:flutter_jahn_douban/utils/utils.dart';
+import 'package:flutter_jahn_douban/weiget/base_grade.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class MovieShow extends StatefulWidget {
@@ -197,27 +198,7 @@ class _MovieShowState extends State<MovieShow> {
                 ),
                 // 如果当前是影院热映，显示 Row 部件  否则显示Align部件
                 // 如果当前是影院热映 电影未上映显示未上映字样，否则显示评分
-                _currentTabIndex == 1 ? Utils.computeIsBeOn(data[index]['mainland_pubdate']) ? Row(
-                  children: <Widget>[
-                    RatingBarIndicator(
-                      rating:data[index]['rating']['average'] / 2,
-                      alpha:0,
-                      unratedColor:Colors.grey,
-                      itemPadding: EdgeInsets.all(0),
-                      itemBuilder: (context, index) => Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                      ),
-                      itemCount: 5,
-                      itemSize: 11,
-                    ),
-                    SizedBox(width: ScreenAdapter.width(20)),
-                    Text('${data[index]['rating']['average']}',style: TextStyle(fontSize: 11,color: Colors.grey))
-                  ],
-                ):Container(
-                  alignment: Alignment.centerLeft,
-                  child: Text('尚未上映',style: TextStyle(fontSize: 9)),
-                ):Align(
+                _currentTabIndex == 1 ? BaseGrade(data[index]['rating']['stars'],data[index]['rating']['average'], data[index]['mainland_pubdate']) :Align(
                   alignment: Alignment.centerLeft,
                   child: Container(
                     padding: EdgeInsets.all(ScreenAdapter.width(6)),
