@@ -12,6 +12,7 @@ import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/detail_sh
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/detail_trailers.dart';
 import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
 import 'package:flutter_jahn_douban/utils/utils.dart';
+import 'package:flutter_jahn_douban/weiget/base_grade.dart';
 import 'package:flutter_jahn_douban/weiget/base_loading.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -41,8 +42,6 @@ class _MovieDetailState extends State<MovieDetail> {
   // 默认显示静态文字电影
   bool _showTitle = false;
 
-  // 是否上映
-  bool _isBeOn;
 
   @override
   void initState() { 
@@ -107,8 +106,6 @@ class _MovieDetailState extends State<MovieDetail> {
       if(mounted){
         setState(() {
           _movie = res.data;  
-          // 获取是否正在热映
-          _isBeOn = _movie['pubdate'].isNotEmpty ? Utils.computeIsBeOn(_movie['pubdate']):false;
         });
       }
     }
@@ -143,27 +140,7 @@ class _MovieDetailState extends State<MovieDetail> {
                 alignment: Alignment.centerLeft,
                 child: Text('${_movie['title']}',style: TextStyle(fontSize: 14)),
               ),
-              _isBeOn ? Row(
-                children: <Widget>[
-                  RatingBarIndicator(
-                    rating:_movie['rating']['average'] / 2,
-                    alpha:0,
-                    unratedColor:Colors.grey,
-                    itemPadding: EdgeInsets.all(0),
-                    itemBuilder: (context, index) => Icon(
-                        Icons.star,
-                        color: Colors.amber,
-                    ),
-                    itemCount: 5,
-                    itemSize: 11,
-                  ),
-                  SizedBox(width: ScreenAdapter.width(10)),
-                  Text('${_movie['rating']['average']}',style: TextStyle(fontSize: 12))
-                ],
-              ):Container(
-                alignment: Alignment.centerLeft,
-                child: Text('尚未上映',style: TextStyle(fontSize: 12,color: Colors.grey[300]))
-              )
+              BaseGrade(_movie['rating']['stars'], _movie['rating']['average'], _movie['mainland_pubdate'])
             ],
           ) : Text('电影') ,
           backgroundColor: Color(int.parse('0xff' + _themeColor)),
@@ -235,13 +212,13 @@ class _MovieDetailState extends State<MovieDetail> {
     ):Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-          textTheme: TextTheme(
-            title:TextStyle(color: Colors.black)
-          ),
-          iconTheme: IconThemeData(
-            color: Colors.black
-          ),
-          brightness: Brightness.light,
+        textTheme: TextTheme(
+          title:TextStyle(color: Colors.black)
+        ),
+        iconTheme: IconThemeData(
+          color: Colors.black
+        ),
+        brightness: Brightness.light,
       ),
       body: BaseLoading(type: _requestStatus),
     );

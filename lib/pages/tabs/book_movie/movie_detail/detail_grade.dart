@@ -62,17 +62,24 @@ class _DetailGradeState extends State<DetailGrade> {
               crossAxisAlignment: _isBeOn ? CrossAxisAlignment.start: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                _isBeOn ? Column(
+                widget._movie['rating']['stars'] == '00' ? Container(
+                  margin: EdgeInsets.only(top: ScreenAdapter.height(15),bottom: ScreenAdapter.height(15)),
+                  child: Text('暂无评分',style: TextStyle(color:widget._isDark ? Colors.grey[400] :Colors.grey[600],fontSize: 11)),
+                ): Column(
                   children: <Widget>[
                     Text('${widget._movie['rating']['average']}',style: TextStyle(fontSize: 30,color: _baseTextColor)),
                     _ratingBar(widget._movie['rating']['average'] / 2)
                   ],
-                ):Container(
-                  margin: EdgeInsets.only(top: ScreenAdapter.height(15),bottom: ScreenAdapter.height(15)),
-                  child: Text('尚未上映',style: TextStyle(color:widget._isDark ? Colors.grey[400] :Colors.grey[600],fontSize: 11)),
                 ),
                 SizedBox(width: ScreenAdapter.width(20)),
-                _isBeOn ? Expanded(
+                widget._movie['rating']['stars'] == '00'  ? Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    Image.asset('lib/assets/fire.png',width: 16),
+                    SizedBox(width: ScreenAdapter.width(8)),
+                    Text('${widget._movie['wish_count']}人想看',style: TextStyle(color: _baseTextColor,fontSize: 13))
+                  ],
+                ):Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
@@ -86,18 +93,11 @@ class _DetailGradeState extends State<DetailGrade> {
                       )
                     ],
                   ),
-                ):Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
-                    Image.asset('lib/assets/fire.png',width: 16),
-                    SizedBox(width: ScreenAdapter.width(8)),
-                    Text('${widget._movie['wish_count']}人想看',style: TextStyle(color: _baseTextColor,fontSize: 13))
-                  ],
                 )
               ],
             ),
           ),
-          _isBeOn ? Column(
+          widget._movie['rating']['stars'] == '00' ? Container():Column(
             children: <Widget>[
               Divider(color: Colors.grey[600]),
               Container(
@@ -106,7 +106,7 @@ class _DetailGradeState extends State<DetailGrade> {
                 child: Text('${_compute(widget._movie['collect_count'])}看过    ${_compute(widget._movie['wish_count'])}想看',style: TextStyle(color: widget._isDark ? Colors.grey[300] :Colors.grey[600],fontSize: 11)),
               )
             ],
-          ):Container()
+          )
         ],
       ),
     );

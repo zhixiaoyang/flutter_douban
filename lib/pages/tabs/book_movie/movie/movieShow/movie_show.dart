@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_jahn_douban/api/api_config.dart';
 import 'package:flutter_jahn_douban/routes/application.dart';
 import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
-import 'package:flutter_jahn_douban/utils/utils.dart';
 import 'package:flutter_jahn_douban/weiget/base_grade.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class MovieShow extends StatefulWidget {
   @override
@@ -216,6 +214,5 @@ class _MovieShowState extends State<MovieShow> {
       }
     );
   }
-
 
 }
