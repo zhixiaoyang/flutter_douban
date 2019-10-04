@@ -54,7 +54,7 @@ class _MovieTodayPlayState extends State<MovieTodayPlay> {
   Widget build(BuildContext context) {
     return _todayPlay !=null ? Container(
       margin: EdgeInsets.only(top: ScreenAdapter.height(30)),
-      height: ScreenAdapter.height(350),
+      height: ScreenAdapter.height(250),
       child:  Stack(
         alignment: Alignment.bottomLeft,
         children: <Widget>[
@@ -64,42 +64,42 @@ class _MovieTodayPlayState extends State<MovieTodayPlay> {
               color: Color(int.parse('0xff' + _todayPlay['videos'][0]['header_bg_color'])),
             ),
             width: double.infinity,
-            height: ScreenAdapter.height(300),
+            height: ScreenAdapter.height(210),
           ),
           Positioned(
             left: ScreenAdapter.width(160),
-            bottom: ScreenAdapter.width(85),
+            bottom: ScreenAdapter.height(20),
             child: Container(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
                 child: Image.network('${_todayPlay['videos'][2]['pic']['normal']}',fit: BoxFit.fill),
               ),
-              width:ScreenAdapter.width(220),
+              width:ScreenAdapter.width(180),
               height: ScreenAdapter.height(180),
             ),
           ),
           Positioned(
             left: ScreenAdapter.width(100),
-            bottom: ScreenAdapter.width(85),
+            bottom: ScreenAdapter.height(20),
             child: Container(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
                 child: Image.network('${_todayPlay['videos'][1]['pic']['normal']}',fit: BoxFit.fill),
               ),
-              width:ScreenAdapter.width(220),
-              height: ScreenAdapter.height(220),
+              width:ScreenAdapter.width(180),
+              height: ScreenAdapter.height(190),
             ),
           ),
           Positioned(
             left: ScreenAdapter.width(40),
-            bottom: ScreenAdapter.width(85),
+            bottom: ScreenAdapter.width(20),
             child: Container(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
                 child: Image.network('${_todayPlay['videos'][0]['pic']['normal']}',fit: BoxFit.fill),
               ),
-              width:ScreenAdapter.width(220),
-              height: ScreenAdapter.height(260),
+              width:ScreenAdapter.width(180),
+              height: ScreenAdapter.height(210),
             ),
           ),
           Positioned(

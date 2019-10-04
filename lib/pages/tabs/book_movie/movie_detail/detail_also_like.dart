@@ -63,8 +63,8 @@ class _DetailAlsoLikeState extends State<DetailAlsoLike> {
         children: <Widget>[
           ListTile(
             contentPadding: EdgeInsets.all(0),
-            title: Text('喜欢这部电影的也喜欢',style: TextStyle(color: _baseTextColor)),
-            trailing: Icon(Icons.keyboard_arrow_right,color: _baseTextColor),
+            title: Text('喜欢这部电影的也喜欢',style: TextStyle(color: _baseTextColor,fontSize: 20)),
+            trailing: Icon(Icons.keyboard_arrow_right,color: _baseTextColor,size: 28),
           ),
           _alsoLikeList.length > 0 ? _item(_alsoLikeList):BaseLoading(type:_requestStatus),
         ],
@@ -118,10 +118,10 @@ class _DetailAlsoLikeState extends State<DetailAlsoLike> {
                           color: Colors.amber,
                       ),
                       itemCount: 5,
-                      itemSize: 9,
+                      itemSize: 11,
                     ),
                     SizedBox(width: ScreenAdapter.width(20)),
-                    Text('${data[index]['rate']}',style: TextStyle(fontSize: 10,color: _baseTextColor))
+                    Text('${data[index]['rate']}',style: TextStyle(fontSize: 11,color: _baseTextColor))
                   ],
                 )
               ],

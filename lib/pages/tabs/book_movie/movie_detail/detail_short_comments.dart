@@ -90,6 +90,7 @@ class _DetailShortCommentsState extends State<DetailShortComments> {
             ],
           ),
           ListView.builder(
+            padding: EdgeInsets.all(0),
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemBuilder: (context,index){
@@ -139,10 +140,10 @@ class _DetailShortCommentsState extends State<DetailShortComments> {
                       color: Colors.amber,
                   ),
                   itemCount: 5,
-                  itemSize: 9,
+                  itemSize: 11,
                 ),
                 SizedBox(width: ScreenAdapter.width(20)),
-                Text('${((DateTime.now().millisecondsSinceEpoch - DateTime.parse(item['created_at']).millisecondsSinceEpoch) / 1000 / 60 / 60 / 24 / 31).round()}个月前',style: TextStyle(color: widget._isDark ? Colors.white54:Colors.grey[600],fontSize: 12))
+                Text('${((DateTime.now().millisecondsSinceEpoch - DateTime.parse(item['created_at']).millisecondsSinceEpoch) / 1000 / 60 / 60 / 24 / 31).round()}个月前',style: TextStyle(color: widget._isDark ? Colors.white54:Colors.grey[600]))
               ],
             ),
             trailing: IconButton(
@@ -176,7 +177,7 @@ class _DetailShortCommentsState extends State<DetailShortComments> {
           ),
           Container(
             alignment: Alignment.centerLeft,
-            child: Text('${item['content']}',style: TextStyle(color: _baseTextColor),maxLines: item['showMore'],overflow: TextOverflow.ellipsis),
+            child: Text('${item['content']}',style: TextStyle(fontSize: 16,color: _baseTextColor),maxLines: item['showMore'],overflow: TextOverflow.ellipsis),
           ),
           Container(
             margin: EdgeInsets.only(right: ScreenAdapter.width(20),top: ScreenAdapter.height(10)),

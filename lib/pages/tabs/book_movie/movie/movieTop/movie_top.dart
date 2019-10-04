@@ -65,7 +65,7 @@ class _MovieTopState extends State<MovieTop> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text('豆瓣榜单',style: TextStyle(fontSize: 20,color:Colors.black,fontWeight: FontWeight.w600)),
+              Text('豆瓣榜单',style: TextStyle(fontSize: 24,color:Colors.black,fontWeight: FontWeight.w600)),
               Container(
                 child: Row(
                   children: <Widget>[

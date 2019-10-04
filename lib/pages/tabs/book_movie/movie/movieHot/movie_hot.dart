@@ -49,7 +49,7 @@ class _MovieHotState extends State<MovieHot> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text('豆瓣热门',style: TextStyle(fontSize: 20,color:Colors.black,fontWeight: FontWeight.w600)),
+            Text('豆瓣热门',style: TextStyle(fontSize: 24,color:Colors.black,fontWeight: FontWeight.w600)),
             GestureDetector(
               onTap: (){
                 Application.router.navigateTo(context, '/movieHotDetail');
@@ -107,10 +107,10 @@ class _MovieHotState extends State<MovieHot> {
                               color: Colors.amber,
                           ),
                           itemCount: 5,
-                          itemSize: 11,
+                          itemSize: 12,
                         ),
                         SizedBox(width: ScreenAdapter.width(20)),
-                        Text('${_movieHot[index]['rate']}',style: TextStyle(fontSize: 11,color: Colors.grey))
+                        Text('${_movieHot[index]['rate']}',style: TextStyle(fontSize: 12,color: Colors.grey))
                       ],
                     )
                   ],

@@ -110,7 +110,7 @@ class _MovieShowState extends State<MovieShow> {
                     child: AnimatedDefaultTextStyle(
                       duration: Duration(seconds: 1),
                       style: TextStyle(color: _currentTabIndex == 1 ? Colors.black:Colors.grey),
-                      child: Text('影院热映',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600)),
+                      child: Text('影院热映',style: TextStyle(fontSize: 24,fontWeight: FontWeight.w600)),
                     ),
                   ),
                 ),
@@ -134,7 +134,7 @@ class _MovieShowState extends State<MovieShow> {
                     child: AnimatedDefaultTextStyle(
                       duration: Duration(seconds: 1),
                       style: TextStyle(color: _currentTabIndex == 2 ? Colors.black:Colors.grey),
-                      child: Text('即将上映',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600)),
+                      child: Text('即将上映',style: TextStyle(fontSize: 24,fontWeight: FontWeight.w600)),
                     )
                   ),
                 )
@@ -146,7 +146,7 @@ class _MovieShowState extends State<MovieShow> {
                   onTap: (){
                     Application.router.navigateTo(context,'/theatricalFilm?index=${_currentTabIndex - 1}');
                   },
-                  child: Text('全部 ${_currentTabIndex == 1 ? _hotShowTotal : _comingSoonTotal}',style: TextStyle(fontSize: 20)),
+                  child: Text('全部 ${_currentTabIndex == 1 ? _hotShowTotal : _comingSoonTotal}',style: TextStyle(fontSize: 18)),
                 ),
                 Icon(Icons.chevron_right)
               ],
@@ -192,7 +192,7 @@ class _MovieShowState extends State<MovieShow> {
                 Container(
                   margin: EdgeInsets.only(top: ScreenAdapter.height(10),bottom: ScreenAdapter.height(10)),
                   alignment: Alignment.centerLeft,
-                  child: Text('${data[index]['title']}',maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 13,fontWeight: FontWeight.w600)),
+                  child: Text('${data[index]['title']}',maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w600)),
                 ),
                 // 如果当前是影院热映，显示 Row 部件  否则显示Align部件
                 // 如果当前是影院热映 电影未上映显示未上映字样，否则显示评分
@@ -204,7 +204,7 @@ class _MovieShowState extends State<MovieShow> {
                       borderRadius: BorderRadius.circular(3),
                       border: Border.all(width: 1,color: Colors.pink),
                     ),
-                    child: Text('${data[index]['mainland_pubdate']}',style: TextStyle(fontSize: 9,color: Colors.pink)),
+                    child: Text('${data[index]['mainland_pubdate']}',style: TextStyle(fontSize: 10,color: Colors.pink)),
                   ),
                 )
               ],

@@ -29,10 +29,10 @@ class BaseGrade extends StatelessWidget {
                 color: Colors.amber,
             ),
             itemCount: 5,
-            itemSize: 11,
+            itemSize: 12,
           ),
           SizedBox(width: ScreenAdapter.width(20)),
-          Text('$_grade',style: TextStyle(fontSize: 11,color: Colors.grey))
+          Text('$_grade',style: TextStyle(fontSize: 12,color: Colors.grey))
         ],
       ):Container(
         alignment: Alignment.centerLeft,

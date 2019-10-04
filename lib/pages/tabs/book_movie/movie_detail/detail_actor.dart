@@ -68,12 +68,12 @@ class _DetailActorState extends State<DetailActor> {
                       SizedBox(height: ScreenAdapter.height(10)),
                       Container(
                         width: ScreenAdapter.width(160),
-                        child: Text('${_actor[index]['name']}',maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 12,color: _baseTextColor)),
+                        child: Text('${_actor[index]['name']}',maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 14,color: _baseTextColor)),
                       ),
                       SizedBox(height: ScreenAdapter.height(10)),
                       Container(
                         width: ScreenAdapter.width(160),
-                        child: Text('${_actor[index]['type']}',style: TextStyle(fontSize: 10,color: _baseTextColor)),
+                        child: Text('${_actor[index]['type']}',style: TextStyle(fontSize: 12,color: _baseTextColor)),
                       )
                     ],
                   ),

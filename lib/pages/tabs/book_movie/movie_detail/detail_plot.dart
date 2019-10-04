@@ -30,7 +30,7 @@ class _DetailPlotState extends State<DetailPlot> {
           ListTile(
             contentPadding:EdgeInsets.all(0),
             leading: Icon(Icons.card_giftcard,color: Color.fromRGBO(252, 166, 118, 1)),
-            title: Text('选座购票',style: TextStyle(color: _baseTextColor)),
+            title: Text('选座购票',style: TextStyle(color: _baseTextColor,fontSize: 18)),
             trailing: Icon(Icons.keyboard_arrow_right,color: _baseTextColor),
           ),
           Container(
@@ -47,8 +47,8 @@ class _DetailPlotState extends State<DetailPlot> {
                   ),
                   child: Row(
                     children: <Widget>[
-                      Text('${widget._movie['genres'][index]}',style: TextStyle(fontSize: 11,color: _baseTextColor)),
-                      Icon(Icons.keyboard_arrow_right,color:widget._isDark ? Colors.grey[400]:Colors.grey[600],size: 14,)
+                      Text('${widget._movie['genres'][index]}',style: TextStyle(fontSize: 14,color: _baseTextColor)),
+                      Icon(Icons.keyboard_arrow_right,color:widget._isDark ? Colors.grey[400]:Colors.grey[600],size: 18,)
                     ],
                   ),
                 );

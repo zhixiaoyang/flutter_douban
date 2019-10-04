@@ -176,13 +176,13 @@ class _MovieDetailState extends State<MovieDetail> {
                       preferredSize: Size.fromHeight(40),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.grey[600]
+                          color: Colors.grey[400]
                         ),
                         child: TabBar(
-                          labelColor: Colors.white,
-                          indicatorColor: Colors.white,
+                          labelColor: Colors.black,
+                          indicatorColor: Colors.black,
                           indicatorSize: TabBarIndicatorSize.label,
-                          unselectedLabelColor: Colors.grey[400],
+                          unselectedLabelColor: Colors.white,
                           tabs: <Widget>[
                             Tab(text: '影评',),
                             Tab(text: '话题'),
