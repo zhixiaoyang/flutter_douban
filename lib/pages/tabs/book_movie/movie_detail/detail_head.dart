@@ -72,7 +72,7 @@ class _DetailHeadState extends State<DetailHead> {
                               ]
                             )
                           ),
-                          child:Text('No.${widget._honorInfo[0]['rank']}',style: TextStyle(color: Color.fromRGBO(157, 95, 0, 1))),
+                          child:Text('No.${widget._honorInfo[0]['rank']}',style: TextStyle(fontSize: 14.2,color: Color.fromRGBO(157, 95, 0, 1))),
                         ),
                         Container(
                           padding: EdgeInsets.fromLTRB(ScreenAdapter.width(10), ScreenAdapter.height(3), ScreenAdapter.width(10), ScreenAdapter.height(3)),
@@ -90,7 +90,7 @@ class _DetailHeadState extends State<DetailHead> {
                               ]
                             )
                           ),
-                          child:Text('${widget._honorInfo[0]['title']}',style: TextStyle(fontSize: 12.6,color: Color.fromRGBO(157, 95, 0, 1))),
+                          child:Text('${widget._honorInfo[0]['title']}',style: TextStyle(fontSize: 13.8,color: Color.fromRGBO(157, 95, 0, 1))),
                         )
                       ],
                     ),

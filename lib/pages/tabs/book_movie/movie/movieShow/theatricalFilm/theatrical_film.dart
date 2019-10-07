@@ -32,6 +32,7 @@ class _TheatricalFilmState extends State<TheatricalFilm> {
           title: Text('院线电影',style: TextStyle(fontSize: 20)),
           bottom: TabBar(
             labelColor:Colors.black,
+            labelStyle:TextStyle(fontSize: 22),
             indicatorSize: TabBarIndicatorSize.label,
             indicatorColor: Colors.black,
             unselectedLabelColor: Colors.black45,

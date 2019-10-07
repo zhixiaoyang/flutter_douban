@@ -64,7 +64,7 @@ class _DetailPlotState extends State<DetailPlot> {
           Container(
             margin: EdgeInsets.only(top: ScreenAdapter.height(15)),
             alignment: Alignment.centerLeft,
-            child: Text('${widget._movie['summary']}',style: TextStyle(color: _baseTextColor),maxLines: _showMore,overflow: TextOverflow.ellipsis,),
+            child: Text('${widget._movie['summary']}',style: TextStyle(fontSize: 16,color: _baseTextColor),maxLines: _showMore,overflow: TextOverflow.ellipsis,),
           ),
           Container(
             margin: EdgeInsets.only(right: ScreenAdapter.width(20)),

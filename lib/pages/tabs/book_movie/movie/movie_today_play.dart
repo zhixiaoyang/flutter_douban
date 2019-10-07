@@ -53,7 +53,7 @@ class _MovieTodayPlayState extends State<MovieTodayPlay> {
   @override
   Widget build(BuildContext context) {
     return _todayPlay !=null ? Container(
-      margin: EdgeInsets.only(top: ScreenAdapter.height(30)),
+      margin: EdgeInsets.only(bottom: ScreenAdapter.height(30)),
       height: ScreenAdapter.height(250),
       child:  Stack(
         alignment: Alignment.bottomLeft,
@@ -68,7 +68,7 @@ class _MovieTodayPlayState extends State<MovieTodayPlay> {
           ),
           Positioned(
             left: ScreenAdapter.width(160),
-            bottom: ScreenAdapter.height(20),
+            bottom: ScreenAdapter.height(30),
             child: Container(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
@@ -80,7 +80,7 @@ class _MovieTodayPlayState extends State<MovieTodayPlay> {
           ),
           Positioned(
             left: ScreenAdapter.width(100),
-            bottom: ScreenAdapter.height(20),
+            bottom: ScreenAdapter.height(30),
             child: Container(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
@@ -92,14 +92,14 @@ class _MovieTodayPlayState extends State<MovieTodayPlay> {
           ),
           Positioned(
             left: ScreenAdapter.width(40),
-            bottom: ScreenAdapter.width(20),
+            bottom: ScreenAdapter.width(30),
             child: Container(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
                 child: Image.network('${_todayPlay['videos'][0]['pic']['normal']}',fit: BoxFit.fill),
               ),
               width:ScreenAdapter.width(180),
-              height: ScreenAdapter.height(210),
+              height: ScreenAdapter.height(200),
             ),
           ),
           Positioned(

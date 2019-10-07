@@ -122,7 +122,7 @@ class _IsHitState extends State<IsHit> with SingleTickerProviderStateMixin , Aut
                     _info(_isHitList[index]),
                     SizedBox(width: ScreenAdapter.width(30)),
                     // 右侧操作区域
-                    _actions()
+                    _actions(_isHitList[index])
                   ],
                 ),
               )
@@ -133,7 +133,7 @@ class _IsHitState extends State<IsHit> with SingleTickerProviderStateMixin , Aut
     );
   }
   // 右侧操作区域
-  Widget _actions(){
+  Widget _actions(item){
     return Container(
       height: ScreenAdapter.height(240),
       child: Column(
@@ -155,7 +155,7 @@ class _IsHitState extends State<IsHit> with SingleTickerProviderStateMixin , Aut
             ),
           ),
           SizedBox(height: ScreenAdapter.height(10)),
-          Text('20W人看过',style: TextStyle(fontSize: 10,color: Colors.grey))
+          Text('${item['collect_count']}人看过',style: TextStyle(fontSize: 10,color: Colors.grey))
         ],
       )
     );

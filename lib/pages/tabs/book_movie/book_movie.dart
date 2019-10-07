@@ -34,6 +34,7 @@ class _BookMoviePageState extends State<BookMoviePage> with SingleTickerProvider
           indicatorColor: Colors.black,
           unselectedLabelColor: Colors.black45,
           controller: _tabController,
+          indicatorSize: TabBarIndicatorSize.label,
           isScrollable: true,
           tabs:_tabsList.map((item){
             return Tab(text: item);

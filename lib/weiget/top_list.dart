@@ -103,7 +103,7 @@ class _TopListState extends State<TopList> {
                       Positioned(
                         top: 100,
                         left: 30,
-                        child: Text('${widget.data['subject_collection']['description']}',style: TextStyle(color: Colors.white)),
+                        child: Text('${widget.data['subject_collection']['description']}',style: TextStyle(color: Colors.white,fontSize: 15)),
                       )
                     ],
                   ),
@@ -288,7 +288,7 @@ class _TopListState extends State<TopList> {
               borderRadius: BorderRadius.circular(11)
             ),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text('${widget.filterDescChar}',style: TextStyle(fontSize: 11)),
                 SizedBox(width: ScreenAdapter.width(8)),
