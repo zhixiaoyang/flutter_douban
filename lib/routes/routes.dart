@@ -10,6 +10,7 @@ class Routes {
   static String theatricalFilm = "/theatricalFilm";
   static String movieHotDetail = "/movieHotDetail";
   static String movieTopDetail = "/movieTopDetail";
+  static String movieTopAll = "/movieTopAll";
   
   // 路由配置
   static void configureRoutes(Router router) {
@@ -22,7 +23,7 @@ class Routes {
     router.define(movieDetail, handler:movieDetailHandler);
     router.define(theatricalFilm, handler:theatricalFilmHandler);
     router.define(movieHotDetail, handler:movieHotDetailHandler);
-    router.define(movieTopDetail, handler:movieTopDetailHandler);
+    router.define(movieTopAll, handler:movieTopAllHandler);
 
   }
 }

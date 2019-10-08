@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie/movieHot/movie_hot.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie/movieShow/movie_show.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie/movieTop/movie_top.dart';

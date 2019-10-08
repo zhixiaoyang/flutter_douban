@@ -22,7 +22,7 @@ class _MovieTopState extends State<MovieTop> {
 
   String _requestStatus = '';
 
-    // 获取数据
+  // 获取数据
   _getData()async{
     try{
       Response res = await Dio().get('https://m.douban.com/rexxar/api/v2/movie/modules?for_mobile=1', options: Options(
@@ -66,7 +66,10 @@ class _MovieTopState extends State<MovieTop> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text('豆瓣榜单',style: TextStyle(fontSize: 24,color:Colors.black,fontWeight: FontWeight.w600)),
-              Container(
+              GestureDetector(
+                onTap: (){
+                  Application.router.navigateTo(context, '/movieTopAll');
+                },
                 child: Row(
                   children: <Widget>[
                     Text('全部',style: TextStyle(fontSize: 17,color:Colors.black,fontWeight: FontWeight.w600)),

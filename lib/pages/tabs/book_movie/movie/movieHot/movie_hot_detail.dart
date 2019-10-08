@@ -70,7 +70,7 @@ class _MovieHotDetailState extends State<MovieHotDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('豆瓣热门'),
+        title: Text('豆瓣热门',style: TextStyle(fontSize: 20)),
         backgroundColor: Colors.white,
         textTheme: TextTheme(
           title:TextStyle(color: Colors.black)

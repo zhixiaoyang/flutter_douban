@@ -2,6 +2,7 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie/movieHot/movie_hot_detail.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie/movieShow/theatricalFilm/theatrical_film.dart';
+import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie/movieTop/movieTopAll/movie_top_all.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie/movieTop/movie_top_detail.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/movie_detail.dart';
 import 'package:flutter_jahn_douban/pages/tabs/tabs.dart';
@@ -38,6 +39,11 @@ Handler movieTopDetailHandler = Handler(
   handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   int index = int.parse(params['index']?.first);
   return MovieTopDetail(index);
+});
+// 豆瓣榜单全部页
+Handler movieTopAllHandler = Handler(
+  handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return MovieTopAll();
 });
 
 
