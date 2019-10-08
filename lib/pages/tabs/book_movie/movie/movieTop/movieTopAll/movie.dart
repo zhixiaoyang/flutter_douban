@@ -12,11 +12,6 @@ class MovieTopAllMovie extends StatefulWidget {
 
 class _MovieTopAllMovieState extends State<MovieTopAllMovie> {
 
-  List _mock = [
-    '我和我的祖国',
-    '我和我的祖国',
-    '我和我的祖国',
-  ];
   String _requestStatus = '';
   // 榜单数据
   Map _praiseTop;
@@ -64,14 +59,14 @@ class _MovieTopAllMovieState extends State<MovieTopAllMovie> {
         children: <Widget>[
           _item(_praiseTop),
           _item(_hotTop),
-          _item(_top250),
+          _item(_top250,showTrend:false),
         ],
       ):BaseLoading(type: _requestStatus),
     );
   }
 
   // 单个
-  Widget _item(data){
+  Widget _item(data,{showTrend = true}){
     return Container(
       margin: EdgeInsets.only(bottom: ScreenAdapter.height(20)),
       decoration: BoxDecoration(
@@ -90,7 +85,8 @@ class _MovieTopAllMovieState extends State<MovieTopAllMovie> {
             child: _content(
               data:data['items'].sublist(0,3),
               bg:data['header_bg_image'],
-              bgColor:data['background_color_scheme']['primary_color_dark']
+              bgColor:data['background_color_scheme']['primary_color_dark'],
+              showTrend:showTrend
             ),
           ),
         ],
@@ -100,7 +96,6 @@ class _MovieTopAllMovieState extends State<MovieTopAllMovie> {
 
   // 左侧头部
   Widget _title({iconFgImage,typeText,mediumName}){
-    print(iconFgImage != null);
     return Container(
       width: ScreenAdapter.width(170),
       child: iconFgImage == null ? Column(
@@ -119,7 +114,7 @@ class _MovieTopAllMovieState extends State<MovieTopAllMovie> {
   }
 
     // 中间内容
-  Widget _content({data,bg,bgColor}){
+  Widget _content({data,bg,bgColor,showTrend}){
     return Container(
       child:Stack(
         children: <Widget>[
@@ -131,14 +126,26 @@ class _MovieTopAllMovieState extends State<MovieTopAllMovie> {
             opacity: 0.7,
           ),
           Container(
-            padding: EdgeInsets.only(left: ScreenAdapter.width(30)),
+            padding: EdgeInsets.only(left: ScreenAdapter.width(30),right: ScreenAdapter.width(30)),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children:data.asMap().keys.map<Widget>((index){
                 return Container(
                   width: double.infinity,
                   margin: EdgeInsets.only(bottom: ScreenAdapter.height(5)),
-                  child: Text('${index+1}.${data[index]['title']}'),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          Text('${index+1}.${data[index]['title']}'),
+                          SizedBox(width: ScreenAdapter.width(10)),
+                          Text('${data[index]['rating']['value']}',style: TextStyle(color: Color(int.parse('0xff' + 'ffac2d')))),
+                        ],
+                      ),
+                      showTrend ? Icon(data[index]['trend_up'] == true ? Icons.arrow_upward : Icons.arrow_downward,color: Colors.grey,size: 16):Container()
+                    ],
+                  ),
                 );
               }).toList(),
             ),
