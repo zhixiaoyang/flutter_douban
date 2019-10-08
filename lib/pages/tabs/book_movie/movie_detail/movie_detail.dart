@@ -228,7 +228,7 @@ class _MovieDetailState extends State<MovieDetail> {
 // paddin容器
 Widget _paddingContainer({@required child}){
   return SliverPadding(
-    padding:EdgeInsets.only(bottom:ScreenAdapter.width(30),left: ScreenAdapter.width(30),right: ScreenAdapter.width(30)),
+    padding:EdgeInsets.only(bottom:ScreenAdapter.width(20),left: ScreenAdapter.width(30),right: ScreenAdapter.width(30)),
     sliver: SliverToBoxAdapter(
       child: child
     ),

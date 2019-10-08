@@ -53,7 +53,7 @@ class _DetailActorState extends State<DetailActor> {
           ),
           SizedBox(height: ScreenAdapter.height(30)),
           _actor.length > 0 ? Container(
-            height: ScreenAdapter.height(300),
+            height: ScreenAdapter.height(320),
             child: ListView.builder(
               scrollDirection:Axis.horizontal,
               itemBuilder: (context,index){

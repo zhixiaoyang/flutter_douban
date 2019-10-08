@@ -47,22 +47,23 @@ class _TopListState extends State<TopList> {
   @override
   void initState() { 
     super.initState();
-    // // 监听滚动 控制标题栏样式
-    _otherControll.addListener((){
-      setState(() {
-        _isExpand = _otherControll.offset > 140 ? false:true;
+    if(mounted){
+      // 监听滚动 控制标题栏样式
+      _otherControll.addListener((){
+        setState(() {
+          _isExpand = _otherControll.offset > 140 ? false:true;
+        });
       });
-    });
 
-    // 如果是筛选top 锚点跳转就进行控制
-    double start = 0;
-    _innerControll.addListener(() {
-      if ((_innerControll.offset - start).abs() > 3) {
-        _otherControll.jumpTo(_innerControll.offset);
-        start = _innerControll.offset;
-      }
-    });
-    
+      // 如果是筛选top 锚点跳转就进行控制
+      double start = 0;
+      _innerControll.addListener(() {
+        if ((_innerControll.offset - start).abs() > 3) {
+          _otherControll.jumpTo(_innerControll.offset);
+          start = _innerControll.offset;
+        }
+      });
+    }
   }
 
   @override

@@ -72,7 +72,7 @@ class _DetailHeadState extends State<DetailHead> {
                               ]
                             )
                           ),
-                          child:Text('No.${widget._honorInfo[0]['rank']}',style: TextStyle(fontSize: 14.2,color: Color.fromRGBO(157, 95, 0, 1))),
+                          child:Text('No.${widget._honorInfo[0]['rank']}',style: TextStyle(fontSize: 15,color: Color.fromRGBO(157, 95, 0, 1))),
                         ),
                         Container(
                           padding: EdgeInsets.fromLTRB(ScreenAdapter.width(10), ScreenAdapter.height(3), ScreenAdapter.width(10), ScreenAdapter.height(3)),
