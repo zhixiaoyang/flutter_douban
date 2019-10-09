@@ -64,7 +64,7 @@ class _MovieTodayPlayState extends State<MovieTodayPlay> {
               color: Color(int.parse('0xff' + _todayPlay['videos'][0]['header_bg_color'])),
             ),
             width: double.infinity,
-            height: ScreenAdapter.height(220),
+            height: ScreenAdapter.height(210),
           ),
           Positioned(
             left: ScreenAdapter.width(160),
@@ -92,14 +92,14 @@ class _MovieTodayPlayState extends State<MovieTodayPlay> {
           ),
           Positioned(
             left: ScreenAdapter.width(40),
-            bottom: ScreenAdapter.width(40),
+            bottom: ScreenAdapter.height(40),
             child: Container(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
                 child: Image.network('${_todayPlay['videos'][0]['pic']['normal']}',fit: BoxFit.fill),
               ),
               width:ScreenAdapter.width(180),
-              height: ScreenAdapter.height(210),
+              height: ScreenAdapter.height(200),
             ),
           ),
           Positioned(
