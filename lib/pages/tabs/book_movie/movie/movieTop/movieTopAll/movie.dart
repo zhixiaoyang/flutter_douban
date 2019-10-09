@@ -48,7 +48,7 @@ class _MovieTopAllMovieState extends State<MovieTopAllMovie> with AutomaticKeepA
         },
       );
       Response highRateChinaMovie = await Dio().get('https://movie.douban.com/ithil_j/activity/movie_annual${DateTime.now().year - 1}/widget/1',options:option);
-      Response highRateForeignMovie = await Dio().get('https://movie.douban.com/ithil_j/activity/movie_annual${DateTime.now().year - 1}/widget/1', options:option);
+      Response highRateForeignMovie = await Dio().get('https://movie.douban.com/ithil_j/activity/movie_annual${DateTime.now().year - 1}/widget/2', options:option);
       Response notInPopular = await Dio().get('https://movie.douban.com/ithil_j/activity/movie_annual${DateTime.now().year - 1}/widget/3',options:option);
       if(mounted){
         setState(() {
@@ -58,7 +58,6 @@ class _MovieTopAllMovieState extends State<MovieTopAllMovie> with AutomaticKeepA
           _requestYearTopStatus = '获取年度豆瓣榜单成功';
         });   
       }
-      print(_yearTop);
     }
     catch(e){
       print(e);

@@ -46,7 +46,7 @@ class YearTopItem extends StatelessWidget {
                         top: ScreenAdapter.height(9),
                         child: Container(
                           alignment: Alignment.centerLeft,
-                          child: Text('$desc',style: TextStyle(color: Colors.grey[400])),
+                          child: Text('$desc',style: TextStyle(color: Colors.grey[300])),
                         ),
                       )
                     ],
