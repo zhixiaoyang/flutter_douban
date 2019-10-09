@@ -14,7 +14,6 @@ class YearTopItem extends StatelessWidget {
       width: ScreenAdapter.getScreenWidth(),
       height: ScreenAdapter.height(170),
       margin: EdgeInsets.only(bottom: ScreenAdapter.height(20)),
-      
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         color: Color(int.parse('0xff' + data['subject']['color_scheme']['primary_color_dark'])),
@@ -75,7 +74,7 @@ class CustomCliper extends CustomClipper<Path> {
       ..lineTo(size.width+30,0)
       ..lineTo(size.height, size.width)
       ..lineTo(0, size.height)
-      ..lineTo(size.width - 140, 0)
+      ..lineTo(size.width - 80, 0)
       ..close();
     return path;
   }

@@ -97,12 +97,13 @@ class _MovieTopAllMovieState extends State<MovieTopAllMovie> with AutomaticKeepA
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(ScreenAdapter.width(30)),
+      padding: EdgeInsets.fromLTRB(ScreenAdapter.width(30),0,ScreenAdapter.width(30),ScreenAdapter.width(30)),
       child: ListView(
         children: <Widget>[
           // 榜单
           _requestStatus.isNotEmpty ?  Column(
             children: <Widget>[
+              SizedBox(height: ScreenAdapter.height(30)),
               DefaultTopItem(_praiseTop),
               DefaultTopItem(_hotTop),
               DefaultTopItem(_top250,showTrend:false),
