@@ -73,7 +73,7 @@ class CustomCliper extends CustomClipper<Path> {
   Path getClip(Size size) {
     Path path = Path()
       ..lineTo(size.width+30,0)
-      ..lineTo(size.height, size.width - 10)
+      ..lineTo(size.height, size.width)
       ..lineTo(0, size.height)
       ..lineTo(size.width - 140, 0)
       ..close();

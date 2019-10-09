@@ -23,6 +23,7 @@ class Routes {
     router.define(movieDetail, handler:movieDetailHandler);
     router.define(theatricalFilm, handler:theatricalFilmHandler);
     router.define(movieHotDetail, handler:movieHotDetailHandler);
+    router.define(movieTopDetail, handler:movieTopDetailHandler);
     router.define(movieTopAll, handler:movieTopAllHandler);
 
   }
