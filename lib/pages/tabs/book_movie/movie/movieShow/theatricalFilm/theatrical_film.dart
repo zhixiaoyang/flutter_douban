@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie/movieShow/theatricalFilm/coming_soon.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie/movieShow/theatricalFilm/is_hit.dart';
+import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie/movieShow/theatricalFilm/movie_guide.dart';
 import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
 
 class TheatricalFilm extends StatefulWidget {
@@ -17,7 +18,7 @@ class _TheatricalFilmState extends State<TheatricalFilm> {
   Widget build(BuildContext context) {
     return DefaultTabController(
       initialIndex:widget.index,
-      length: 2,
+      length: 3,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -39,6 +40,7 @@ class _TheatricalFilmState extends State<TheatricalFilm> {
             tabs: <Widget>[
               Tab(text: '正在热映'),
               Tab(text: '即将上映'),
+              Tab(text: '${DateTime.now().month}月观影指南'),
             ],
           ),
         ),
@@ -50,6 +52,7 @@ class _TheatricalFilmState extends State<TheatricalFilm> {
                 child:IsHit(),
               ),
               ComingSoon(),
+              MovieGuide()
             ],
           ),
         ),
