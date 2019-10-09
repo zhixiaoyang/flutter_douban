@@ -4,27 +4,71 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
 import 'package:flutter_jahn_douban/weiget/base_loading.dart';
+import 'package:flutter_jahn_douban/weiget/topItems/default_top_item.dart';
+import 'package:flutter_jahn_douban/weiget/topItems/year_top_item.dart';
 
 class MovieTopAllMovie extends StatefulWidget {
   @override
   _MovieTopAllMovieState createState() => _MovieTopAllMovieState();
 }
 
-class _MovieTopAllMovieState extends State<MovieTopAllMovie> {
+class _MovieTopAllMovieState extends State<MovieTopAllMovie> with AutomaticKeepAliveClientMixin {
+
+  bool get wantKeepAlive => false; 
 
   String _requestStatus = '';
+  String _requestYearTopStatus = '';
+
   // 榜单数据
   Map _praiseTop;
   Map _hotTop;
   Map _top250;
+
+  // 年度榜单
+  Map _yearTop = {
+    'highRateChinaMovie':{},
+    'highRateForeignMovie':{},
+    'notInPopular':{},
+  };
 
   @override
   void initState() { 
     super.initState();
     // 获取榜单数据
     _getTopData();
+    // 获取年度榜单
+    _getYearTop();
   }
-
+  // 获取年度榜单
+  _getYearTop()async{
+    try{
+      Options option = Options(
+        headers: {
+          HttpHeaders.refererHeader: 'https://m.douban.com/movie/beta',
+        },
+      );
+      Response highRateChinaMovie = await Dio().get('https://movie.douban.com/ithil_j/activity/movie_annual${DateTime.now().year - 1}/widget/1',options:option);
+      Response highRateForeignMovie = await Dio().get('https://movie.douban.com/ithil_j/activity/movie_annual${DateTime.now().year - 1}/widget/1', options:option);
+      Response notInPopular = await Dio().get('https://movie.douban.com/ithil_j/activity/movie_annual${DateTime.now().year - 1}/widget/3',options:option);
+      if(mounted){
+        setState(() {
+          _yearTop['highRateChinaMovie'] = highRateChinaMovie.data['res'];
+          _yearTop['highRateForeignMovie'] = highRateForeignMovie.data['res'];
+          _yearTop['notInPopular'] = notInPopular.data['res'];
+          _requestYearTopStatus = '获取年度豆瓣榜单成功';
+        });   
+      }
+      print(_yearTop);
+    }
+    catch(e){
+      print(e);
+      if(mounted){
+        setState(() {
+          _requestYearTopStatus = '获取年度豆瓣榜单失败'; 
+        });
+      }
+    }
+  }
   // 获取数据
   _getTopData()async{
     try{
@@ -55,105 +99,41 @@ class _MovieTopAllMovieState extends State<MovieTopAllMovie> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(ScreenAdapter.width(30)),
-      child: _requestStatus.isNotEmpty ?  ListView(
+      child: ListView(
         children: <Widget>[
-          _item(_praiseTop),
-          _item(_hotTop),
-          _item(_top250,showTrend:false),
-        ],
-      ):BaseLoading(type: _requestStatus),
-    );
-  }
-
-  // 单个
-  Widget _item(data,{showTrend = true}){
-    return Container(
-      margin: EdgeInsets.only(bottom: ScreenAdapter.height(20)),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        color: Colors.black38,
-      ),
-      height: ScreenAdapter.height(150),
-      child: Row(
-        children: <Widget>[
-           _title(
-            iconFgImage:data['icon_fg_image'],
-            mediumName:data['medium_name'],
-            typeText:data['type_text'],
-          ),
-          Expanded(
-            child: _content(
-              data:data['items'].sublist(0,3),
-              bg:data['header_bg_image'],
-              bgColor:data['background_color_scheme']['primary_color_dark'],
-              showTrend:showTrend
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // 左侧头部
-  Widget _title({iconFgImage,typeText,mediumName}){
-    return Container(
-      width: ScreenAdapter.width(170),
-      child: iconFgImage == null ? Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            child: Text('$mediumName',style: TextStyle(color: Colors.grey[200])),
-          ),
-          SizedBox(height: ScreenAdapter.height(10)),
-          Container(
-            child: Text('$typeText',style: TextStyle(fontSize: 20)),
-          )
-        ],
-      ):Image.network('$iconFgImage',fit: BoxFit.cover),
-    );
-  }
-
-    // 中间内容
-  Widget _content({data,bg,bgColor,showTrend}){
-    return Container(
-      child:Stack(
-        children: <Widget>[
-          Image.network('$bg',fit: BoxFit.cover,width: ScreenAdapter.getScreenWidth()),
-          Opacity(
-            child: Container(
-              color: Color(int.parse('0xff'+bgColor))
-            ),
-            opacity: 0.7,
-          ),
-          Container(
-            padding: EdgeInsets.only(left: ScreenAdapter.width(30),right: ScreenAdapter.width(30)),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children:data.asMap().keys.map<Widget>((index){
-                return Container(
-                  width: double.infinity,
-                  margin: EdgeInsets.only(bottom: ScreenAdapter.height(5)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          // 榜单
+          _requestStatus.isNotEmpty ?  Column(
+            children: <Widget>[
+              DefaultTopItem(_praiseTop),
+              DefaultTopItem(_hotTop),
+              DefaultTopItem(_top250,showTrend:false),
+            ],
+          ):BaseLoading(type: _requestStatus),
+          // 豆瓣年度榜单
+          _requestYearTopStatus.isNotEmpty ?  Column(
+            children: <Widget>[
+              SizedBox(height: ScreenAdapter.height(20)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text('豆瓣年度榜单',style: TextStyle(fontSize: 24,color:Colors.black,fontWeight: FontWeight.w600)),
+                  Row(
                     children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          Text('${index+1}.${data[index]['title']}'),
-                          SizedBox(width: ScreenAdapter.width(10)),
-                          Text('${data[index]['rating']['value']}',style: TextStyle(color: Color(int.parse('0xff' + 'ffac2d')))),
-                        ],
-                      ),
-                      showTrend ? Icon(data[index]['trend_up'] == true ? Icons.arrow_upward : Icons.arrow_downward,color: Colors.grey,size: 16):Container()
+                      Text('全部',style: TextStyle(color:Colors.black87,fontSize: 16)),
+                      Icon(Icons.keyboard_arrow_right,color:Colors.black87)
                     ],
-                  ),
-                );
-              }).toList(),
-            ),
-          )
+                  )
+                ],
+              ),
+              SizedBox(height: ScreenAdapter.height(20)),
+              YearTopItem(_yearTop['highRateChinaMovie'],'评分最高华语电影','评分最高'),
+              YearTopItem(_yearTop['highRateForeignMovie'],'评分最高外语电影','评分最高'),
+              YearTopItem(_yearTop['notInPopular'],'年度最佳冷片','年度电影'),
+            ],
+          ):BaseLoading(type: _requestYearTopStatus),
         ],
-      ),
+      )
     );
   }
-
 
 }
