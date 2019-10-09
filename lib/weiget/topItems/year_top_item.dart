@@ -42,7 +42,7 @@ class YearTopItem extends StatelessWidget {
                           child: Text('${DateTime.now().year - 1}',style: TextStyle(color: Color(int.parse('0xff' + data['subject']['color_scheme']['primary_color_light'])),fontWeight: FontWeight.bold,fontSize: 28)),
                         ),
                       Positioned(
-                        top: ScreenAdapter.height(9),
+                        top: ScreenAdapter.height(11),
                         child: Container(
                           alignment: Alignment.centerLeft,
                           child: Text('$desc',style: TextStyle(color: Colors.grey[300])),
@@ -71,10 +71,10 @@ class CustomCliper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     Path path = Path()
-      ..lineTo(size.width+30,0)
+      ..lineTo(size.width+ScreenAdapter.height(60),0)
       ..lineTo(size.height, size.width)
       ..lineTo(0, size.height)
-      ..lineTo(size.width - 80, 0)
+      ..lineTo(size.width - ScreenAdapter.height(140), 0)
       ..close();
     return path;
   }

@@ -99,7 +99,7 @@ class _MovieTodayPlayState extends State<MovieTodayPlay> {
                 child: Image.network('${_todayPlay['videos'][0]['pic']['normal']}',fit: BoxFit.fill),
               ),
               width:ScreenAdapter.width(180),
-              height: ScreenAdapter.height(200),
+              height: ScreenAdapter.height(210),
             ),
           ),
           Positioned(
