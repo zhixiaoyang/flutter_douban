@@ -71,10 +71,10 @@ class CustomCliper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     Path path = Path()
-      ..lineTo(size.width+ScreenAdapter.height(60),0)
+      ..lineTo(size.width+ScreenAdapter.width(35),0)
       ..lineTo(size.height, size.width)
       ..lineTo(0, size.height)
-      ..lineTo(size.width - ScreenAdapter.height(190), 0)
+      ..lineTo(size.width - ScreenAdapter.width(200), 0)
       ..close();
     return path;
   }
