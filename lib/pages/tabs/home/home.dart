@@ -6,9 +6,23 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
 
-  SolidController _controller = SolidController();
+  SolidController _controller;
+  TabController _tabController;
+
+  @override
+  void initState() { 
+    super.initState();
+    _controller = SolidController();
+    _tabController = TabController(length: 2,vsync: this);
+  }
+
+  @override
+  void dispose() { 
+    super.dispose();
+    _controller.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +40,6 @@ class _HomePageState extends State<HomePage> {
                 Stack(
                   alignment: Alignment.bottomRight,
                   children: <Widget>[
-                    Image.asset("assets/cardImg.png"),
                     Padding(
                       padding: const EdgeInsets.all(40),
                       child: Text(
@@ -44,20 +57,34 @@ class _HomePageState extends State<HomePage> {
       bottomSheet: SolidBottomSheet(
         controller: _controller,
         headerBar: Container(
-          color: Theme.of(context).primaryColor,
-          height: 50,
-          child: Center(
-            child: Text("Swipe me!"),
+          decoration: BoxDecoration(
+            borderRadius:BorderRadius.only(
+              topRight: Radius.circular(25),
+              topLeft: Radius.circular(25)
+            ),
+            color: Theme.of(context).primaryColor,
+          ),
+          height: 60,
+          child: TabBar(
+            controller: _tabController,
+            tabs: <Widget>[
+              Tab(text: '影评'),
+              Tab(text: '小组讨论'),
+            ],
+            onTap: (index){
+              _controller.show();
+            },
           ),
         ),
         body: Container(
           color: Colors.white,
           height: 30,
-          child: Center(
-            child: Text(
-              "Hello! I'm a bottom sheet :D",
-              style: Theme.of(context).textTheme.display1,
-            ),
+          child: TabBarView(
+            controller: _tabController,
+            children: <Widget>[
+              Text('影评'),
+              Text('小组讨论'),
+            ],
           ),
         ),
       ),
