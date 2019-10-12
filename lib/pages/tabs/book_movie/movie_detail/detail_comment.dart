@@ -22,9 +22,9 @@ class DetailComment extends StatelessWidget {
                     child: Image.network('${_item['author']['avatar']}',width: 25),
                   ),
                   SizedBox(width: ScreenAdapter.width(10)),
-                  Text('${_item['author']['name']}',style: TextStyle(color: Colors.grey)),
+                  Text('${_item['author']['name']}',style: TextStyle(color: Colors.grey,fontSize: 16)),
                   SizedBox(width: ScreenAdapter.width(10)),
-                  _item['rating']['value'] != 0 ? Text('看过',style: TextStyle(color: Colors.grey)):Container(),
+                  _item['rating']['value'] != 0 ? Text('看过',style: TextStyle(color: Colors.grey,fontSize: 16)):Container(),
                   SizedBox(width: ScreenAdapter.width(10)),
                   _item['rating']['value'] != 0 ? RatingBarIndicator(
                     rating: _item['rating']['value'],
