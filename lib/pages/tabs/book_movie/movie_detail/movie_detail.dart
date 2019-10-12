@@ -4,18 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_jahn_douban/api/api_config.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/detail_actor.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/detail_also_like.dart';
-import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/detail_comments.dart';
+import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/detail_comment.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/detail_grade.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/detail_head.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/detail_plot.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/detail_short_comments.dart';
 import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/detail_trailers.dart';
 import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
-import 'package:flutter_jahn_douban/utils/utils.dart';
 import 'package:flutter_jahn_douban/weiget/base_grade.dart';
 import 'package:flutter_jahn_douban/weiget/base_loading.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-
+import 'package:rubber/rubber.dart';
 
 class MovieDetail extends StatefulWidget {
 
@@ -27,7 +26,9 @@ class MovieDetail extends StatefulWidget {
   _MovieDetailState createState() => _MovieDetailState();
 }
 
-class _MovieDetailState extends State<MovieDetail> {
+class _MovieDetailState extends State<MovieDetail> with TickerProviderStateMixin{
+
+ 
 
   // 电影详情内容
   Map _movie;
@@ -39,8 +40,13 @@ class _MovieDetailState extends State<MovieDetail> {
   List _honorInfo = [];
   // 滚动控制器
   ScrollController _scrollController = ScrollController();
+  ScrollController _bottomSheetController = ScrollController();
+  RubberAnimationController _controller;
+  TabController _tabController;
   // 默认显示静态文字电影
   bool _showTitle = false;
+  // 电影评论内容
+  Map _movieComment;
 
 
   @override
@@ -48,6 +54,13 @@ class _MovieDetailState extends State<MovieDetail> {
     super.initState();
     _getDetail();
     _getDetailTheme();
+    _getDetailComment();
+    _controller = RubberAnimationController(
+      vsync: this,
+      halfBoundValue: AnimationControllerValue(percentage: 0.5),
+      duration: Duration(milliseconds: 200)
+    );
+    _tabController = TabController(length: 2,vsync: this);
     if(mounted){
       // 监听滚动
       _scrollController.addListener((){
@@ -92,10 +105,25 @@ class _MovieDetailState extends State<MovieDetail> {
           _requestStatus = '暂无数据'; 
         });
       }
-      
     }
   }
-
+    // 获取电影详情 - 评论
+  _getDetailComment() async{
+    try{
+      Map<String,dynamic> params = {
+        "apikey":ApiConfig.apiKey
+      };
+      Response res = await ApiConfig.ajax('get', ApiConfig.baseUrl + '/v2/movie/subject/${widget.movieId}/reviews', params);
+      if(mounted){
+        setState(() {
+          _movieComment = res.data;  
+        });
+      }
+    }
+    catch(e){
+      print(e);
+    }
+  }
     // 获取电影详情
   _getDetail() async{
     try{
@@ -145,69 +173,49 @@ class _MovieDetailState extends State<MovieDetail> {
           ) : Text('电影') ,
           backgroundColor: Color(int.parse('0xff' + _themeColor)),
         ),
-        body: DefaultTabController(
-          length: 3,
-          child: NestedScrollView(
-            controller: _scrollController,
-            headerSliverBuilder: (context,bool){
-              return [
-                 // 详情头部
-                SliverToBoxAdapter(child:SizedBox(height: ScreenAdapter.height(30))),
-                _paddingContainer(child:DetailHead(_movie,_honorInfo,_isDark)),
-                SliverToBoxAdapter(child:SizedBox(height: ScreenAdapter.height(30))),
-                // 豆瓣评分
-                _paddingContainer(child:DetailGrade(_movie,_isDark)),
-                // 剧情简介
-                _paddingContainer(child:DetailPlot(_movie,_isDark)),
-                // 演职员
-                _paddingContainer(child:DetailActor(_movie,_isDark)),
-                // 预告片 / 剧照
-                _paddingContainer(child:DetailTrailer(_movie,_isDark)),
-                SliverToBoxAdapter(child:SizedBox(height: ScreenAdapter.height(30))),
-                // 短评
-                _paddingContainer(child:DetailShortComments(_movie,_isDark)),
-                // 有可能喜欢
-                _paddingContainer(child: DetailAlsoLike(_movie['genres'][0],_isDark)),
-                // 影评
-                SliverPersistentHeader(
-                  pinned: true,
-                  delegate: SliverTabBarDelegate(
-                    PreferredSize(
-                      preferredSize: Size.fromHeight(40),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.grey[400]
-                        ),
-                        child: TabBar(
-                          labelColor: Colors.black,
-                          indicatorColor: Colors.black,
-                          indicatorSize: TabBarIndicatorSize.label,
-                          unselectedLabelColor: Colors.white,
-                          tabs: <Widget>[
-                            Tab(text: '影评',),
-                            Tab(text: '话题'),
-                            Tab(text: '小组讨论'),
-                          ],
-                        ),
+        body: Container(
+          child: RubberBottomSheet(
+            scrollController: _bottomSheetController,
+            lowerLayer: _content(),
+            header: Container(
+              decoration: BoxDecoration(
+                color:Color.fromRGBO(246, 246, 246, 1),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                )
+              ),
+              child: Stack(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(top: ScreenAdapter.height(15)),
+                    alignment: Alignment.topCenter,
+                    child: Container(
+                      width: ScreenAdapter.width(70),
+                      height: ScreenAdapter.height(8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: Color.fromRGBO(216, 216, 216, 1)
                       ),
                     ),
+                  ),
+                  TabBar(
+                    controller: _tabController,
+                    indicatorColor: Colors.black,
+                    labelColor: Colors.black,
+                    indicatorSize: TabBarIndicatorSize.label,
+                    tabs: <Widget>[
+                      Tab(text: '影评 ${_movieComment != null ? _movieComment['total']:''}'),
+                      Tab(text: '小组讨论'),
+                    ],
                   )
-                )
-              ];
-            },
-            body: TabBarView(
-              children: <Widget>[
-                DetailComments(_isDark,movieId: widget.movieId),
-                Center(
-                  child: Text('暂无话题数据'),
-                ),
-                Center(
-                  child: Text('暂无小组讨论数据'),
-                ),
-              ],
+                ],
+              )
             ),
+            upperLayer: _bottomSheet(),
+            animationController: _controller,
           ),
-        )
+        ),
       ),
     ):Scaffold(
       appBar: AppBar(
@@ -223,43 +231,54 @@ class _MovieDetailState extends State<MovieDetail> {
       body: BaseLoading(type: _requestStatus),
     );
   }
-}
-
-// paddin容器
-Widget _paddingContainer({@required child}){
-  return SliverPadding(
-    padding:EdgeInsets.only(bottom:ScreenAdapter.width(20),left: ScreenAdapter.width(30),right: ScreenAdapter.width(30)),
-    sliver: SliverToBoxAdapter(
-      child: child
-    ),
-  );
-}
-
-
-class SliverTabBarDelegate extends SliverPersistentHeaderDelegate {
-  final widget;
-  final Color color;
-
-  const SliverTabBarDelegate(this.widget, {this.color})
-      : assert(widget != null);
-
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return new Container(
-      child: widget,
-      color: color,
+  // 内容区域
+  Widget _content() {
+    return Container(
+      padding: EdgeInsets.fromLTRB(ScreenAdapter.width(30),0,ScreenAdapter.width(30),ScreenAdapter.width(30)),
+      child: ListView(
+        controller: _scrollController,
+        children: <Widget>[
+          // 详情头部
+          SizedBox(height: ScreenAdapter.height(30)),
+          DetailHead(_movie,_honorInfo,_isDark),
+          // 豆瓣评分
+          DetailGrade(_movie,_isDark),
+          // 剧情简介
+          DetailPlot(_movie,_isDark),
+          // 演职员
+          DetailActor(_movie,_isDark),
+          // 预告片 / 剧照
+          DetailTrailer(_movie,_isDark),
+          // 短评
+          DetailShortComments(_movie,_isDark),
+          // 有可能喜欢
+          DetailAlsoLike(_movie['genres'][0],_isDark),
+          SizedBox(height: ScreenAdapter.height(70)),
+        ],
+      )
     );
   }
-
-  @override
-  bool shouldRebuild(SliverTabBarDelegate oldDelegate) {
-    return false;
+  // bottomSheet
+  Widget _bottomSheet() {
+    return DefaultTextStyle(
+      style: TextStyle(color: Colors.black),
+      child: Container(
+        color: Colors.white,
+        child: TabBarView(
+          controller: _tabController,
+          children: <Widget>[
+            _movieComment != null ? ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              controller: _bottomSheetController,
+              itemBuilder: (context,index){
+                return DetailComment(_movieComment['reviews'][index]);
+              },
+              itemCount: _movieComment['reviews'].length,
+            ):Container(),
+            Text('data'),
+          ],
+        ),
+      ),
+    );
   }
-
-  @override
-  double get maxExtent => widget.preferredSize.height;
-
-  @override
-  double get minExtent => widget.preferredSize.height;
 }

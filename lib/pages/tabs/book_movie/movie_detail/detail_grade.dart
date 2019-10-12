@@ -75,7 +75,7 @@ class _DetailGradeState extends State<DetailGrade> {
                 widget._movie['rating']['stars'] == '00'  ? Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
-                    Image.asset('lib/assets/fire.png',width: 16),
+                    Image.network('http://cdn.jahnli.cn/fire.png',width:16),
                     SizedBox(width: ScreenAdapter.width(8)),
                     Text('${widget._movie['wish_count']}人想看',style: TextStyle(color: _baseTextColor,fontSize: 13))
                   ],
