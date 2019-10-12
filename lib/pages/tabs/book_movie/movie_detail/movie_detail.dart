@@ -13,7 +13,6 @@ import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie_detail/detail_tr
 import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
 import 'package:flutter_jahn_douban/weiget/base_grade.dart';
 import 'package:flutter_jahn_douban/weiget/base_loading.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:rubber/rubber.dart';
 
 class MovieDetail extends StatefulWidget {
