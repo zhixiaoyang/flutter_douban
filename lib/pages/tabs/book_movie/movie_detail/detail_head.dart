@@ -57,7 +57,7 @@ class _DetailHeadState extends State<DetailHead> {
                     child:Row(
                       children: <Widget>[
                         Container(
-                          padding: EdgeInsets.fromLTRB(ScreenAdapter.width(10), ScreenAdapter.height(4), ScreenAdapter.width(10), ScreenAdapter.height(4)),
+                          padding: EdgeInsets.fromLTRB(ScreenAdapter.width(10), ScreenAdapter.height(3.5), ScreenAdapter.width(10), ScreenAdapter.height(3.5)),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.only(
                               topLeft:Radius.circular(2),

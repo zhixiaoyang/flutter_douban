@@ -250,7 +250,6 @@ class _MovieDetailState extends State<MovieDetail> with TickerProviderStateMixin
           SizedBox(height: ScreenAdapter.height(30)),          
           // 演职员
           DetailActor(_movie,_isDark),
-          SizedBox(height: ScreenAdapter.height(30)),    
           // 预告片 / 剧照
           DetailTrailer(_movie,_isDark),
           SizedBox(height: ScreenAdapter.height(30)),    
