@@ -202,6 +202,7 @@ class _MovieDetailState extends State<MovieDetail> with TickerProviderStateMixin
                     controller: _tabController,
                     indicatorColor: Colors.black,
                     labelColor: Colors.black,
+                    labelStyle: TextStyle(fontSize: 16),
                     indicatorSize: TabBarIndicatorSize.label,
                     tabs: <Widget>[
                       Tab(text: '影评 ${_movieComment != null ? _movieComment['total']:''}'),
