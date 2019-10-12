@@ -64,7 +64,7 @@ class _DetailGradeState extends State<DetailGrade> {
               children: <Widget>[
                 widget._movie['rating']['stars'] == '00' ? Container(
                   margin: EdgeInsets.only(top: ScreenAdapter.height(15),bottom: ScreenAdapter.height(15)),
-                  child: Text('暂无评分',style: TextStyle(color:widget._isDark ? Colors.grey[400] :Colors.grey[600],fontSize: 11)),
+                  child: Text('暂无评分',style: TextStyle(color:widget._isDark ? Colors.grey[400] :Colors.grey[600],fontSize: 12)),
                 ): Column(
                   children: <Widget>[
                     Text('${widget._movie['rating']['average']}',style: TextStyle(fontSize: 30,color: _baseTextColor)),
@@ -75,9 +75,9 @@ class _DetailGradeState extends State<DetailGrade> {
                 widget._movie['rating']['stars'] == '00'  ? Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
-                    Image.network('http://cdn.jahnli.cn/fire.png',width:16),
+                    Image.network('http://cdn.jahnli.cn/fire.png',width:17),
                     SizedBox(width: ScreenAdapter.width(8)),
-                    Text('${widget._movie['wish_count']}人想看',style: TextStyle(color: _baseTextColor,fontSize: 13))
+                    Text('${widget._movie['wish_count']}人想看',style: TextStyle(color: _baseTextColor))
                   ],
                 ):Expanded(
                   child: Column(

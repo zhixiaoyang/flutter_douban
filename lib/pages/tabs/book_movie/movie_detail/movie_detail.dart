@@ -241,19 +241,25 @@ class _MovieDetailState extends State<MovieDetail> with TickerProviderStateMixin
           // 详情头部
           SizedBox(height: ScreenAdapter.height(30)),
           DetailHead(_movie,_honorInfo,_isDark),
+          SizedBox(height: ScreenAdapter.height(30)),
           // 豆瓣评分
           DetailGrade(_movie,_isDark),
+          SizedBox(height: ScreenAdapter.height(30)),
           // 剧情简介
           DetailPlot(_movie,_isDark),
+          SizedBox(height: ScreenAdapter.height(30)),          
           // 演职员
           DetailActor(_movie,_isDark),
+          SizedBox(height: ScreenAdapter.height(30)),    
           // 预告片 / 剧照
           DetailTrailer(_movie,_isDark),
+          SizedBox(height: ScreenAdapter.height(30)),    
           // 短评
           DetailShortComments(_movie,_isDark),
+          SizedBox(height: ScreenAdapter.height(30)),    
           // 有可能喜欢
           DetailAlsoLike(_movie['genres'][0],_isDark),
-          SizedBox(height: ScreenAdapter.height(70)),
+          SizedBox(height: ScreenAdapter.height(50)),
         ],
       )
     );

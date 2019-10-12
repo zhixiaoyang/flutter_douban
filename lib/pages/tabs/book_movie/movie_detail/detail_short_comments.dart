@@ -98,9 +98,15 @@ class _DetailShortCommentsState extends State<DetailShortComments> {
             },
             itemCount: widget._movie['popular_comments'].length,
           ),
-          widget._movie['popular_comments'].length > 0 ? ListTile(
-            title: Text('查看全部短评',style: TextStyle(color: _baseTextColor)),
-            trailing: Icon(Icons.keyboard_arrow_right,color:_baseTextColor),
+          SizedBox(height: ScreenAdapter.height(20)),
+          widget._movie['popular_comments'].length > 0 ? Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text('查看全部短评',style: TextStyle(color: _baseTextColor,fontSize: 20)),
+                Icon(Icons.keyboard_arrow_right,color:_baseTextColor,size: 26)
+              ],
+            ),
           ):Center(
             child: Text('暂无短评'),
           )
@@ -116,7 +122,7 @@ class _DetailShortCommentsState extends State<DetailShortComments> {
         border: Border(
           bottom: BorderSide(
             width: 1,
-            color: Colors.grey[700]
+            color: Color.fromRGBO(0, 0, 0, 0.1)
           )
         )
       ),
