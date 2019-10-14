@@ -90,7 +90,9 @@ class _DetailCommentState extends State<DetailComment> {
         },
         itemCount:_movieCommentList.length,
       ),
-    ):Container();
+    ):Center(
+      child: Text('还没有影评',style:TextStyle(fontSize:18,color: Colors.grey)),
+    );
   }
   // 单个
   Widget _item(_item){
