@@ -212,7 +212,7 @@ class _ComingSoonState extends State<ComingSoon> with AutomaticKeepAliveClientMi
                   onTap: (){
 
                   },
-                  child:Image.asset('lib/assets/favorite.png',width: ScreenAdapter.width(40)),
+                  child:Image.network('http://cdn.jahnli.cn/favorite.png',width: ScreenAdapter.width(40)),
                 ),
                 SizedBox(height: ScreenAdapter.height(10)),
                 Text('想看',style: TextStyle(fontSize: 12,color: Colors.orange))

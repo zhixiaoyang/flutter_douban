@@ -256,7 +256,7 @@ class _TopListState extends State<TopList> {
                 GestureDetector(
                   onTap: (){
                   },
-                  child: Image.asset('lib/assets/favorite.png',width: ScreenAdapter.width(40))
+                  child: Image.network('http://cdn.jahnli.cn/favorite.png',width: ScreenAdapter.width(40))
                 ),
                 SizedBox(height: ScreenAdapter.height(10)),
                 Text('想看',style: TextStyle(fontSize: 12,color: Colors.orange))
@@ -304,7 +304,7 @@ class _TopListState extends State<TopList> {
             child: Row(
               crossAxisAlignment:CrossAxisAlignment.end,
               children: <Widget>[
-                Image.asset('lib/assets/filter.png',width: ScreenAdapter.width(30)),
+                Image.network('http://cdn.jahnli.cn/filter.png',width: ScreenAdapter.width(30)),
                 Text('筛选',style: TextStyle(fontSize: 14))
               ],  
             ),
