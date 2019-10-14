@@ -34,8 +34,6 @@ class _ComingSoonState extends State<ComingSoon> with AutomaticKeepAliveClientMi
   void initState() { 
     super.initState();
 
-    print(DateTime.parse('2019-09-21').day.toString());
-
     _getComingSoon();
 
   }

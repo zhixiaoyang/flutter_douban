@@ -194,7 +194,7 @@ class _TopListState extends State<TopList> {
     ); 
   }
 
-    // 左侧缩略图
+  // 左侧缩略图
   Widget _thumb(item){
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),

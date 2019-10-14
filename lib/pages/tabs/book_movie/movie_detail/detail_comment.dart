@@ -64,7 +64,7 @@ class _DetailCommentState extends State<DetailComment> {
 
   @override
   Widget build(BuildContext context) {
-    return _movieCommentList.length > 0 ? SmartRefresher(
+    return SmartRefresher(
       controller: _refreshController,
       enablePullUp: true,
       enablePullDown:false,
@@ -82,16 +82,26 @@ class _DetailCommentState extends State<DetailComment> {
           _refreshController.loadNoData();
         }
       },
-      child: ListView.builder(
-        physics: NeverScrollableScrollPhysics(),
-        controller: widget._bottomSheetController,
-        itemBuilder: (context,index){
-          return _item(_movieCommentList[index]);
-        },
-        itemCount:_movieCommentList.length,
+      child: ListView(
+        children: <Widget>[
+          Container(
+            color: Color.fromRGBO(246, 246, 246, 1),
+            padding: EdgeInsets.all(ScreenAdapter.width(20)),
+            child: Text('影评列表',style: TextStyle(fontSize: 17)),
+          ),
+          _movieCommentList.length > 0 ? ListView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            controller: widget._bottomSheetController,
+            itemBuilder: (context,index){
+              return _item(_movieCommentList[index]);
+            },
+            itemCount:_movieCommentList.length,
+          ):Center(
+            child: Text('还没有影评',style:TextStyle(fontSize:18,color: Colors.grey)),
+          )
+        ],
       ),
-    ):Center(
-      child: Text('还没有影评',style:TextStyle(fontSize:18,color: Colors.grey)),
     );
   }
   // 单个
