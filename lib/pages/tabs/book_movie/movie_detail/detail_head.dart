@@ -57,7 +57,9 @@ class _DetailHeadState extends State<DetailHead> {
                     child:Row(
                       children: <Widget>[
                         Container(
-                          padding: EdgeInsets.fromLTRB(ScreenAdapter.width(10), ScreenAdapter.height(3.8), ScreenAdapter.width(10), ScreenAdapter.height(3.8)),
+                          height: ScreenAdapter.height(30),
+                          padding: EdgeInsets.only(left: ScreenAdapter.width(8),right: ScreenAdapter.width(8)),
+                          alignment: Alignment.center,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.only(
                               topLeft:Radius.circular(2),
@@ -75,7 +77,9 @@ class _DetailHeadState extends State<DetailHead> {
                           child:Text('No.${widget._honorInfo[0]['rank']}',style: TextStyle(fontSize: 15,color: Color.fromRGBO(157, 95, 0, 1))),
                         ),
                         Container(
-                          padding: EdgeInsets.fromLTRB(ScreenAdapter.width(10), ScreenAdapter.height(3), ScreenAdapter.width(10), ScreenAdapter.height(3)),
+                          height: ScreenAdapter.height(30),
+                          padding: EdgeInsets.only(left: ScreenAdapter.width(8),right: ScreenAdapter.width(8)),
+                          alignment: Alignment.center,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.only(
                               topRight:Radius.circular(2),
