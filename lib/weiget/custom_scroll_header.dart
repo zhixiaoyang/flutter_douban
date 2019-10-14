@@ -29,6 +29,7 @@ class CustomScrollHeaderState extends RefreshIndicatorState<CustomScrollHeader>w
 
 
 
+
   @override
   void onModeChange(RefreshStatus mode) {
     // TODO: implement onModeChange
@@ -72,7 +73,7 @@ class CustomScrollHeaderState extends RefreshIndicatorState<CustomScrollHeader>w
 
   @override
   void dispose() {
-    super.dispose();
     _gifController.dispose();
+    super.dispose();
   }
 }
