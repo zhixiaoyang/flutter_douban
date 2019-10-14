@@ -83,7 +83,7 @@ class _DetailAlsoLikeState extends State<DetailAlsoLike> {
         crossAxisCount: 4,
         //纵轴间距
         //横轴间距
-        crossAxisSpacing: 10.0,
+        crossAxisSpacing: 8,
         //子组件宽高长度比例
         childAspectRatio: ScreenAdapter.getScreenWidth() / 6 /  ScreenAdapter.height(220)
       ),
