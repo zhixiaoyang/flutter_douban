@@ -29,8 +29,8 @@ class _CustomScrollFooterState extends State<CustomScrollFooter> with SingleTick
 
   @override
   void dispose() {
-    super.dispose();
     _gifController.dispose();
+    super.dispose();
   }
 
   @override
@@ -46,7 +46,7 @@ class _CustomScrollFooterState extends State<CustomScrollFooter> with SingleTick
               Container(
                 margin: EdgeInsets.only(right: 5),
                 child: GifImage(
-                  image: AssetImage("lib/assets/douban_loading.gif"),
+                  image: NetworkImage('http://cdn.jahnli.cn/douban_loading.gif'),
                   controller: _gifController,
                   height:ScreenAdapter.height(40),
                   width:ScreenAdapter.width(40),
@@ -59,7 +59,7 @@ class _CustomScrollFooterState extends State<CustomScrollFooter> with SingleTick
           height:ScreenAdapter.height(100),
           child: Center(
             child: GifImage(
-              image: AssetImage("lib/assets/douban_loading.gif"),
+              image: NetworkImage('http://cdn.jahnli.cn/douban_loading.gif'),
               controller: _gifController,
               height:ScreenAdapter.height(40),
               width:ScreenAdapter.width(40),

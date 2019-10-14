@@ -61,7 +61,7 @@ class CustomScrollHeaderState extends RefreshIndicatorState<CustomScrollHeader>w
       margin: EdgeInsets.only(top: ScreenAdapter.height(40)),
       child: Center(
         child: GifImage(
-          image: AssetImage("lib/assets/douban_loading.gif"),
+          image: NetworkImage('http://cdn.jahnli.cn/douban_loading.gif'),
           controller: _gifController,
           height:ScreenAdapter.height(40),
           width:ScreenAdapter.width(40),

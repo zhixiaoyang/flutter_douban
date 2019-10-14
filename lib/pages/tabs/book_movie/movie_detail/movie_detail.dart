@@ -46,8 +46,6 @@ class _MovieDetailState extends State<MovieDetail> with TickerProviderStateMixin
   bool _showTitle = false;
 
 
-
-
   @override
   void initState() { 
     super.initState();

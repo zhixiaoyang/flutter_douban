@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_jahn_douban/api/api_config.dart';
 import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
 import 'package:flutter_jahn_douban/weiget/custom_scroll_footer.dart';
-import 'package:flutter_jahn_douban/weiget/custom_scroll_header.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -71,7 +70,7 @@ class _DetailCommentState extends State<DetailComment> {
         if(_movieCommentStart + 10 < _movieCommentTotal){
           if(mounted){
             setState(() {
-            _movieCommentStart = _movieCommentStart + 10;
+             _movieCommentStart = _movieCommentStart + 10;
             });
             await _getDetailComment();
           }
@@ -79,7 +78,6 @@ class _DetailCommentState extends State<DetailComment> {
         }else{
           _refreshController.loadNoData();
         }
-        print('加载 ${_movieCommentStart} ${_movieCommentTotal}');
       },
       child: ListView.builder(
         physics: NeverScrollableScrollPhysics(),
