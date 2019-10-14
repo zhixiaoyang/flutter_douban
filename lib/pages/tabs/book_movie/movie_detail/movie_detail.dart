@@ -44,8 +44,8 @@ class _MovieDetailState extends State<MovieDetail> with TickerProviderStateMixin
   TabController _tabController;
   // 默认显示静态文字电影
   bool _showTitle = false;
-  // 电影评论内容
-  Map _movieComment;
+
+
 
 
   @override
@@ -53,7 +53,6 @@ class _MovieDetailState extends State<MovieDetail> with TickerProviderStateMixin
     super.initState();
     _getDetail();
     _getDetailTheme();
-    _getDetailComment();
     _controller = RubberAnimationController(
       vsync: this,
       halfBoundValue: AnimationControllerValue(percentage: 0.5),
@@ -78,8 +77,10 @@ class _MovieDetailState extends State<MovieDetail> with TickerProviderStateMixin
   @override
   void dispose() {
     //为了避免内存泄露，需要调用_controller.dispose
-    super.dispose();
     _scrollController.dispose();
+    _tabController.dispose();
+    _bottomSheetController.dispose();
+    super.dispose();
   }
   // 获取电影详情
   _getDetailTheme() async{
@@ -106,23 +107,7 @@ class _MovieDetailState extends State<MovieDetail> with TickerProviderStateMixin
       }
     }
   }
-    // 获取电影详情 - 评论
-  _getDetailComment() async{
-    try{
-      Map<String,dynamic> params = {
-        "apikey":ApiConfig.apiKey
-      };
-      Response res = await ApiConfig.ajax('get', ApiConfig.baseUrl + '/v2/movie/subject/${widget.movieId}/reviews', params);
-      if(mounted){
-        setState(() {
-          _movieComment = res.data;  
-        });
-      }
-    }
-    catch(e){
-      print(e);
-    }
-  }
+ 
     // 获取电影详情
   _getDetail() async{
     try{
@@ -205,7 +190,7 @@ class _MovieDetailState extends State<MovieDetail> with TickerProviderStateMixin
                     labelStyle: TextStyle(fontSize: 16),
                     indicatorSize: TabBarIndicatorSize.label,
                     tabs: <Widget>[
-                      Tab(text: '影评 ${_movieComment != null ? _movieComment['total']:''}'),
+                      Tab(text: '影评'),
                       Tab(text: '小组讨论'),
                     ],
                   )
@@ -272,18 +257,12 @@ class _MovieDetailState extends State<MovieDetail> with TickerProviderStateMixin
         child: TabBarView(
           controller: _tabController,
           children: <Widget>[
-            _movieComment != null ? ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              controller: _bottomSheetController,
-              itemBuilder: (context,index){
-                return DetailComment(_movieComment['reviews'][index]);
-              },
-              itemCount: _movieComment['reviews'].length,
-            ):Container(),
+           DetailComment(widget.movieId, _bottomSheetController),
             Text('data'),
           ],
         ),
       ),
     );
   }
+
 }

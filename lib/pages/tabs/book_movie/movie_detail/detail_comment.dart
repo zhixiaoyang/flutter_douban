@@ -1,15 +1,98 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_jahn_douban/api/api_config.dart';
 import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
+import 'package:flutter_jahn_douban/weiget/custom_scroll_footer.dart';
+import 'package:flutter_jahn_douban/weiget/custom_scroll_header.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+class DetailComment extends StatefulWidget {
 
-class DetailComment extends StatelessWidget {
+  String movieId = '';
+  ScrollController _bottomSheetController;
+  DetailComment(this.movieId,this._bottomSheetController);
 
-  final Map _item;
-  DetailComment(this._item);
+  @override
+  _DetailCommentState createState() => _DetailCommentState();
+}
+
+class _DetailCommentState extends State<DetailComment> {
+  RefreshController _refreshController = RefreshController();
+
+    // 电影评论内容
+  List _movieCommentList = [];
+  
+  // 影评分页
+  int _movieCommentStart = 0;
+  int _movieCommentTotal = 0;
+  
+  @override
+  void initState() { 
+    super.initState();
+    _getDetailComment();
+  }
+
+  @override
+  void dispose() {
+    _refreshController.dispose();
+    super.dispose();
+  }
+
+ // 获取电影详情 - 评论
+  _getDetailComment() async{
+    try{
+      Map<String,dynamic> params = {
+        "apikey":ApiConfig.apiKey,
+        "start":_movieCommentStart,
+        "count":10
+      };
+      Response res = await ApiConfig.ajax('get', ApiConfig.baseUrl + '/v2/movie/subject/${widget.movieId}/reviews', params);
+      if(mounted){
+        setState(() {
+          _movieCommentList.addAll(res.data['reviews']);  
+          _movieCommentTotal = res.data['total'];  
+        });
+      }
+    }
+    catch(e){
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    return _movieCommentList.length > 0 ? SmartRefresher(
+      controller: _refreshController,
+      enablePullUp: true,
+      enablePullDown:false,
+      footer: CustomScrollFooter(),
+      onLoading: ()async{
+        if(_movieCommentStart + 10 < _movieCommentTotal){
+          if(mounted){
+            setState(() {
+            _movieCommentStart = _movieCommentStart + 10;
+            });
+            await _getDetailComment();
+          }
+          _refreshController.loadComplete();
+        }else{
+          _refreshController.loadNoData();
+        }
+        print('加载 ${_movieCommentStart} ${_movieCommentTotal}');
+      },
+      child: ListView.builder(
+        physics: NeverScrollableScrollPhysics(),
+        controller: widget._bottomSheetController,
+        itemBuilder: (context,index){
+          return _item(_movieCommentList[index]);
+        },
+        itemCount:_movieCommentList.length,
+      ),
+    ):Container();
+  }
+  // 单个
+  Widget _item(_item){
     return Column(
       children: <Widget>[
         Container(
@@ -64,4 +147,5 @@ class DetailComment extends StatelessWidget {
       ],
     );
   }
+
 }

@@ -90,13 +90,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_easyrefresh:
-    dependency: "direct main"
-    description:
-      name: flutter_easyrefresh
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "2.0.4"
   flutter_gifimage:
     dependency: "direct main"
     description:
@@ -185,7 +178,7 @@ packages:
       name: pull_to_refresh
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.5.6"
+    version: "1.5.7"
   quiver:
     dependency: transitive
     description:
@@ -205,13 +198,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
-  solid_bottom_sheet:
-    dependency: "direct main"
-    description:
-      name: solid_bottom_sheet
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.1.4"
   source_span:
     dependency: transitive
     description:
