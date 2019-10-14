@@ -10,7 +10,9 @@ class DetailComment extends StatefulWidget {
 
   String movieId = '';
   ScrollController _bottomSheetController;
-  DetailComment(this.movieId,this._bottomSheetController);
+  // 更新父组件影评数据
+  Function setMovieCommentCount;
+  DetailComment(this.movieId,this._bottomSheetController,{this.setMovieCommentCount});
 
   @override
   _DetailCommentState createState() => _DetailCommentState();
@@ -51,6 +53,7 @@ class _DetailCommentState extends State<DetailComment> {
         setState(() {
           _movieCommentList.addAll(res.data['reviews']);  
           _movieCommentTotal = res.data['total'];  
+          widget.setMovieCommentCount(res.data['total']);
         });
       }
     }

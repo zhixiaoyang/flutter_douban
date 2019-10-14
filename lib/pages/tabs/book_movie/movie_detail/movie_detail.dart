@@ -45,7 +45,8 @@ class _MovieDetailState extends State<MovieDetail> with TickerProviderStateMixin
   // 默认显示静态文字电影
   bool _showTitle = false;
 
-
+  // 影评数量
+  int _movieCommentCount = 0 ;
   @override
   void initState() { 
     super.initState();
@@ -188,7 +189,7 @@ class _MovieDetailState extends State<MovieDetail> with TickerProviderStateMixin
                     labelStyle: TextStyle(fontSize: 16),
                     indicatorSize: TabBarIndicatorSize.label,
                     tabs: <Widget>[
-                      Tab(text: '影评'),
+                      Tab(text: '影评 ${_movieCommentCount == 0 ? '':_movieCommentCount}'),
                       Tab(text: '小组讨论'),
                     ],
                   )
@@ -197,7 +198,7 @@ class _MovieDetailState extends State<MovieDetail> with TickerProviderStateMixin
             ),
             upperLayer: _bottomSheet(),
             animationController: _controller,
-          ),
+          )
         ),
       ),
     ):Scaffold(
@@ -255,12 +256,20 @@ class _MovieDetailState extends State<MovieDetail> with TickerProviderStateMixin
         child: TabBarView(
           controller: _tabController,
           children: <Widget>[
-           DetailComment(widget.movieId, _bottomSheetController),
+           DetailComment(widget.movieId, _bottomSheetController,setMovieCommentCount:(count)=> _setMovieCommentCount(count)),
             Text('data'),
           ],
         ),
       ),
     );
+  }
+  // 影评数量
+  _setMovieCommentCount(count){
+    if(mounted){
+      setState(() {
+        _movieCommentCount = count;
+      });  
+    }
   }
 
 }
