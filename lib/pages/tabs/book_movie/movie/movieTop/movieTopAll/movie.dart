@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -23,13 +24,14 @@ class _MovieTopAllMovieState extends State<MovieTopAllMovie> with AutomaticKeepA
   Map _praiseTop;
   Map _hotTop;
   Map _top250;
-
   // 年度榜单
   Map _yearTop = {
     'highRateChinaMovie':{},
     'highRateForeignMovie':{},
     'notInPopular':{},
   };
+  // 高分榜 - 爱情片
+  Map _loveData;
 
   @override
   void initState() { 
@@ -38,6 +40,8 @@ class _MovieTopAllMovieState extends State<MovieTopAllMovie> with AutomaticKeepA
     _getTopData();
     // 获取年度榜单
     _getYearTop();
+    // 高分榜
+    _geLoveData();
   }
   // 获取年度榜单
   _getYearTop()async{
@@ -93,6 +97,21 @@ class _MovieTopAllMovieState extends State<MovieTopAllMovie> with AutomaticKeepA
       }
     }
   }
+  // 获取高分爱情榜
+  _geLoveData()async{
+    Response res = await Dio().get('https://m.douban.com/rexxar/api/v2/subject_collection/movie_love/items?os=ios&for_mobile=1&callback=jsonp1&start=0&count=18&loc_id=0&_=1571041012653', options: Options(
+      headers: {
+        HttpHeaders.refererHeader: 'https://m.douban.com/movie/beta',
+      },
+    ));
+    if(mounted){
+      setState(() {
+        _loveData = json.decode(res.data.substring(8,res.data.length - 2));
+      });
+    }
+    print(res.data);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -132,6 +151,8 @@ class _MovieTopAllMovieState extends State<MovieTopAllMovie> with AutomaticKeepA
             ],
           ):BaseLoading(type: _requestYearTopStatus),
         ],
+        // 高分榜
+        
       )
     );
   }

@@ -12,7 +12,7 @@ class YearTopItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: ScreenAdapter.getScreenWidth(),
-      height: ScreenAdapter.height(170),
+      height: ScreenAdapter.height(180),
       margin: EdgeInsets.only(bottom: ScreenAdapter.height(20)),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
