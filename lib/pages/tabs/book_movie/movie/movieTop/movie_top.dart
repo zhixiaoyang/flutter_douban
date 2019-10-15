@@ -68,7 +68,7 @@ class _MovieTopState extends State<MovieTop> {
               Text('豆瓣榜单',style: TextStyle(fontSize: 24,color:Colors.black,fontWeight: FontWeight.w600)),
               GestureDetector(
                 onTap: (){
-                  Application.router.navigateTo(context, '/movieTopAll');
+                  Application.router.navigateTo(context, '/doubanTop');
                 },
                 child: Row(
                   children: <Widget>[

@@ -110,13 +110,13 @@ class _MovieTodayPlayState extends State<MovieTodayPlay> {
                 Container(
                   width: ScreenAdapter.width(280),
                   margin: EdgeInsets.only(bottom: ScreenAdapter.height(10)),
-                  child: Text('${_todayPlay['title']}',style: TextStyle(color: Colors.white,fontSize: 13)),
+                  child: Text('${_todayPlay['title']}',style: TextStyle(color: Colors.white,fontSize: 16)),
                 ),
                 Container(
                   width: ScreenAdapter.width(280),
                   child: Row(
                     children: <Widget>[
-                      Text('全部 ${_todayPlay['total']}',style: TextStyle(color: Colors.white,fontSize: 13)),
+                      Text('全部 ${_todayPlay['total']}',style: TextStyle(color: Colors.white,fontSize: 14)),
                       Icon(Icons.keyboard_arrow_right,size:17,color:Colors.white)
                     ],
                   ),

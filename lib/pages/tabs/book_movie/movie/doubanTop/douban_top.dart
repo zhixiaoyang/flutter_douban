@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie/movieTop/movieTopAll/movie.dart';
+import 'package:flutter_jahn_douban/pages/tabs/book_movie/movie/doubanTop/movie.dart';
 
-class MovieTopAll extends StatefulWidget {
+class DoubanTop extends StatefulWidget {
   @override
-  _MovieTopAllState createState() => _MovieTopAllState();
+  _DoubanTopState createState() => _DoubanTopState();
 }
 
 
-class _MovieTopAllState extends State<MovieTopAll> with SingleTickerProviderStateMixin{
+class _DoubanTopState extends State<DoubanTop> with SingleTickerProviderStateMixin{
 
   // tab控制器
   TabController _tabController;
@@ -60,7 +60,7 @@ class _MovieTopAllState extends State<MovieTopAll> with SingleTickerProviderStat
           controller: _tabController,
           children: <Widget>[
             // 电影榜单 - 电影页
-            MovieTopAllMovie(),
+            DoubanTopMovie(),
             Text('data'),
             Text('data'),
             Text('data'),

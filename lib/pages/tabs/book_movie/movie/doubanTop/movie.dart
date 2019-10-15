@@ -25,12 +25,12 @@ List apiList = [
   Utils.getJsonpApiUrl('film_genre_40'),
 ];
 
-class MovieTopAllMovie extends StatefulWidget {
+class DoubanTopMovie extends StatefulWidget {
   @override
-  _MovieTopAllMovieState createState() => _MovieTopAllMovieState();
+  _DoubanTopMovieState createState() => _DoubanTopMovieState();
 }
 
-class _MovieTopAllMovieState extends State<MovieTopAllMovie> with AutomaticKeepAliveClientMixin{
+class _DoubanTopMovieState extends State<DoubanTopMovie> with AutomaticKeepAliveClientMixin{
 
   bool get wantKeepAlive => true; 
 
