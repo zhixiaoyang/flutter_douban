@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_jahn_douban/routes/application.dart';
 import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
 
 class MovieCategory extends StatelessWidget {
@@ -18,6 +19,7 @@ class MovieCategory extends StatelessWidget {
         return GestureDetector(
           onTap: (){
             print('${item['title']}');
+            Application.router.navigateTo(context, '/doubanTop');
           },
           child: Column(
             children: <Widget>[
