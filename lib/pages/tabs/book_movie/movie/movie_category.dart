@@ -23,7 +23,7 @@ class MovieCategory extends StatelessWidget {
           },
           child: Column(
             children: <Widget>[
-              Image.network(item['icon'],width: ScreenAdapter.width(110)),
+              Image.network(item['icon'],width: ScreenAdapter.width(90)),
               SizedBox(height: ScreenAdapter.height(20)),
               Text(item['title'])
             ],
