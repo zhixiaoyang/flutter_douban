@@ -32,9 +32,9 @@ class MovieTopAllMovie extends StatefulWidget {
   _MovieTopAllMovieState createState() => _MovieTopAllMovieState();
 }
 
-class _MovieTopAllMovieState extends State<MovieTopAllMovie> with AutomaticKeepAliveClientMixin {
+class _MovieTopAllMovieState extends State<MovieTopAllMovie> with AutomaticKeepAliveClientMixin{
 
-  bool get wantKeepAlive => false; 
+  bool get wantKeepAlive => true; 
 
   String _requestStatus = '';
   String _requestYearTopStatus = '';
