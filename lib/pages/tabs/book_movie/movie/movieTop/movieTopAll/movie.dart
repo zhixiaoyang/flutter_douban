@@ -5,26 +5,24 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_jahn_douban/routes/application.dart';
 import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
+import 'package:flutter_jahn_douban/utils/utils.dart';
 import 'package:flutter_jahn_douban/weiget/base_loading.dart';
 import 'package:flutter_jahn_douban/weiget/topItems/default_top_item.dart';
 import 'package:flutter_jahn_douban/weiget/topItems/year_top_item.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 // 数据格式
-getBaseUrl (type){
-  return 'https://m.douban.com/rexxar/api/v2/subject_collection/$type/items?os=ios&for_mobile=1&callback=jsonp1&start=0&count=18&loc_id=0&_=1571041012653';
-}
 // api列表
 List apiList = [
-  getBaseUrl('movie_love'),
-  getBaseUrl('movie_comedy'),
-  getBaseUrl('film_genre_27'),
-  getBaseUrl('film_genre_31'),
-  getBaseUrl('movie_scifi'),
-  getBaseUrl('film_genre_35'),
-  getBaseUrl('film_genre_36'),
-  getBaseUrl('film_genre_38'),
-  getBaseUrl('film_genre_39'),
-  getBaseUrl('film_genre_40'),
+  Utils.getJsonpApiUrl('movie_love'),
+  Utils.getJsonpApiUrl('movie_comedy'),
+  Utils.getJsonpApiUrl('film_genre_27'),
+  Utils.getJsonpApiUrl('film_genre_31'),
+  Utils.getJsonpApiUrl('movie_scifi'),
+  Utils.getJsonpApiUrl('film_genre_35'),
+  Utils.getJsonpApiUrl('film_genre_36'),
+  Utils.getJsonpApiUrl('film_genre_38'),
+  Utils.getJsonpApiUrl('film_genre_39'),
+  Utils.getJsonpApiUrl('film_genre_40'),
 ];
 
 class MovieTopAllMovie extends StatefulWidget {

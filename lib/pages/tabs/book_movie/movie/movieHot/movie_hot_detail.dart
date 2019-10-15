@@ -1,7 +1,9 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_jahn_douban/api/api_config.dart';
 import 'package:flutter_jahn_douban/routes/application.dart';
 import 'package:flutter_jahn_douban/utils/screenAdapter/screen_adapter.dart';
 import 'package:flutter_jahn_douban/weiget/base_loading.dart';
@@ -21,7 +23,6 @@ class _MovieHotDetailState extends State<MovieHotDetail> {
   // 总数量
   int _total = 500;
   // 筛选
-  String _sort = 'recommend';
   String _requestStatus = '';
   // 搜索类型切换
   AlignmentGeometry _alignment = Alignment.centerLeft;
@@ -37,19 +38,16 @@ class _MovieHotDetailState extends State<MovieHotDetail> {
   // 获取豆瓣热门500列表数据
   _getDouBanHot() async {
     try {
-      Map<String,dynamic> params ={
-        'apikey':ApiConfig.apiKey,
-        'page_limit':10,
-        'page_start':_start,
-        'tag':'热门',
-        'type':'movie',
-        'sort':_sort
-      };
-      Response res = await ApiConfig.ajax('get','https://movie.douban.com/j/search_subjects', params);
-     
+      Options options = Options(
+        headers: {
+          HttpHeaders.refererHeader: 'https://m.douban.com/movie/beta',
+        },
+      );
+      Response res = await Dio().get('https://m.douban.com/rexxar/api/v2/subject_collection/movie_hot_gaia/items?os=ios&for_mobile=1&callback=jsonp1&start=$_start&count=10&loc_id=0&_=1571127238352',options:options);
+
       if(mounted){
         setState(() {
-          _hotList.addAll(res.data['subjects']);
+          _hotList.addAll(json.decode(res.data.substring(8,res.data.length - 2))['subject_collection_items']);
         });
       }
     }
@@ -61,8 +59,8 @@ class _MovieHotDetailState extends State<MovieHotDetail> {
 
   @override
   void dispose() {
-    super.dispose();
     _controller.dispose();
+    super.dispose();
   }
 
   
@@ -104,9 +102,8 @@ class _MovieHotDetailState extends State<MovieHotDetail> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text('影视 $_total'),
+                  Text('影视 $_total',style: TextStyle(fontSize: 16)),
                   // 类型切换
-                  _toggleBtn()
                 ],
               ),
             ),
@@ -157,7 +154,7 @@ class _MovieHotDetailState extends State<MovieHotDetail> {
   Widget _thumb(item){
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
-      child: Image.network('${item['cover']}',width: ScreenAdapter.width(200),height: ScreenAdapter.height(220),fit: BoxFit.cover,),
+      child: Image.network('${item['cover']['url']}',width: ScreenAdapter.width(200),height: ScreenAdapter.height(220),fit: BoxFit.cover,),
     );
   }
   // 中间信息区域
@@ -172,12 +169,19 @@ class _MovieHotDetailState extends State<MovieHotDetail> {
             Container(
               alignment: Alignment.centerLeft,
               margin: EdgeInsets.only(bottom: ScreenAdapter.height(10)),
-              child: Text('${item['title']}',maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w400)),
+              child: Wrap(
+                spacing: ScreenAdapter.width(10),
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: <Widget>[
+                  Text('${item['title']}',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w400)),
+                  Text('(${item['year']})',style: TextStyle(color: Colors.grey,fontSize: 20,fontWeight: FontWeight.w400))
+                ],
+              ),
             ),
             Row(
               children: <Widget>[
                 RatingBarIndicator(
-                  rating:double.parse(item['rate']) / 2,
+                  rating:item['rating']['value'] / 2,
                   alpha:0,
                   unratedColor:Colors.grey,
                   itemPadding: EdgeInsets.all(0),
@@ -189,8 +193,13 @@ class _MovieHotDetailState extends State<MovieHotDetail> {
                   itemSize: 11,
                 ),
                 SizedBox(width: ScreenAdapter.width(15)),
-                Text('${item['rate']}',style: TextStyle(color: Colors.grey,fontSize: 12))
+                Text('${item['rating']['value']}',style: TextStyle(color: Colors.grey,fontSize: 12))
               ],
+            ),
+            Container(
+              margin: EdgeInsets.only(top: ScreenAdapter.height(10)),
+              alignment: Alignment.centerLeft,
+              child: Text('${item['card_subtitle']}',maxLines: 3,overflow: TextOverflow.ellipsis,style: TextStyle(color: Colors.grey,fontSize: 14)),
             )
           ],
         ),
@@ -221,75 +230,10 @@ class _MovieHotDetailState extends State<MovieHotDetail> {
               ],
             ),
           ),
-          SizedBox(height: ScreenAdapter.height(10)),
-          Text('${item['cover_y']}人想看',style: TextStyle(fontSize: 12,color: Colors.grey))
         ],
       )
     );
   }
-  // 类型切换
-  _toggleBtn(){
-    return Container(
-      height: ScreenAdapter.height(50),
-      width: ScreenAdapter.width(150),
-      decoration: BoxDecoration(
-        borderRadius:BorderRadius.circular(15),
-        color: Colors.grey[300],
-      ),
-      child: Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          Container(
-            width: ScreenAdapter.width(150),
-            child: AnimatedAlign(
-              alignment: _alignment,
-              curve: Curves.ease,
-              duration: Duration(milliseconds: 500),
-              child: Opacity(
-                opacity: 1,
-                child: Container(
-                  height: ScreenAdapter.height(50),
-                  width: ScreenAdapter.width(80),
-                  decoration: BoxDecoration(
-                    borderRadius:BorderRadius.circular(15),
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Row(
-            mainAxisAlignment:  MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              GestureDetector(
-                onTap: (){
-                  setState(() {
-                    _start = 0;
-                    _hotList = [];
-                    _sort = 'recommend';
-                    _alignment = Alignment.centerLeft; 
-                  });
-                  _getDouBanHot();
-                },
-                child: Text('热度',style: TextStyle(fontSize: 11,color:_alignment == Alignment.centerLeft ?  Colors.black: Colors.grey[500])),
-              ),
-              GestureDetector(
-                onTap: (){
-                  setState(() {
-                    _alignment = Alignment.centerRight; 
-                    _start = 0;
-                    _hotList = [];
-                    _sort = 'time';
-                  });
-                  _getDouBanHot();
-                },
-                child: Text('时间',style: TextStyle(fontSize: 11,color:_alignment == Alignment.centerRight ?  Colors.black: Colors.grey[500])),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
+ 
 
 }
