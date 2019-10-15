@@ -234,7 +234,7 @@ class _MovieTopAllMovieState extends State<MovieTopAllMovie> with AutomaticKeepA
   Widget _categoryTop(title,data){
     return Column(
       children: <Widget>[
-        Row(
+        data != null ? Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Container(
@@ -249,7 +249,7 @@ class _MovieTopAllMovieState extends State<MovieTopAllMovie> with AutomaticKeepA
               ],
             )
           ],
-        ),
+        ):Container(),
         data != null ? GridView.builder(
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
