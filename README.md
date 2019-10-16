@@ -1,4 +1,4 @@
-# Flutter - Jahn - Douban
+# Flutter -  Douban
 
 ## 介绍
 基于Flutter，使用豆瓣 Open Api，尽可能还原精美的豆瓣App，功能会持续添加，以此来深入了解Flutter。
@@ -11,8 +11,8 @@
 
 ## 使用说明
 
-> * git clone https://github.com/jahnli/flutter_jahn_douban
-> * cd flutter_jahn_douban
+> * git clone https://github.com/jahnli/flutter_douban
+> * cd flutter_douban
 > * flutter run
 
 ## 接口说明
@@ -31,10 +31,4 @@
 - [x] 影院热映详情页
 - [x] 豆瓣热门详情页
 - [x] 豆瓣榜单 - 一周口碑榜详情页
-
-##  后续计划
-- [ ] Ios memory 虚拟机内存增长问题
-- [ ] 抽离评分组件
-- [ ] 电影详情页 - 影评上拉菜单功能
-- [ ] 代码结构优化
 
